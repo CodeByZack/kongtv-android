@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_tag"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:textColor="@color/colorPrimaryText"
+    android:text="全部"
+    android:layout_marginRight="@dimen/little_margin"
+    android:textSize="10sp"
+    android:paddingTop="@dimen/little_margin"
+    android:paddingBottom="@dimen/little_margin"
+    android:paddingRight="@dimen/normal_margin"
+    android:paddingLeft="@dimen/normal_margin">
+
+</TextView>

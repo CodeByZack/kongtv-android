@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pic"/>
+        <TextView
+            android:layout_gravity="right"
+            android:textSize="8sp"
+            android:background="#007f00"
+            android:padding="@dimen/mini_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="0.0"/>
+        <TextView
+            android:layout_gravity="right|bottom"
+            android:textSize="8sp"
+            android:background="#7f7f7f"
+            android:padding="@dimen/mini_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="更新至22集"/>
+    </FrameLayout>
+
+        <TextView
+            android:textColor="@color/colorPrimaryText"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/mini_margin"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="楼外楼"/>
+        <TextView
+            android:textColor="@color/colorSecondaryText"
+            android:paddingRight="8dp"
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:text="作品跨度28年，通过杭州楼外楼的历史变迁折射了民国年间杭城的风土人情和人文文化，同时将洪家三兄妹各自的成长历程退至前景，该剧以张扬传统文化为目的，有商战、有食文化、有情有爱"/>
+
+</LinearLayout>

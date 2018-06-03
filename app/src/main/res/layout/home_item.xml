@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="8dp"
+    android:background="#fff"
+    android:layout_marginBottom="@dimen/little_margin"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_title"
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_dianshiju"
+        android:drawablePadding="@dimen/little_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="热播电视"
+        android:padding="8dp"
+        android:textColor="#000"/>
+    <com.zack.kongtv.view.NoScrollGridView
+        android:id="@+id/gv_container"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/little_margin"
+        android:verticalSpacing="@dimen/little_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.zack.kongtv.view.NoScrollGridView>
+    <View android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/little_margin"
+        android:layout_height="1px"
+        android:background="#f0f0f0"/>
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_more"
+        android:gravity="center"
+        android:padding="@dimen/little_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更多电视剧"
+        android:drawableTint="#2f972f"
+        android:drawableRight="@drawable/rightarrow_mini"
+        android:textColor="#2f972f"/>
+</LinearLayout>
