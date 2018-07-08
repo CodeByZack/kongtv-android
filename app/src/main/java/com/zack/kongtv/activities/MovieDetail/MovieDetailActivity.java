@@ -50,7 +50,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_player_back);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

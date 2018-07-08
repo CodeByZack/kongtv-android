@@ -1,5 +1,6 @@
 package com.zack.kongtv;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.activities.About.AboutActivity;
+import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zackdk.base.AbsActivity;
@@ -117,18 +120,10 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+        } else if (id == R.id.nav_collect) {
+            startActivity(new Intent(this, MovieListActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

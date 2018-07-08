@@ -111,10 +111,9 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	private void initView() {
 		toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mNiceVideoPlayer = (NiceVideoPlayer) findViewById(R.id.nice_video_player);
 		getSupportActionBar().setTitle(name);
-		toolbar.setNavigationIcon(R.drawable.ic_player_back);
+		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

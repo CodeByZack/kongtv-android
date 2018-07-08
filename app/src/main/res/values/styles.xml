@@ -21,7 +21,12 @@
         <item name="android:actionMenuTextColor">@color/colorIcon</item>
         <item name="colorControlNormal">#ffffff</item>
     </style>
-
+    <style name="transparent">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+    <style name="white">
+        <item name="android:textColor">#fff</item>
+    </style>
     <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

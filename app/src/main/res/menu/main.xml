@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/collect"
+        android:icon="@drawable/ic_menu_collect"
+        android:title="历史记录"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/history"
+        android:icon="@drawable/ic_menu_history"
+        android:title="收藏"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_manage"
+        android:icon="@drawable/ic_menu_search"
+        android:title="搜索"
+        app:showAsAction="always"/>
 </menu>
