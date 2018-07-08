@@ -2,29 +2,31 @@ package com.zack.kongtv;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.zack.kongtv.fragments.CategoryFragment;
-import com.zack.kongtv.fragments.HomeFragment;
+import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.fragments.Category.CategoryFragment;
+import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zackdk.base.AbsActivity;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AbsActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ViewPager viewPager;
@@ -35,6 +37,7 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private PagerAdapter pagerAdapter;
     private List<String> titles = new LinkedList<>();
+    private long clickTime;
 
     @Override
     public int setView() {
@@ -46,6 +49,7 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         init();
         initView();
         initLogic();
+
     }
 
     private void init() {
@@ -56,10 +60,10 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         titles.add("综艺");
 
         fragments.add(new HomeFragment());
-        fragments.add(new CategoryFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new HomeFragment());
+        fragments.add(CategoryFragment.instance(DataResp.MovieUrl));
+        fragments.add(CategoryFragment.instance(DataResp.EpisodeUrl));
+        fragments.add(CategoryFragment.instance(DataResp.AnimeUrl));
+        fragments.add(CategoryFragment.instance(DataResp.VarietyUrl));
     }
 
     private void initLogic() {
@@ -82,11 +86,19 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
+    public void showPage(int type){
+        viewPager.setCurrentItem(type);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if(viewPager.getCurrentItem() != 0){
+            viewPager.setCurrentItem(0);
+        } else if ((System.currentTimeMillis() - clickTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次后退键退出程序",Toast.LENGTH_SHORT).show();
+            clickTime = System.currentTimeMillis();
         } else {
             super.onBackPressed();
         }

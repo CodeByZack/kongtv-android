@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
     }
     buildTypes {
         release {
@@ -27,8 +30,19 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':zacklib')
-    compile 'com.youth.banner:banner:1.4.10'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+
+    //Retrofit
+    implementation "com.squareup.okhttp3:okhttp:${ok_http_version}"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${ok_http_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rx_android_version}"
+    implementation "io.reactivex.rxjava2:rxjava:${rx_java_version}"
 }

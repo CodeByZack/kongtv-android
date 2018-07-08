@@ -1,26 +1,30 @@
-package com.zack.kongtv.fragments;
+package com.zack.kongtv.fragments.Category;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.R;
-import com.zack.kongtv.bean.MovieItemBean;
+import com.zack.kongtv.bean.CategoryDataBean;
+import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.TagItemBean;
+import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
-import com.zackdk.base.AbsFragment;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
+import com.zackdk.base.BaseMvpFragment;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,40 +32,45 @@ import java.util.List;
  * Created by zack on 2018/5/31.
  */
 
-public class CategoryFragment extends AbsFragment {
+public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> implements ICategoryView {
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private View headerView;
     private RecyclerView rv1,rv2,rv3;
     private TextView tvMore;
     private CategoryAdapter adapter;
     private TagAdapter tagAdapter1,tagAdapter2,tagAdapter3;
-    private List<MovieItemBean> data = new LinkedList<>();
-    private List<TagItemBean> data1,data2,data3;
+    private List<MovieDetailBean> data = new LinkedList<>();
+    private List<TagItemBean> data1 = new LinkedList<>(),data2 = new LinkedList<>(),data3 = new LinkedList<>();
+
     @Override
     public int setView() {
         return R.layout.fragment_category;
     }
 
-    @Override
-    public void initBasic(Bundle savedInstanceState) {
-        initView();
-        initLogic();
-        requestData();
+    public static CategoryFragment instance(String url){
+        CategoryFragment categoryFragment = new CategoryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("url",url);
+        categoryFragment.setArguments(bundle);
+        return categoryFragment;
     }
 
-    private void requestData() {
-        MovieItemBean bean = new MovieItemBean();
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        data.add(bean);
-        adapter.notifyDataSetChanged();
+    @Override
+    public void initBasic(Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        String targetUrl;
+        if(bundle!=null){
+            targetUrl = bundle.getString("url");
+        }else {
+            targetUrl = DataResp.MovieUrl;
+        }
+        presenter.setTargetUrl(targetUrl);
+        initView();
+        initLogic();
+        presenter.requestData();
     }
+
 
     private void initLogic() {
         tvMore.setOnClickListener(new View.OnClickListener() {
@@ -82,36 +91,11 @@ public class CategoryFragment extends AbsFragment {
                 }
             }
         });
-        data1 = new LinkedList<>();
-        TagItemBean tagItemBean = new TagItemBean();
-        tagItemBean.setTag("全部");
-        TagItemBean tagItemBean2 = new TagItemBean();
-        tagItemBean2.setTag("测试选中");
-        tagItemBean2.setSelect(true);
-        TagItemBean tagItemBean3 = new TagItemBean();
-        tagItemBean3.setTag("全部");
-        TagItemBean tagItemBean4 = new TagItemBean();
-        tagItemBean4.setTag("全部");
-        TagItemBean tagItemBean5 = new TagItemBean();
-        tagItemBean5.setTag("全部");
-        TagItemBean tagItemBean6 = new TagItemBean();
-        tagItemBean6.setTag("全部");
-        TagItemBean tagItemBean7 = new TagItemBean();
-        tagItemBean7.setTag("全部");
-        TagItemBean tagItemBean8 = new TagItemBean();
-        tagItemBean8.setTag("全部");
-        data1.add(tagItemBean2);
-        data1.add(tagItemBean);
-        data1.add(tagItemBean3);
-        data1.add(tagItemBean4);
-        data1.add(tagItemBean5);
-        data1.add(tagItemBean6);
-        data1.add(tagItemBean7);
-        data1.add(tagItemBean8);
-        tagAdapter1 = new TagAdapter(R.layout.tag_tv,data1);
-        tagAdapter2 = new TagAdapter(R.layout.tag_tv,data1);
-        tagAdapter3 = new TagAdapter(R.layout.tag_tv,data1);
 
+
+        tagAdapter1 = new TagAdapter(R.layout.tag_tv,data1);
+        tagAdapter2 = new TagAdapter(R.layout.tag_tv,data2);
+        tagAdapter3 = new TagAdapter(R.layout.tag_tv,data3);
         rv1.setAdapter(tagAdapter1);
         rv2.setAdapter(tagAdapter2);
         rv3.setAdapter(tagAdapter3);
@@ -124,39 +108,69 @@ public class CategoryFragment extends AbsFragment {
                 }
                 data1.get(position).setSelect(true);
                 tagAdapter1.notifyDataSetChanged();
+                presenter.setTargetUrl(data1.get(position).getUrl());
+                data.clear();
+                presenter.requestData();
             }
         });
 
         tagAdapter3.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                for(TagItemBean bean:data1){
+                for(TagItemBean bean:data3){
                     bean.setSelect(false);
                 }
-                data1.get(position).setSelect(true);
+                data3.get(position).setSelect(true);
                 tagAdapter3.notifyDataSetChanged();
+                presenter.setTargetUrl(data3.get(position).getUrl());
+                data.clear();
+                presenter.requestData();
             }
         });
         tagAdapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                for(TagItemBean bean:data1){
+                for(TagItemBean bean:data2){
                     bean.setSelect(false);
                 }
-                data1.get(position).setSelect(true);
+                data2.get(position).setSelect(true);
                 tagAdapter2.notifyDataSetChanged();
+                presenter.setTargetUrl(data2.get(position).getUrl());
+                data.clear();
+                presenter.requestData();
             }
         });
         adapter = new CategoryAdapter(R.layout.movie_item,data);
         adapter.addHeaderView(headerView);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1,3,getResources().getDimensionPixelSize(R.dimen.little_margin),true));
         recyclerView.setAdapter(adapter);
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                presenter.loadMore();
+            }
+        },recyclerView);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                data.clear();
+                presenter.refresh();
+            }
+        });
+
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position).getTargetUrl()));
+            }
+        });
     }
 
     private void initView() {
         getHeaderView();
         recyclerView = findViewById(R.id.recycleview);
+        swipeRefreshLayout = findViewById(R.id.sw_refresh);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity,3);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3,getResources().getDimensionPixelSize(R.dimen.little_margin),true));
         recyclerView.setLayoutManager(gridLayoutManager);
     }
 
@@ -178,14 +192,57 @@ public class CategoryFragment extends AbsFragment {
         return headerView;
     }
 
-    private class CategoryAdapter extends BaseQuickAdapter<MovieItemBean,BaseViewHolder> {
-        public CategoryAdapter(int layoutResId, @Nullable List<MovieItemBean> data) {
+    @Override
+    protected CategoryPresenter setPresenter() {
+        return new CategoryPresenter();
+    }
+
+    @Override
+    public void updateView(CategoryDataBean data) {
+        data1.clear();
+        data2.clear();
+        data3.clear();
+
+        data1.addAll(data.getTag1());
+        data2.addAll(data.getTag2());
+        data3.addAll(data.getTag3());
+
+        adapter.addData(data.getMovieDetailBeans());
+        tagAdapter1.notifyDataSetChanged();
+        tagAdapter2.notifyDataSetChanged();
+        tagAdapter3.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadMoreComplete() {
+        adapter.loadMoreComplete();
+    }
+
+    @Override
+    public void loadMoreEnd() {
+        adapter.loadMoreEnd();
+    }
+
+    private class CategoryAdapter extends BaseQuickAdapter<MovieDetailBean,BaseViewHolder> {
+        public CategoryAdapter(int layoutResId, @Nullable List<MovieDetailBean> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, MovieItemBean item) {
-
+        protected void convert(BaseViewHolder holder, MovieDetailBean obj) {
+            MyImageLoader.showImage(mActivity,obj.getMovieImg(), (ImageView) holder.getView(R.id.movie_img));
+            holder.setText(R.id.tv_name,obj.getMovieName());
+            if(TextUtils.isEmpty(obj.getMovieScore())){
+                holder.getView(R.id.tv_score).setVisibility(View.GONE);
+            }else{
+                holder.setText(R.id.tv_score,obj.getMovieScore());
+            }
+            holder.setText(R.id.tv_shortdesc,obj.getMovieShortDesc());
+            if(TextUtils.isEmpty(obj.getMovieActors())){
+                holder.setText(R.id.tv_actors,obj.getMovieShortDesc());
+            }else{
+                holder.setText(R.id.tv_actors,obj.getMovieActors());
+            }
         }
     }
 
@@ -206,5 +263,15 @@ public class CategoryFragment extends AbsFragment {
                 tv.setTextColor(getResources().getColor(R.color.colorIcon));
             }
         }
+    }
+
+    @Override
+    public void showLoading() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

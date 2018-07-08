@@ -9,13 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-/**
- * @author Admin
- * @version $Rev$
- * @des ${TODO}
- * @updateAuthor $Author$
- * @updateDes ${TODO}
- */
 public class BaseActivity extends AppCompatActivity {
     //**************** Android M Permission (Android 6.0权限控制代码封装)
     private int permissionRequestCode = 88;

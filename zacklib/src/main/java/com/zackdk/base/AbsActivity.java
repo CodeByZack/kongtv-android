@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.customview.R;
 
@@ -16,10 +17,11 @@ public abstract class AbsActivity extends BaseActivity {
 
     protected Activity mActivity;
     protected boolean printLifeCycle = false;
-
+    protected ImmersionBar immersionBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mActivity = this;
+        immersionBar = ImmersionBar.with(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         overridePendingTransition(R.anim.push_pic_left_in, R.anim.push_pic_left_out);
         final int vid = setView();
@@ -31,6 +33,11 @@ public abstract class AbsActivity extends BaseActivity {
         if (printLifeCycle) {
             LogUtil.d( "onCreate");
         }
+        initImmersionBar();
+    }
+
+    protected void initImmersionBar() {
+        immersionBar.init();
     }
 
     @Override
@@ -89,6 +96,7 @@ public abstract class AbsActivity extends BaseActivity {
         if (printLifeCycle) {
             LogUtil.d("onDestroy");
         }
+        immersionBar.destroy();
     }
 
 }

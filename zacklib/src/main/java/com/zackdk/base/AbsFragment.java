@@ -24,7 +24,7 @@ public abstract class AbsFragment extends Fragment {
     protected Toolbar mToolbar;
     protected View mRootView;
     protected AbsActivity mActivity;
-    protected boolean printLife = false;
+    protected boolean printLife = true;
 
     @Nullable
     @Override
@@ -50,6 +50,7 @@ public abstract class AbsFragment extends Fragment {
         }
         if (!mLoaded && mRootView != null) {
             mLoaded = true;
+            LogUtil.d("-----------initBasic--------------");
             initBasic(savedInstanceState);
         }
     }

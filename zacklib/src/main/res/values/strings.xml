@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">zacklib</string>
+    <string name="expand_string">more</string>
+    <string name="collapsed_string">less</string>
 </resources>

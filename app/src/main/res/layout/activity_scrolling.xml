@@ -4,27 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.zack.kongtv.ScrollingActivity">
+    tools:context="com.zack.kongtv.activities.MovieDetail.MovieDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
+            app:titleEnabled="false"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/toolbar_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder"/>
+                <LinearLayout
+                    android:layout_marginTop="60dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/normal_margin"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:padding="1dp"
+                        android:background="#fff"
+                        android:layout_marginRight="@dimen/little_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_movie"
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/placeholder"/>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <TextView
+                            android:id="@+id/tv_actor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <TextView
+                            android:id="@+id/tv_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <TextView
+                            android:id="@+id/tv_director"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <TextView
+                            android:id="@+id/tv_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <TextView
+                            android:id="@+id/tv_language"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            style="@style/TextMovieDesc"
+                            android:text="加载中..."/>
+                        <include layout="@layout/vs"/>
+
+                        <LinearLayout
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/tv_play"
+                                style="@style/BtnGreen"
+                                android:layout_marginRight="@dimen/little_margin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="立即播放"/>
+
+                            <TextView
+                                android:id="@+id/tv_collect"
+                                style="@style/BtnTransparent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="  收藏  "/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:contentInsetLeft="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -32,16 +131,25 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:background="#fff"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/detail_header"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-    <include layout="@layout/content_scrolling" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
 
 </android.support.design.widget.CoordinatorLayout>

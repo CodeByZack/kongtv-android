@@ -5,7 +5,23 @@ package com.zack.kongtv.bean;
  */
 
 public class BannerItemBean {
-    private String img;
+    private String img,desc,targetUrl;
+
+    public String getTargetUrl() {
+        return targetUrl;
+    }
+
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public String getImg() {
         return img;

@@ -25,4 +25,29 @@
     <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextMovieDesc">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">@dimen/mini_text_size</item>
+        <item name="android:paddingTop">@dimen/mini_margin</item>
+    </style>
+
+    <style name="BtnGreen">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingTop">@dimen/mini_margin</item>
+        <item name="android:paddingBottom">@dimen/mini_margin</item>
+        <item name="android:paddingRight">@dimen/little_margin</item>
+        <item name="android:paddingLeft">@dimen/little_margin</item>
+        <item name="android:background">@drawable/btn_green</item>
+    </style>
+    <style name="BtnTransparent">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingTop">@dimen/mini_margin</item>
+        <item name="android:paddingBottom">@dimen/mini_margin</item>
+        <item name="android:paddingRight">@dimen/little_margin</item>
+        <item name="android:paddingLeft">@dimen/little_margin</item>
+        <item name="android:background">@drawable/btn_transparent</item>
+    </style>
 </resources>

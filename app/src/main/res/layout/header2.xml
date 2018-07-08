@@ -5,18 +5,19 @@
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv1"
+        android:layout_marginTop="@dimen/little_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="@dimen/little_margin"
-        android:layout_marginBottom="@dimen/little_margin"
         android:id="@+id/rv2"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/little_margin"
         android:visibility="gone"
         android:id="@+id/rv3"
         android:layout_width="wrap_content"
@@ -32,4 +33,10 @@
         android:drawableTint="@color/colorPrimary"
         android:drawableRight="@mipmap/ic_more_down"
         android:textColor="@color/colorPrimary"/>
+    <View
+        android:layout_marginTop="@dimen/little_margin"
+        android:layout_marginBottom="@dimen/little_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/little_margin"
+        android:background="#f5f5f5"/>
 </LinearLayout>

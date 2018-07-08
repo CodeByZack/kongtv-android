@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="NiceDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -11,4 +11,10 @@
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
+
+    <style name="MyProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint" tools:targetApi="lollipop">#009688</item>
+        <item name="android:indeterminateTintMode" tools:targetApi="lollipop">src_atop</item>
+    </style>
+
 </resources>

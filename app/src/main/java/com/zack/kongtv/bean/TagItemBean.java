@@ -6,6 +6,16 @@ package com.zack.kongtv.bean;
 
 public class TagItemBean {
     private String tag;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    private String url;
     private boolean isSelect;
 
     public String getTag() {
