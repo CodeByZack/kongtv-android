@@ -36,7 +36,10 @@
         <item name="android:textSize">@dimen/mini_text_size</item>
         <item name="android:paddingTop">@dimen/mini_margin</item>
     </style>
-
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#fff</item>
+        <item name="colorControlActivated">#fff</item>
+    </style>
     <style name="BtnGreen">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">13sp</item>

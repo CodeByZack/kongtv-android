@@ -7,6 +7,7 @@ import com.zack.kongtv.bean.HomeDataBean;
 import com.zack.kongtv.bean.HomeItemBean;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.bean.MovieDetailBean;
+import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.bean.TagItemBean;
 import com.zackdk.Utils.LogUtil;
 
@@ -31,6 +32,7 @@ public class DataResp {
     public static final String EpisodeUrl = baseUrl+"/dsj/index_1_______1.html";
     public static final String AnimeUrl = baseUrl+"/Animation/index_1_______1.html";
     public static final String VarietyUrl = baseUrl+"/Arts/index_1_______1.html";
+    public static final String SearchUrl = baseUrl+"/vod-search-wd-TEMP-p-PAGE.html";
     public static Observable getHomeData(){
         Observable<HomeDataBean> observable = Observable.create(new ObservableOnSubscribe<HomeDataBean>() {
             @Override
@@ -61,7 +63,6 @@ public class DataResp {
         });
         return observable;
     }
-
     public static Observable getMovieDetail(final String url){
         Observable<MovieDetailBean> observable = Observable.create(new ObservableOnSubscribe<MovieDetailBean>() {
             @Override
@@ -92,8 +93,23 @@ public class DataResp {
         });
         return observable;
     }
+    public static Observable searchText(final  String text,final int page){
+        Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
+            @Override
+            public void subscribe(ObservableEmitter<SearchResultBean> emitter) throws Exception {
+                SearchResultBean data = search(text,page);
+                if(data!=null){
+                    emitter.onNext(data);
+                    emitter.onComplete();
+                }else{
+                    emitter.onError(new Throwable("解析出错!"));
+                }
+            }
+        });
+        return observable;
+    }
 
-    public static HomeDataBean getHomeData(String url) {
+    private static HomeDataBean getHomeData(String url) {
         Document document;
         List<BannerItemBean> bannerItemBeans = new LinkedList<>();
         List<HomeItemBean> homeItemBeans = new LinkedList<>();
@@ -142,8 +158,7 @@ public class DataResp {
         }
 
     }
-
-    public static CategoryDataBean getCategoryData(String url,int page){
+    private static CategoryDataBean getCategoryData(String url,int page){
         List<TagItemBean> tag1 = new LinkedList<>();
         List<TagItemBean> tag2 = new LinkedList<>();
         List<TagItemBean> tag3 = new LinkedList<>();
@@ -205,8 +220,7 @@ public class DataResp {
             return null;
         }
     }
-
-    public static MovieDetailBean getRealMovieDetail(String url) {
+    private static MovieDetailBean getRealMovieDetail(String url) {
         MovieDetailBean movieDetailBean = new MovieDetailBean();
         Document document;
 
@@ -240,8 +254,7 @@ public class DataResp {
         }
 
     }
-
-    public static String getRealPlayUrl(String url) {
+    private static String getRealPlayUrl(String url) {
         Document document;
         try {
             document = Jsoup.connect(url).get();
@@ -251,6 +264,35 @@ public class DataResp {
             return null;
         }
     }
-
+    private static SearchResultBean search(String text,int page){
+        //处理搜索网址
+        String search = SearchUrl.replace("TEMP",text);
+        search = search.replace("PAGE",String.valueOf(page));
+        SearchResultBean movieDetailBeans = new SearchResultBean();
+        movieDetailBeans.setList(new LinkedList<MovieDetailBean>());
+        Document document;
+        try {
+            document = Jsoup.connect(search).get();
+            Elements ee = document.getElementsByClass("ui-vpages").get(0).getElementsContainingOwnText("下一页");
+            if(ee.size()!=0 && ee.get(0).hasAttr("href")){
+                movieDetailBeans.setCanLoadMore(true);
+            }else{
+                movieDetailBeans.setCanLoadMore(false);
+            }
+            Elements elements = document.getElementsByClass("new_tab_img").get(0).getElementsByTag("li");
+            for (Element e :elements) {
+                MovieDetailBean movieDetailBean = new MovieDetailBean();
+                movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
+                movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
+                movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
+                movieDetailBean.setTargetUrl(baseUrl+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setMovieActors(e.getElementsByTag("p").get(2).getElementsByTag("span").text());
+                movieDetailBeans.getList().add(movieDetailBean);
+            }
+        } catch (IOException e1) {
+            return null;
+        }
+        return movieDetailBeans;
+    }
 
 }

@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -39,7 +39,8 @@
             android:name=".activities.MovieDetail.MovieDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.About.AboutActivity" />
-        <activity android:name=".activities.MovieList.MovieListActivity"></activity>
+        <activity android:name=".activities.MovieList.MovieListActivity" />
+        <activity android:name=".activities.SearchResult.SearchActivity"></activity>
     </application>
 
 </manifest>

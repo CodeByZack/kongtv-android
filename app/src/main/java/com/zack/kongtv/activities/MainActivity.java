@@ -1,4 +1,4 @@
-package com.zack.kongtv;
+package com.zack.kongtv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +19,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
+import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zackdk.base.AbsActivity;
@@ -112,6 +114,23 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.search:
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
+            case R.id.collect:
+                break;
+
+            case R.id.history:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -21,7 +21,7 @@ import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.GridAdapter;
-import com.zack.kongtv.MainActivity;
+import com.zack.kongtv.activities.MainActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.bean.BannerItemBean;

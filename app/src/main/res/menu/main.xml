@@ -4,15 +4,15 @@
     <item
         android:id="@+id/collect"
         android:icon="@drawable/ic_menu_collect"
-        android:title="历史记录"
+        android:title="收藏记录"
         app:showAsAction="always"/>
     <item
         android:id="@+id/history"
         android:icon="@drawable/ic_menu_history"
-        android:title="收藏"
+        android:title="历史记录"
         app:showAsAction="always" />
     <item
-        android:id="@+id/nav_manage"
+        android:id="@+id/search"
         android:icon="@drawable/ic_menu_search"
         android:title="搜索"
         app:showAsAction="always"/>
