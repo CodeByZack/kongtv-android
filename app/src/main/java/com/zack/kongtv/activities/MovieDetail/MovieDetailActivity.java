@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zack.kongtv.Data.room.CollectMovie;
+import com.zack.kongtv.Data.room.CollectMovieDao;
+import com.zack.kongtv.Data.room.DataBase;
+import com.zack.kongtv.Data.room.HistoryMovie;
+import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.JujiBean;
@@ -45,6 +50,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private TextView tvPlay;
     private TextView tvCollect;
     private ExpandableTextView tvMovieDesc;
+    private MovieDetailBean movieDetailBean;
+    private String targetUrl;
 
 
     private void initView() {
@@ -86,8 +93,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     public void initBasic(Bundle savedInstanceState) {
         initView();
         initLogic();
-        String url = getIntent().getStringExtra("url");
-        presenter.requestData(url);
+        targetUrl = getIntent().getStringExtra("url");
+        presenter.requestData(targetUrl);
     }
 
     private void initLogic() {
@@ -96,23 +103,44 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,FullScreenActivity.class);
-                intent.putExtra("url",data.get(data.size()-1).getUrl());
-                intent.putExtra("name",getSupportActionBar().getTitle());
-                startActivity(intent);
+                startPlay(data.size()-1);
             }
         });
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mActivity,FullScreenActivity.class);
-                intent.putExtra("url",data.get(position).getUrl());
-                intent.putExtra("name",getSupportActionBar().getTitle());
-                startActivity(intent);
+                startPlay(position);
+            }
+        });
+        tvCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(movieDetailBean == null){
+                    return;
+                }
+                CollectMovieDao md = DataBase.getInstance().collectMovieDao();
+                CollectMovie collec = new CollectMovie();
+                collec.setTargetUrl(movieDetailBean.getTargetUrl());
+                collec.setMovieName(movieDetailBean.getMovieName());
+                collec.setMovieImg(movieDetailBean.getMovieImg());
+                md.insert(collec);
             }
         });
         //adapter.addHeaderView(getLayoutInflater().inflate(R.layout.detail_header,null));
+    }
+
+    private void startPlay(int position) {
+        HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
+        HistoryMovie historyMovie = new HistoryMovie();
+        historyMovie.setTargetUrl(targetUrl);
+        historyMovie.setMovieName(movieDetailBean.getMovieName());
+        historyMovie.setMovieImg(movieDetailBean.getMovieImg());
+        md.insert(historyMovie);
+        Intent intent = new Intent(mActivity,FullScreenActivity.class);
+        intent.putExtra("url",data.get(position).getUrl());
+        intent.putExtra("name",getSupportActionBar().getTitle());
+        startActivity(intent);
     }
 
     @Override
@@ -128,6 +156,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
     @Override
     public void updateView(MovieDetailBean data) {
+        movieDetailBean = data;
         MyImageLoader.showFlurImg(mActivity,data.getMovieImg(),toolbar_img);
         MyImageLoader.showImage(mActivity,data.getMovieImg(),ivMovie);
 

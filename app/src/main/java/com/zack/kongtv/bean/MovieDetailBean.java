@@ -1,11 +1,16 @@
 package com.zack.kongtv.bean;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class MovieDetailBean implements Serializable{
     private String movieImg,movieStatus,movieActor,movieType,movieDirector,movieYear,movieLanguage,movieDesc;
-    private String movieName,movieActors,movieShortDesc,movieScore,targetUrl;
+    private String movieName,movieActors,movieShortDesc,movieScore;
+
+    private String targetUrl;
 
     public String getTargetUrl() {
         return targetUrl;

@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
@@ -124,9 +125,10 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
                 startActivity(new Intent(this, SearchActivity.class));
                 break;
             case R.id.collect:
+                startActivity(new Intent(this, MovieListActivity.class).putExtra("mode", Const.Collect));
                 break;
-
             case R.id.history:
+                startActivity(new Intent(this, MovieListActivity.class).putExtra("mode", Const.History));
                 break;
 
         }
@@ -142,9 +144,10 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
         } else if (id == R.id.nav_collect) {
-            startActivity(new Intent(this, MovieListActivity.class));
+            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
+        } else if (id == R.id.nav_history) {
+            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

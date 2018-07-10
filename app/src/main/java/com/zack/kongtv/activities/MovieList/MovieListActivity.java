@@ -1,17 +1,37 @@
 package com.zack.kongtv.activities.MovieList;
 
+import android.arch.persistence.room.Database;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.room.DataBase;
+import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.bean.MovieItem;
+import com.zack.kongtv.util.MyImageLoader;
+import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
 
-public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> {
+import java.util.LinkedList;
+import java.util.List;
+
+public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> implements IMovieListView{
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private MovieListAdapter adapter;
+    private List<MovieItem> data = new LinkedList<>();
 
     @Override
     public int setView() {
@@ -20,13 +40,25 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> {
 
     @Override
     public void initBasic(Bundle savedInstanceState) {
+        int mode = getIntent().getIntExtra("mode", Const.History);
         initView();
+        initLogic();
+        presenter.setMode(mode);
+        presenter.requestData();
+    }
+
+    private void initLogic() {
+        adapter = new MovieListAdapter(R.layout.list_item,data);
+        recyclerView.setAdapter(adapter);
 
     }
 
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recycleview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -45,12 +77,53 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.delete:
+                presenter.deleteAll();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void initImmersionBar() {
-        immersionBar.titleBar(toolbar).init();
+        immersionBar.titleBar(toolbar).statusBarColor(R.color.colorPrimaryDark).init();
     }
 
     @Override
     protected MovieListPresenter setPresenter() {
         return new MovieListPresenter();
+    }
+
+    @Override
+    public void updateView(List<MovieItem> data) {
+        adapter.addData(data);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        getSupportActionBar().setTitle(title);
+
+    }
+
+    @Override
+    public void clear() {
+        this.data.clear();
+        adapter.notifyDataSetChanged();
+    }
+
+    private class MovieListAdapter extends BaseQuickAdapter<MovieItem,BaseViewHolder> {
+        public MovieListAdapter(int layoutResId, @Nullable List<MovieItem> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, MovieItem item) {
+            MyImageLoader.showImage(mActivity,item.getMovieImg(), (ImageView) helper.getView(R.id.movie_img));
+            helper.setText(R.id.movie_name,item.getMovieName());
+        }
     }
 }

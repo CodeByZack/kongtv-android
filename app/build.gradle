@@ -45,4 +45,12 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}"
     implementation "io.reactivex.rxjava2:rxandroid:${rx_android_version}"
     implementation "io.reactivex.rxjava2:rxjava:${rx_java_version}"
+
+    def room_version = "1.1.1"
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    // optional - RxJava support for Room
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
+
 }

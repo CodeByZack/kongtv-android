@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
         <item
-            android:id="@+id/nav_collect"
+            android:id="@+id/nav_history"
             android:icon="@drawable/ic_drawer_collect"
             android:title="历史记录" />
         <item
-            android:id="@+id/history"
+            android:id="@+id/nav_collect"
             android:icon="@drawable/ic_drawer_history"
             android:title="收藏" />
         <item

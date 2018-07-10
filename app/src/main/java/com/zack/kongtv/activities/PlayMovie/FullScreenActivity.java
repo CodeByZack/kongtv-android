@@ -125,7 +125,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	@Override
 	protected void initImmersionBar() {
 		super.initImmersionBar();
-		immersionBar.titleBar(toolbar).statusBarColor(R.color.colorPrimary).init();
+		immersionBar.titleBar(toolbar).statusBarColor(R.color.colorPrimaryDark).init();
 	}
 
 	@Override
