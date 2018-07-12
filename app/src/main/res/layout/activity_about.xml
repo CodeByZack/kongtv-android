@@ -22,31 +22,21 @@
             android:elevation="@dimen/high_elevation"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <LinearLayout
-                android:layout_marginTop="?attr/actionBarSize"
+            <ImageView
                 android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sun_main"/>
+            <TextView
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="@dimen/little_margin"
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/tiny_text_size"
+                android:textColor="#fff"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_marginBottom="20dp"/>
-                <TextView
-                    android:id="@+id/title_text"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:text="Aladd是一家专注分享美图的个人站点。"/>
-                <TextView
-                    android:id="@+id/content_text"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="version1.0"/>
-            </LinearLayout>
+                android:text="风影院，像风一样自由。version1.0"/>
             <android.support.v7.widget.Toolbar
                 app:layout_collapseMode="pin"
                 app:titleTextColor="@color/colorIcon"
@@ -75,35 +65,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="介绍与帮助："
+                    android:textColor="#444444"
+                    android:text="问题反馈或建议："
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
                 <TextView
+                    android:id="@+id/qq"
+                    android:textColor="#2E64FE"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_margin="@dimen/normal_margin"
-                    android:padding="@dimen/normal_margin"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="联系我："
-                    android:paddingTop="@dimen/normal_margin"
-                    android:paddingLeft="@dimen/normal_margin"/>
-                <TextView
-                    android:layout_width="match_parent"
+                    android:textSize="@dimen/tiny_text_size"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
                     android:padding="@dimen/normal_margin"
-                    android:text="      有任何建议或反馈，请联系我。当然如果觉得App不错,你也可以赞助我一杯咖啡钱。"/>
+                    android:text="QQ群(793272974)"/>
                 <TextView
                     android:id="@+id/email"
                     android:textColor="#2E64FE"
+                    android:textSize="@dimen/tiny_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -112,6 +90,7 @@
                 <TextView
                     android:id="@+id/pay"
                     android:layout_width="match_parent"
+                    android:textSize="@dimen/tiny_text_size"
                     android:textColor="#2E64FE"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
@@ -125,12 +104,36 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:text="免责声明："
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingLeft="@dimen/normal_margin"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:layout_marginRight="@dimen/normal_margin"
+                    android:textColor="#444444"
+                    android:textSize="@dimen/tiny_text_size"
+                    android:padding="@dimen/normal_margin"
+                    android:text="      本软件提供的视频资源均系实时爬取自各第三方聚合网站，本软件仅作为一个解析工具，各第三方聚合网站返回的内容与本软件无关，本软件对其概不负责，亦不承担任何法律责任。本软件不提供片源资源存储，也不参与录制、上传。"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="#444444"
+                    android:layout_height="wrap_content"
                     android:text="感谢以下开源库："
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#444444"
                     android:layout_marginLeft="@dimen/normal_margin"
                     android:padding="@dimen/normal_margin"
                     android:text="Glide\nJsoup\nRxjava\nRxandroid\nPhotoView\nBaseRecyclerViewAdapterHelper\n"/>

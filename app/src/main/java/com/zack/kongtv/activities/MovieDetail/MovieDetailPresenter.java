@@ -1,6 +1,8 @@
 package com.zack.kongtv.activities.MovieDetail;
 
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.room.CollectMovie;
+import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zackdk.mvp.p.BasePresenter;
 
@@ -19,5 +21,11 @@ public class MovieDetailPresenter<V extends IMovieDetailView> extends BasePresen
                         getView().updateView(movieDetailBean);
                     }
                 });
+        CollectMovie data = DataBase.getInstance().collectMovieDao().findByTargetUrl(url);
+        if(data!=null){
+            getView().collect(true);
+        }else{
+            getView().collect(false);
+        }
     }
 }

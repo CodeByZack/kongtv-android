@@ -18,6 +18,9 @@ import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.NetWorkChange.NetStateChangeObserver;
+import com.zack.kongtv.NetWorkChange.NetStateChangeReceiver;
+import com.zack.kongtv.NetWorkChange.NetworkType;
 import com.zack.kongtv.R;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.ToastUtil;
@@ -29,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView{
+public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver{
 
 	private Toolbar toolbar;
 	private NiceVideoPlayer mNiceVideoPlayer;
@@ -51,7 +54,12 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	}
 
 	private void initLogic() {
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		NetStateChangeReceiver.registerObserver(this);
 	}
 
 	@Override
@@ -82,6 +90,18 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		extraHeaders.put("Referer", this.url);
 		webView.loadUrl(url, extraHeaders);
 
+	}
+
+	@Override
+	public void onNetDisconnected() {
+		showToast("网络断开了！");
+	}
+
+	@Override
+	public void onNetConnected(NetworkType networkType) {
+		if(networkType == NetworkType.NETWORK_2G || networkType == NetworkType.NETWORK_4G || networkType == NetworkType.NETWORK_3G){
+			showToast("温馨提示，你正在使用流量观看视频!");
+		}
 	}
 
 	public final class InJavaScriptLocalObj {
@@ -133,6 +153,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		super.onStop();
 		// 在onStop时释放掉播放器
 		NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+		NetStateChangeReceiver.unregisterObserver(this);
 	}
 	@Override
 	public void onBackPressed() {

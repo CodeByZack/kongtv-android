@@ -19,7 +19,7 @@ public interface HistoryMovieDao {
      *
      * @return
      */
-    @Query("SELECT * FROM HistoryMovie")
+    @Query("SELECT * FROM HistoryMovie ORDER BY id DESC")
     List<HistoryMovie> getAllHistory();
 
     /**

@@ -147,6 +147,14 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
+        } else if(id == R.id.nav_share){
+                Intent share_intent = new Intent();
+                share_intent.setAction(Intent.ACTION_SEND);
+                share_intent.setType("text/plain");
+                //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
+                share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.coolapk.com/apk/com.zack.kongtv");
+                share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
+                startActivity(share_intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

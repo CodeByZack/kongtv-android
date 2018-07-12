@@ -5,6 +5,24 @@ public class MovieItem {
 
     private String movieImg;
     private String movieName;
+    private String movieStatus;
+    private String movieType;
+
+    public String getMovieStatus() {
+        return movieStatus;
+    }
+
+    public void setMovieStatus(String movieStatus) {
+        this.movieStatus = movieStatus;
+    }
+
+    public String getMovieType() {
+        return movieType;
+    }
+
+    public void setMovieType(String movieType) {
+        this.movieType = movieType;
+    }
 
     public String getTargetUrl() {
         return targetUrl;

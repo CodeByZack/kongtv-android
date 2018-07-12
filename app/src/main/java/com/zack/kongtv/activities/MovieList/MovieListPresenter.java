@@ -35,6 +35,8 @@ public class MovieListPresenter<V extends IMovieListView> extends BasePresenter<
             d.setMovieImg(historyMovie.getMovieImg());
             d.setTargetUrl(historyMovie.getTargetUrl());
             d.setMovieName(historyMovie.getMovieName());
+            d.setMovieStatus(historyMovie.getMovieStatus());
+            d.setMovieType(historyMovie.getMovieType());
             list.add(d);
         }
 
@@ -49,6 +51,8 @@ public class MovieListPresenter<V extends IMovieListView> extends BasePresenter<
             MovieItem d = new MovieItem();
             d.setMovieImg(historyMovie.getMovieImg());
             d.setTargetUrl(historyMovie.getTargetUrl());
+            d.setMovieStatus(historyMovie.getMovieStatus());
+            d.setMovieType(historyMovie.getMovieType());
             d.setMovieName(historyMovie.getMovieName());
             list.add(d);
         }

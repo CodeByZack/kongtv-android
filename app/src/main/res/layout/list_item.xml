@@ -3,12 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/little_margin"
+    android:layout_marginRight="@dimen/little_margin"
+    android:background="@drawable/underline"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/movie_img"
         android:layout_width="70dp"
         android:layout_height="100dp"
-        android:layout_margin="@dimen/little_margin"
+        android:layout_marginTop="@dimen/little_margin"
+        android:layout_marginBottom="@dimen/little_margin"
+        android:layout_marginRight="@dimen/little_margin"
         android:src="@drawable/placeholder"
         android:scaleType="centerCrop"/>
     <LinearLayout
@@ -18,12 +23,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/movie_name"
             android:layout_width="wrap_content"
             android:singleLine="true"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:textColor="#000"
             android:textSize="@dimen/normal_text_size"
+            android:text="电影名字"/>
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/movie_status"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/mini_text_size"
+            android:text="电影名字"/>
+        <TextView
+            android:id="@+id/movie_type"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/mini_text_size"
             android:text="电影名字"/>
     </LinearLayout>
 </LinearLayout>

@@ -18,6 +18,7 @@ import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.bean.MovieItem;
 import com.zack.kongtv.util.MyImageLoader;
@@ -50,7 +51,12 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
     private void initLogic() {
         adapter = new MovieListAdapter(R.layout.list_item,data);
         recyclerView.setAdapter(adapter);
-
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position).getTargetUrl()));
+            }
+        });
     }
 
     private void initView() {
@@ -124,6 +130,8 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         protected void convert(BaseViewHolder helper, MovieItem item) {
             MyImageLoader.showImage(mActivity,item.getMovieImg(), (ImageView) helper.getView(R.id.movie_img));
             helper.setText(R.id.movie_name,item.getMovieName());
+            helper.setText(R.id.movie_status,item.getMovieStatus());
+            helper.setText(R.id.movie_type,item.getMovieType());
         }
     }
 }

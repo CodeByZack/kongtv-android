@@ -5,4 +5,5 @@ import com.zackdk.mvp.v.IView;
 
 public interface IMovieDetailView extends IView{
     public void updateView(MovieDetailBean data);
+    public void collect(boolean c);
 }

@@ -121,10 +121,13 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 }
                 CollectMovieDao md = DataBase.getInstance().collectMovieDao();
                 CollectMovie collec = new CollectMovie();
-                collec.setTargetUrl(movieDetailBean.getTargetUrl());
+                collec.setTargetUrl(targetUrl);
+                collec.setMovieStatus(movieDetailBean.getMovieStatus());
+                collec.setMovieType(movieDetailBean.getMovieType());
                 collec.setMovieName(movieDetailBean.getMovieName());
                 collec.setMovieImg(movieDetailBean.getMovieImg());
                 md.insert(collec);
+                collect(true);
             }
         });
         //adapter.addHeaderView(getLayoutInflater().inflate(R.layout.detail_header,null));
@@ -136,6 +139,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setTargetUrl(targetUrl);
         historyMovie.setMovieName(movieDetailBean.getMovieName());
         historyMovie.setMovieImg(movieDetailBean.getMovieImg());
+        historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
+        historyMovie.setMovieType(movieDetailBean.getMovieType());
         md.insert(historyMovie);
         Intent intent = new Intent(mActivity,FullScreenActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
@@ -171,6 +176,17 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         this.data.clear();
         this.data.addAll(data.getList());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void collect(boolean c) {
+        if(c){
+            tvCollect.setClickable(false);
+            tvCollect.setText("已收藏");
+        }else{
+            tvCollect.setClickable(true);
+            tvCollect.setText("收藏");
+        }
     }
 
     private class Adapter extends BaseQuickAdapter<JujiBean,BaseViewHolder> {

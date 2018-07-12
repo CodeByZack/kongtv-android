@@ -16,7 +16,7 @@ public interface CollectMovieDao {
      *
      * @return
      */
-    @Query("SELECT * FROM CollectMovie")
+    @Query("SELECT * FROM CollectMovie ORDER BY id DESC")
     List<CollectMovie> getAllCollect();
 
     /**

@@ -22,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
     public void requestData() {
+        getView().showLoading();
         DataResp.getHomeData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -29,6 +30,7 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                     @Override
                     public void accept(HomeDataBean dataBean) throws Exception {
                         getView().updateView(dataBean);
+                        getView().hideLoading();
                     }
                 });
     }

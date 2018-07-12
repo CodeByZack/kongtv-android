@@ -24,7 +24,7 @@ public abstract class AbsFragment extends Fragment {
     protected Toolbar mToolbar;
     protected View mRootView;
     protected AbsActivity mActivity;
-    protected boolean printLife = true;
+    protected boolean printLife = false;
 
     @Nullable
     @Override
