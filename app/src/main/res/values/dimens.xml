@@ -22,4 +22,12 @@
     <dimen name="high_elevation">10dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- 字体规范-->
+    <dimen name="text_size_micro">10.0sp</dimen>
+    <dimen name="text_size_small">12.0sp</dimen>
+    <dimen name="text_size_medium">14.0sp</dimen>
+    <dimen name="text_size_large">16.0sp</dimen>
+    <dimen name="text_size_xlarge">18.0sp</dimen>
+    <dimen name="text_size_extra_large">22.0sp</dimen>
 </resources>

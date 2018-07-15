@@ -70,6 +70,7 @@
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/qq"
                     android:textColor="#2E64FE"
                     android:layout_width="match_parent"
