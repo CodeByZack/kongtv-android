@@ -1,13 +1,8 @@
 package com.zack.kongtv.activities.PlayMovie;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -17,22 +12,18 @@ import android.widget.Toast;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
-import com.zack.kongtv.Data.DataResp;
-import com.zack.kongtv.NetWorkChange.NetStateChangeObserver;
-import com.zack.kongtv.NetWorkChange.NetStateChangeReceiver;
-import com.zack.kongtv.NetWorkChange.NetworkType;
 import com.zack.kongtv.R;
+import com.zackdk.NetWorkChange.NetStateChangeObserver;
+import com.zackdk.NetWorkChange.NetStateChangeReceiver;
+import com.zackdk.NetWorkChange.NetworkType;
 import com.zackdk.Utils.LogUtil;
-import com.zackdk.Utils.ToastUtil;
-import com.zackdk.base.AbsActivity;
-import com.zackdk.base.BaseActivity;
 import com.zackdk.base.BaseMvpActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver{
+public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver {
 
 	private Toolbar toolbar;
 	private NiceVideoPlayer mNiceVideoPlayer;

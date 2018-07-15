@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import com.zack.kongtv.NetWorkChange.NetStateChangeReceiver;
+import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 
 
 public class App extends Application {
