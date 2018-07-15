@@ -5,6 +5,7 @@ import com.zack.kongtv.Data.DataResp;
 import com.zackdk.mvp.p.BasePresenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -12,7 +13,7 @@ public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<
 
     public void requestData(String url) {
         getView().showLoading();
-        DataResp.getPlayUrl(url)
+        Disposable d = DataResp.getPlayUrl(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<String>() {
@@ -21,5 +22,6 @@ public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<
                         getView().play(s);
                     }
                 });
+        addDispoasble(d);
     }
 }

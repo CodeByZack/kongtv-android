@@ -16,7 +16,6 @@ import com.zackdk.customview.R;
 public abstract class AbsActivity extends BaseActivity {
 
     protected Activity mActivity;
-    protected boolean printLifeCycle = false;
     protected ImmersionBar immersionBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,9 +28,6 @@ public abstract class AbsActivity extends BaseActivity {
         if (vid != 0) {
             setContentView(vid);
             initBasic(savedInstanceState);
-        }
-        if (printLifeCycle) {
-            LogUtil.d( "onCreate");
         }
         initImmersionBar();
     }
@@ -51,51 +47,8 @@ public abstract class AbsActivity extends BaseActivity {
     public abstract void initBasic(Bundle savedInstanceState);
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (printLifeCycle) {
-            LogUtil.d( "onStart");
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (printLifeCycle) {
-            LogUtil.d( "onResume");
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (printLifeCycle) {
-            LogUtil.d( "onPause");
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (printLifeCycle) {
-            LogUtil.d( "onStop");
-        }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (printLifeCycle) {
-            LogUtil.d( "onRestart");
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (printLifeCycle) {
-            LogUtil.d("onDestroy");
-        }
         immersionBar.destroy();
     }
 

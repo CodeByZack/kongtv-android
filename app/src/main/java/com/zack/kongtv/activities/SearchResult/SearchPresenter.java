@@ -8,6 +8,7 @@ import com.zackdk.mvp.p.BasePresenter;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -15,22 +16,23 @@ public class SearchPresenter<V extends ISearchView> extends BasePresenter<V> {
     private int page = 1;
     public void search(String text) {
         getView().showLoading();
-        DataResp.searchText(text,page)
+        Disposable d = DataResp.searchText(text, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<SearchResultBean>() {
                     @Override
                     public void accept(SearchResultBean movieDetailBeans) throws Exception {
                         getView().updateView(movieDetailBeans.getList());
-                        if(movieDetailBeans.isCanLoadMore()){
+                        if (movieDetailBeans.isCanLoadMore()) {
                             getView().loadMoreComplete();
                             page++;
-                        }else{
+                        } else {
                             getView().loadMoreEnd();
                         }
                         getView().hideLoading();
                     }
                 });
+        addDispoasble(d);
     }
 
     public void clear() {

@@ -17,13 +17,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
     public void requestData() {
         getView().showLoading();
-        DataResp.getHomeData()
+        Disposable d = DataResp.getHomeData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<HomeDataBean>() {
@@ -33,6 +34,7 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                         getView().hideLoading();
                     }
                 });
+        addDispoasble(d);
     }
 
     public void refresh() {

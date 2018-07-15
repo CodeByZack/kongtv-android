@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,22 +29,23 @@ public class CategoryPresenter<V extends ICategoryView> extends BasePresenter<V>
             return;
         }
         getView().showLoading();
-        DataResp.getTypeData(targetUrl,page)
+        Disposable d = DataResp.getTypeData(targetUrl, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<CategoryDataBean>() {
                     @Override
                     public void accept(CategoryDataBean dataBean) throws Exception {
-                        if(dataBean.getMovieDetailBeans().size()!=0){
+                        if (dataBean.getMovieDetailBeans().size() != 0) {
                             getView().updateView(dataBean);
                             page++;
                             getView().loadMoreComplete();
-                        }else{
+                        } else {
                             getView().loadMoreEnd();
                         }
                         getView().hideLoading();
                     }
                 });
+        addDispoasble(d);
     }
 
     public void loadMore() {
