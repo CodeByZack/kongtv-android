@@ -39,7 +39,6 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
 
     public void refresh() {
         requestData();
-        getView().showToast("刷新成功！");
         getView().setRefresh(false);
     }
 }
