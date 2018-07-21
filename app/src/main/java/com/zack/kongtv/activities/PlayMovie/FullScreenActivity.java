@@ -13,6 +13,7 @@ import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
 import com.zack.kongtv.R;
+import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
@@ -112,7 +113,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		hideLoading();
 		mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
 		mNiceVideoPlayer.setUp(url, null);
-		TxVideoPlayerController controller = new TxVideoPlayerController(this);
+		CustomPlayerControl controller = new CustomPlayerControl(this);
 		controller.setTitle(name);
 		controller.setImage(R.drawable.bg_black);
 		mNiceVideoPlayer.setController(controller);
