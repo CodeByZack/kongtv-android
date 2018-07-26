@@ -12,6 +12,7 @@ android {
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -104,4 +105,6 @@ dependencies {
     implementation 'org.eclipse.jetty:jetty-client:8.1.12.v20130726'
     implementation 'org.slf4j:slf4j-simple:1.7.21'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }

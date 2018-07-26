@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
@@ -23,6 +24,7 @@ public class App extends Application {
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
+        MultiDex.install(this);
     }
 
     public static Context getContext() {
