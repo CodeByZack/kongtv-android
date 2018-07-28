@@ -4,23 +4,31 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MainActivity;
+import com.zack.kongtv.activities.MovieList.MovieListActivity;
+import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
@@ -128,6 +136,8 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		url = intent.getStringExtra("url");
 		initView();
 		presenter.requestData(url);
+		OrientationEventListenerImpl ore = new OrientationEventListenerImpl(this);
+		ore.enable();
 		bindService(new Intent(this, AndroidUpnpServiceImpl.class), serviceConnection, Context.BIND_AUTO_CREATE);
 	}
 
@@ -157,7 +167,10 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				"        window.local_obj.showSource(data.url)\n" +
 				"    },\"json\");\n" +
 				"}";
+//		final String jsGetContent = "window.local_obj.showSource('<head>'+"
+//				+ "document.getElementsByTagName('body')[0].innerHTML+'</head>');";
 		WebView webView = new WebView(this);
+//		WebView webView = findViewById(R.id.webview);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
 		WebSettings webSettings = webView.getSettings();
 		// 设置与Js交互的权限
@@ -173,7 +186,6 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		Map extraHeaders = new HashMap();
 		extraHeaders.put("Referer", this.url);
 		webView.loadUrl(url, extraHeaders);
-
 	}
 
 	@Override
@@ -191,7 +203,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	public final class InJavaScriptLocalObj {
 		@JavascriptInterface
 		public void showSource(final String videoUrl) {
-			LogUtil.d(videoUrl);
+			//LogUtil.d(videoUrl);
 			video_url = videoUrl;
 			mActivity.runOnUiThread(new Runnable() {
 				@Override
@@ -227,6 +239,28 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		});
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.touping, menu);
+		return true;
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		switch (id) {
+			case R.id.touping:
+				loading = new MaterialDialog.Builder(this)
+						.title("查找设备中...")
+						.content("投屏播放属于测试阶段，需要电视段支持DLNA。\n本人只在自家电视上测试通过了。不保证都能用哈。")
+						.progress(true, 0)
+						.progressIndeterminateStyle(false)
+						.show();
+				// 搜索所有的设备
+				upnpService.getControlPoint().search();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	@Override
 	protected void initImmersionBar() {
 		super.initImmersionBar();
@@ -385,4 +419,26 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
         unbindService(serviceConnection);
 
     }
+
+	public class OrientationEventListenerImpl extends OrientationEventListener {
+		public OrientationEventListenerImpl(Context context) {
+			super(context);
+		}
+
+		@Override
+		public void onOrientationChanged(int rotation) {
+			// 设置为竖屏
+			// 设置为横屏
+			if(!mNiceVideoPlayer.isFullScreen()){
+				return;
+			}
+			if(((rotation >= 225) && (rotation <= 315))) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			}
+			//设置为横屏（逆向）
+			if(((rotation >= 45) && (rotation <= 135))) {
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+			}
+		}
+	}
 }
