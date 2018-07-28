@@ -6,8 +6,8 @@ android {
         applicationId "com.zack.kongtv"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
@@ -48,7 +48,7 @@ android {
             //只对Release包起作用，如果不是Release包则不变更名称。
             if (buildType == "release") {
                 //我此处的命名规则是：渠道名_项目名_版本名_创建时间_构建类型.apk
-                fileName = "风影院_v${defaultConfig.versionCode}_${createTime}-${buildType}.apk"
+                fileName = "风影院_v${defaultConfig.versionName}_${createTime}-${buildType}.apk"
                 //将名字打印出来，以便及时查看是否满意。
                 println "文件名：-----------------${fileName}"
                 //重新对apk命名。(适用于Gradle4.0以下版本)
