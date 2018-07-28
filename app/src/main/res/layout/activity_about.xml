@@ -70,7 +70,6 @@
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/qq"
                     android:textColor="#2E64FE"
                     android:layout_width="match_parent"
@@ -78,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/normal_margin"
                     android:padding="@dimen/normal_margin"
-                    android:text="QQ群(793272974)"/>
+                    android:text="QQ群(455971847)"/>
                 <TextView
                     android:id="@+id/email"
                     android:textColor="#2E64FE"

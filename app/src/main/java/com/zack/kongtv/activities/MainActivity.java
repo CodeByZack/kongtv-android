@@ -16,6 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zack.kongtv.Const;
@@ -26,6 +28,7 @@ import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
+import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.base.AbsActivity;
 
 import java.util.LinkedList;
@@ -43,6 +46,7 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private PagerAdapter pagerAdapter;
     private List<String> titles = new LinkedList<>();
+    private TextView nav_version;
     private long clickTime;
 
     @Override
@@ -82,6 +86,8 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        String name = PackageUtil.packageName(this);
+        nav_version.setText("风影院 version"+name);
     }
 
     private void initView() {
@@ -90,6 +96,8 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         tabLayout = findViewById(R.id.tablayout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        nav_version = headerView.findViewById(R.id.nav_version);
     }
 
     public void showPage(int type){

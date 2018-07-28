@@ -22,6 +22,7 @@
         android:layout_height="200dp">
     </com.xiao.nicevideoplayer.NiceVideoPlayer>
     <com.zackdk.customview.ShapeTextView
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/md_blue_A200"
         android:layout_margin="@dimen/normal_margin"
@@ -30,6 +31,9 @@
         android:layout_height="wrap_content"
         android:text="投屏播放"
         android:onClick="onclick"
+        app:super_cornerRadius="8dp"
+        app:super_strokeWidth="1px"
+        app:super_strokeColor="@color/colorPrimary"
         />
 
 </LinearLayout>

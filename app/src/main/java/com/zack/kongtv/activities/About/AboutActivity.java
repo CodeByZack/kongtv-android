@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zack.kongtv.R;
+import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.AbsActivity;
 
@@ -20,6 +21,7 @@ import java.net.URISyntaxException;
 public class AboutActivity extends AbsActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private TextView linearLayout,email,qq;
+    private TextView titleVersion;
     @Override
     public int setView() {
         return R.layout.activity_about;
@@ -38,6 +40,10 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
         email.setOnClickListener(this);
         qq = findViewById(R.id.qq);
         qq.setOnClickListener(this);
+        titleVersion = findViewById(R.id.title_text);
+
+        String name = PackageUtil.packageName(this);
+        titleVersion.setText("风影院，像风一样自由。version"+name);
     }
 
     @Override
@@ -58,7 +64,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
                 email();
                 break;
             case R.id.qq:
-                if(!joinQQGroup("2RiYsStZyv56q4x9In9r67xKH-2ft7fY")){
+                if(!joinQQGroup("8vr6aLfMnwc4bW-am71lFfqhb7PkTkZl")){
                     ToastUtil.showToast("未安装手Q或安装的版本不支持");
                 }
                 break;
@@ -126,7 +132,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
         String[] email = {"958059970@qq.com"};
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         intent.putExtra(Intent.EXTRA_CC, email); // 抄送人
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Aladd软件的意见反馈"); // 主题
+        intent.putExtra(Intent.EXTRA_SUBJECT, "空影院软件的意见反馈"); // 主题
         intent.putExtra(Intent.EXTRA_TEXT, ""); // 正文
         startActivity(Intent.createChooser(intent, "请选择邮件类应用"));
     }
