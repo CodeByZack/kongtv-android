@@ -3,6 +3,7 @@ package com.zack.kongtv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -19,8 +20,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        UMConfigure.init(this, "5b460ddfa40fa35036000318", "kuan", UMConfigure.DEVICE_TYPE_PHONE, "");
-        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, "5b460ddfa40fa35036000318", "default", UMConfigure.DEVICE_TYPE_PHONE, "");
+        if(BuildConfig.DEBUG){
+            UMConfigure.setLogEnabled(true);
+        }
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);

@@ -2,6 +2,7 @@ package com.zack.kongtv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,20 +21,24 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zack.appupdate.AppUpdate;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.base.AbsActivity;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -88,6 +93,34 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
+
+        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<UpdateInfo>() {
+                    @Override
+                    public void accept(UpdateInfo o) throws Exception {
+                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
+                            showUpdateDilog(o);
+                        }
+                    }
+                });
+
+
+    }
+
+    private void showUpdateDilog(UpdateInfo updateInfo) {
+        String dirFilePath = "";
+        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+            //SD卡有用
+            dirFilePath = getExternalFilesDir("apk/test.apk").getAbsolutePath();
+        }else{
+            //SD卡没有用
+            dirFilePath = getFilesDir()+ File.separator+"apk/test.apk";
+        }
+        AppUpdate.init(this)
+                .setDownloadUrl(updateInfo.getDownload_url())
+                .setSavePath(dirFilePath)
+                .showUpdateDialog("检查到有更新！",updateInfo.getApp_updateInfo(),null);
     }
 
     private void initView() {
