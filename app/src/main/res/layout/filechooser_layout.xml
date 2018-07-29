@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#2f2f2f"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,19 +22,97 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
     </com.xiao.nicevideoplayer.NiceVideoPlayer>
-    <com.zackdk.customview.ShapeTextView
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/md_blue_A200"
-        android:layout_margin="@dimen/normal_margin"
-        android:padding="@dimen/normal_margin"
-        android:layout_width="wrap_content"
+    <TextView
+        android:padding="@dimen/little_margin"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/tiny_text_size"
+        android:textColor="#888888"
         android:layout_height="wrap_content"
-        android:text="投屏播放"
-        android:onClick="onclick"
-        app:super_cornerRadius="8dp"
-        app:super_strokeWidth="1px"
-        app:super_strokeColor="@color/colorPrimary"
-        />
+        android:text="播放若出现问题，可尝试更换播放器试试："/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:padding="@dimen/little_margin"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/copy"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/read"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textSize="@dimen/tiny_text_size"
+                android:textColor="#888888"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="复制播放链接"/>
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/change"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/little_margin"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/gold"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textColor="#888888"
+                android:textSize="@dimen/tiny_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更换内核"/>
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/touping"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/little_margin"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/select"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textColor="#888888"
+                android:textSize="@dimen/tiny_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="投屏播放"/>
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/third"
+            android:layout_marginLeft="@dimen/little_margin"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/link"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textColor="#888888"
+                android:textSize="@dimen/tiny_text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="第三方播放器"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
@@ -13,28 +14,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-import com.xiao.nicevideoplayer.TxVideoPlayerController;
-import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.MainActivity;
-import com.zack.kongtv.activities.MovieList.MovieListActivity;
-import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
-import com.zackdk.Utils.LogUtil;
 import com.zackdk.base.BaseMvpActivity;
 
 import org.fourthline.cling.android.AndroidUpnpService;
@@ -124,6 +120,8 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
     //设备列表
     private List<Device> listDevice = new LinkedList<>();
 	private String video_url;
+	private int playerType = NiceVideoPlayer.TYPE_IJK;
+	private CustomPlayerControl controller;
 
 	@Override
 	public int setView() {
@@ -144,13 +142,30 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	}
 
     public void onclick(View v) {
-        loading = new MaterialDialog.Builder(this)
-                .content("查找设备中...")
-                .progress(true, 0)
-                .progressIndeterminateStyle(false)
-                .show();
-        // 搜索所有的设备
-        upnpService.getControlPoint().search();
+
+		switch (v.getId()){
+			case R.id.copy:
+				AndroidUtil.copy(this,video_url);
+				break;
+			case R.id.change:
+				if(playerType == NiceVideoPlayer.TYPE_IJK){
+					playerType = NiceVideoPlayer.TYPE_NATIVE;
+					showToast("已切换为NATIVEPLAYER");
+				}else{
+					playerType = NiceVideoPlayer.TYPE_IJK;
+					showToast("已切换为IJKPLAYER");
+				}
+				play2(video_url,playerType);
+				break;
+			case R.id.touping:
+				searchDLNA();
+				break;
+			case R.id.third:
+				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
+				mediaIntent.setDataAndType(Uri.parse(video_url), "video/mp4");
+				startActivity(mediaIntent);
+				break;
+		}
     }
 	@Override
 	protected void onResume() {
@@ -210,20 +225,28 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 			mActivity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					play2(videoUrl);
+					play2(videoUrl,NiceVideoPlayer.TYPE_IJK);
 				}
 			});
 		}
 	}
 
-	private void play2(String url) {
+	private void play2(String url,int playerType) {
 		hideLoading();
-		mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
+		boolean flag = false;
+		if(mNiceVideoPlayer.isPlaying()){
+			flag = true;
+			mNiceVideoPlayer.release();
+		}
+		mNiceVideoPlayer.setPlayerType(playerType); // or NiceVideoPlayer.TYPE_NATIVE
 		mNiceVideoPlayer.setUp(url, null);
-		CustomPlayerControl controller = new CustomPlayerControl(this);
+		if(controller == null){
+			controller = new CustomPlayerControl(this);
+			controller.setImage(R.drawable.bg_black);
+		}
 		controller.setTitle(name);
-		controller.setImage(R.drawable.bg_black);
 		mNiceVideoPlayer.setController(controller);
+		if(flag) mNiceVideoPlayer.start();
 
 	}
 
@@ -243,26 +266,31 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.touping, menu);
+		getMenuInflater().inflate(R.menu.playmovie_menu, menu);
 		return true;
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		switch (id) {
-			case R.id.touping:
-				loading = new MaterialDialog.Builder(this)
-						.title("查找设备中...")
-						.content("投屏播放属于测试阶段，需要电视段支持DLNA。\n本人只在自家电视上测试通过了。不保证都能用哈。")
-						.progress(true, 0)
-						.progressIndeterminateStyle(false)
-						.show();
-				// 搜索所有的设备
-				upnpService.getControlPoint().search();
-				break;
+//			case R.id.refresh:
+//				presenter.requestData(url);
+//				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	private void searchDLNA() {
+		loading = new MaterialDialog.Builder(this)
+                .title("查找设备中...")
+                .content("投屏播放属于测试阶段，需要电视段支持DLNA。\n本人只在自家电视上测试通过了。不保证都能用哈。")
+                .progress(true, 0)
+                .progressIndeterminateStyle(false)
+                .show();
+		// 搜索所有的设备
+		upnpService.getControlPoint().search();
+	}
+
 	@Override
 	protected void initImmersionBar() {
 		super.initImmersionBar();
