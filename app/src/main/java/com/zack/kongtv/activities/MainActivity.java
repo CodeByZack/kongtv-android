@@ -193,7 +193,7 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
                 share_intent.setAction(Intent.ACTION_SEND);
                 share_intent.setType("text/plain");
                 //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
-                share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.coolapk.com/apk/com.zack.kongtv");
+                share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.lanzous.com/u/%E7%A9%BA%E5%B1%B1%E4%B8%80%E5%BA%A6");
                 share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
                 startActivity(share_intent);
         }
