@@ -29,6 +29,7 @@ import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MainActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
@@ -134,6 +135,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		Intent intent = getIntent();
 		name = intent.getStringExtra("name");
 		url = intent.getStringExtra("url");
+		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
 		presenter.requestData(url);
 		OrientationEventListenerImpl ore = new OrientationEventListenerImpl(this);

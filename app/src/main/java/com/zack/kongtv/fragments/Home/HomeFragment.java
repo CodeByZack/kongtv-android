@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.umeng.analytics.MobclickAgent;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -59,6 +60,17 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         presenter.requestData();
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("HomeFragment");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("HomeFragment");
+//    }
 
     private void initLogic() {
         homeAdapter = new HomeAdapter(R.layout.home_item,data);

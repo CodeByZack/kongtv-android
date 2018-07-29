@@ -26,6 +26,7 @@ import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
+import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
@@ -75,7 +76,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
                     ToastUtil.showToast("输入点什么再搜索吧!");
                     return;
                 }
-                presenter.search(searchtext);
+                search();
             }
         });
         searchText.addTextChangedListener(new TextWatcher() {
@@ -105,7 +106,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
                                           KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchtext = searchText.getText().toString();
-                    presenter.search(searchtext);
+                    search();
                 }
                 return false;
             }
@@ -115,9 +116,14 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.search(searchtext);
+                search();
             }
         },recyclerView);
+    }
+
+    private void search() {
+        CountEventHelper.countMovieSearch(this,searchtext);
+        presenter.search(searchtext);
     }
 
     private void initView() {

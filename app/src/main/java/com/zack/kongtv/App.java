@@ -25,6 +25,7 @@ public class App extends Application {
             UMConfigure.setLogEnabled(true);
         }
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+        //MobclickAgent.openActivityDurationTrack(false);
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
@@ -48,11 +49,13 @@ public class App extends Application {
 
         @Override
         public void onActivityResumed(Activity activity) {
+            //MobclickAgent.onPageStart(this.getClass().getName());
             MobclickAgent.onResume(activity);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
+            //MobclickAgent.onPageEnd(this.getClass().getName());
             MobclickAgent.onPause(activity);
         }
 

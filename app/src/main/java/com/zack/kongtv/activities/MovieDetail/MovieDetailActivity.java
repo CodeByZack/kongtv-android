@@ -23,6 +23,7 @@ import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.bean.MovieDetailBean;
+import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.base.BaseMvpActivity;
@@ -176,6 +177,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         this.data.clear();
         this.data.addAll(data.getList());
         adapter.notifyDataSetChanged();
+
+        CountEventHelper.countMovieDetail(this,data.getMovieName(),targetUrl);
     }
 
     @Override

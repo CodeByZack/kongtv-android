@@ -1,9 +1,6 @@
 package com.zack.kongtv.fragments.Category;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,19 +8,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.animation.BaseAnimation;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.umeng.analytics.MobclickAgent;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.R;
@@ -64,7 +56,17 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         categoryFragment.setArguments(bundle);
         return categoryFragment;
     }
-
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("CategoryFragment");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("CategoryFragment");
+//    }
     @Override
     public void initBasic(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
