@@ -20,15 +20,20 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+        initUM();
+        AppConfig.initUrl(this);
+        NetStateChangeReceiver.registerReceiver(this);
+        registerActivityLifecycleCallbacks(life);
+        MultiDex.install(this);
+    }
+
+    private void initUM() {
         UMConfigure.init(this, "5b460ddfa40fa35036000318", "default", UMConfigure.DEVICE_TYPE_PHONE, "");
         if(BuildConfig.DEBUG){
             UMConfigure.setLogEnabled(true);
         }
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
         //MobclickAgent.openActivityDurationTrack(false);
-        NetStateChangeReceiver.registerReceiver(this);
-        registerActivityLifecycleCallbacks(life);
-        MultiDex.install(this);
     }
 
     public static Context getContext() {

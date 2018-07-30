@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.R;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
@@ -175,17 +176,23 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 	@Override
 	public void play(String url) {
-		String id = url.substring(url.indexOf("id=")+3);
+		String id = "";
+		if(AppConfig.getDefaultXIANLU() == AppConfig.PIPIGUI){
+			id+=url.substring(url.indexOf("id=")+3,url.indexOf("&"));
+		}else{
+			id+=url.substring(url.indexOf("id=")+3);
+		}
 		final String js = "if(typeof(vid)!='undefined'){\n" +
 				"    window.local_obj.showSource(vid)\n" +
 				"}else{\n" +
 				"    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
 				"    function(data){\n" +
-				"        window.local_obj.showSource(data.url)\n" +
+				"		console.log('data:'+JSON.stringify(data));\n" +
+				"		window.local_obj.showSource(data.url)\n" +
 				"    },\"json\");\n" +
 				"}";
-//		final String jsGetContent = "window.local_obj.showSource('<head>'+"
-//				+ "document.getElementsByTagName('body')[0].innerHTML+'</head>');";
+		final String jsGetContent = "window.local_obj.showSource('<head>'+"
+				+ "document.getElementsByTagName('body')[0].innerHTML+'</head>');";
 		WebView webView = new WebView(this);
 //		WebView webView = findViewById(R.id.webview);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");

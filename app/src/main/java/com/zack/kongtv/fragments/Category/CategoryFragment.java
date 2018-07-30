@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.umeng.analytics.MobclickAgent;
+import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.R;
@@ -74,7 +75,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         if(bundle!=null){
             targetUrl = bundle.getString("url");
         }else {
-            targetUrl = DataResp.MovieUrl;
+            targetUrl = AppConfig.MovieUrl;
         }
         presenter.setTargetUrl(targetUrl);
         initView();

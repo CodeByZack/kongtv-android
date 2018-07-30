@@ -21,7 +21,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.zack.appupdate.AppUpdate;
+import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
@@ -32,6 +34,7 @@ import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zack.kongtv.util.PackageUtil;
+import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.AbsActivity;
 
 import java.io.File;
@@ -42,16 +45,16 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class MainActivity extends AbsActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AbsActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Toolbar toolbar;
-    private NavigationView navigationView;
+//    private NavigationView navigationView;
     private DrawerLayout drawer;
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private PagerAdapter pagerAdapter;
     private List<String> titles = new LinkedList<>();
-    private TextView nav_version;
+    private TextView nav_version,tv_xianlu;
     private long clickTime;
 
     @Override
@@ -66,7 +69,40 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         initLogic();
 
     }
+    public void onclick(View v) {
+        int id = v.getId();
 
+        if (id == R.id.nav_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+        } else if (id == R.id.nav_collect) {
+            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
+        } else if (id == R.id.nav_history) {
+            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
+        } else if(id == R.id.nav_share){
+            Intent share_intent = new Intent();
+            share_intent.setAction(Intent.ACTION_SEND);
+            share_intent.setType("text/plain");
+            //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
+            share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.lanzous.com/u/%E7%A9%BA%E5%B1%B1%E4%B8%80%E5%BA%A6");
+            share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
+            startActivity(share_intent);
+        } else if(id == R.id.nav_change){
+            List<String> list = AppConfig.getXianLuList();
+            new MaterialDialog.Builder(this)
+                    .title("切换线路")
+                    .items(list)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            Toast.makeText(mActivity, "切换到线路"+text, Toast.LENGTH_SHORT).show();
+                            AppConfig.setDefaultXIANLU(position+1,mActivity);
+                        }
+                    })
+                    .show();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
     private void init() {
         titles.add("首页");
         titles.add("电影");
@@ -75,10 +111,10 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         titles.add("综艺");
 
         fragments.add(new HomeFragment());
-        fragments.add(CategoryFragment.instance(DataResp.MovieUrl));
-        fragments.add(CategoryFragment.instance(DataResp.EpisodeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.AnimeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.VarietyUrl));
+        fragments.add(CategoryFragment.instance(AppConfig.MovieUrl));
+        fragments.add(CategoryFragment.instance(AppConfig.EpisodeUrl));
+        fragments.add(CategoryFragment.instance(AppConfig.AnimeUrl));
+        fragments.add(CategoryFragment.instance(AppConfig.VarietyUrl));
     }
 
     private void initLogic() {
@@ -86,24 +122,24 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
+        tv_xianlu.setText(AppConfig.getNowXianLu());
 
-        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<UpdateInfo>() {
-                    @Override
-                    public void accept(UpdateInfo o) throws Exception {
-                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
-                            showUpdateDilog(o);
-                        }
-                    }
-                });
+//        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<UpdateInfo>() {
+//                    @Override
+//                    public void accept(UpdateInfo o) throws Exception {
+//                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
+//                            showUpdateDilog(o);
+//                        }
+//                    }
+//                });
 
 
     }
@@ -127,10 +163,9 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         toolbar = findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tablayout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        nav_version = headerView.findViewById(R.id.nav_version);
+        nav_version = findViewById(R.id.nav_version);
+        tv_xianlu = findViewById(R.id.tv_xianlu);
     }
 
     public void showPage(int type){
@@ -176,31 +211,6 @@ public class MainActivity extends AbsActivity implements NavigationView.OnNaviga
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_about) {
-            startActivity(new Intent(this, AboutActivity.class));
-        } else if (id == R.id.nav_collect) {
-            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
-        } else if (id == R.id.nav_history) {
-            startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
-        } else if(id == R.id.nav_share){
-                Intent share_intent = new Intent();
-                share_intent.setAction(Intent.ACTION_SEND);
-                share_intent.setType("text/plain");
-                //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
-                share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.lanzous.com/u/%E7%A9%BA%E5%B1%B1%E4%B8%80%E5%BA%A6");
-                share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
-                startActivity(share_intent);
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     private class PagerAdapter extends FragmentPagerAdapter {
 
