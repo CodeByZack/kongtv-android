@@ -48,7 +48,7 @@ android {
             //只对Release包起作用，如果不是Release包则不变更名称。
             if (buildType == "release") {
                 //我此处的命名规则是：渠道名_项目名_版本名_创建时间_构建类型.apk
-                fileName = "风影院_v${defaultConfig.versionCode}_${createTime}-${buildType}.apk"
+                fileName = "风影院_v${defaultConfig.versionName}_${createTime}-${buildType}.apk"
                 //将名字打印出来，以便及时查看是否满意。
                 println "文件名：-----------------${fileName}"
                 //重新对apk命名。(适用于Gradle4.0以下版本)
@@ -79,11 +79,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.8.0'
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
-
     def room_version = "1.1.1"
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
-
     //Retrofit
     implementation "com.squareup.okhttp3:okhttp:${ok_http_version}"
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
@@ -92,10 +90,8 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}"
     implementation "io.reactivex.rxjava2:rxandroid:${rx_android_version}"
     implementation "io.reactivex.rxjava2:rxjava:${rx_java_version}"
-
     implementation 'com.umeng.sdk:common:latest.integration'
     implementation 'com.umeng.sdk:analytics:latest.integration'
-
     // Cling library
     implementation 'org.fourthline.cling:cling-core:2.1.1'
     implementation 'org.fourthline.cling:cling-support:2.1.1'
@@ -105,6 +101,7 @@ dependencies {
     implementation 'org.eclipse.jetty:jetty-client:8.1.12.v20130726'
     implementation 'org.slf4j:slf4j-simple:1.7.21'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-
     implementation 'com.android.support:multidex:1.0.3'
+    implementation project(':appupdate')
+    implementation files('libs/jsoup-1.9.2.jar')
 }

@@ -3,6 +3,7 @@ package com.zack.kongtv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -19,12 +20,20 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        UMConfigure.init(this, "5b460ddfa40fa35036000318", "kuan", UMConfigure.DEVICE_TYPE_PHONE, "");
-        UMConfigure.setLogEnabled(true);
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+        initUM();
+        AppConfig.initUrl(this);
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
+    }
+
+    private void initUM() {
+        UMConfigure.init(this, "5b460ddfa40fa35036000318", "default", UMConfigure.DEVICE_TYPE_PHONE, "");
+        if(BuildConfig.DEBUG){
+            UMConfigure.setLogEnabled(true);
+        }
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+        //MobclickAgent.openActivityDurationTrack(false);
     }
 
     public static Context getContext() {
@@ -45,11 +54,13 @@ public class App extends Application {
 
         @Override
         public void onActivityResumed(Activity activity) {
+            //MobclickAgent.onPageStart(this.getClass().getName());
             MobclickAgent.onResume(activity);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
+            //MobclickAgent.onPageEnd(this.getClass().getName());
             MobclickAgent.onPause(activity);
         }
 

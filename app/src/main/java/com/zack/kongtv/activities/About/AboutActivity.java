@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zack.kongtv.R;
+import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.AbsActivity;
@@ -85,6 +86,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
 
 
     public void openALiPay(){
+        CountEventHelper.countAlipay(this);
         String url1="intent://platformapi/startapp?saId=10000007&" +
                 "clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com%2Fa6x05048iewv4tsdnwmykbc%3F_s" +
                 "%3Dweb-other&_t=1472443966571#Intent;" +
@@ -115,6 +117,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
      * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
      ******************/
     public boolean joinQQGroup(String key) {
+        CountEventHelper.countJoinQQ(this);
         Intent intent = new Intent();
         intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
         // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -128,6 +131,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
     }
 
     public void email(){
+        CountEventHelper.countOpenEmail(this);
         Uri uri = Uri.parse("mailto:958059970@qq.com");
         String[] email = {"958059970@qq.com"};
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);

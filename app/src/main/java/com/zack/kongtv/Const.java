@@ -16,5 +16,7 @@ public class Const {
     *
     * */
 
+    public static final String CHECK_UPDATE_URL = "http://65.49.209.21/apk/app_update.json";
+
 
 }
