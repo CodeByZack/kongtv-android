@@ -43,6 +43,9 @@
         <activity android:name=".activities.About.AboutActivity" />
         <activity android:name=".activities.MovieList.MovieListActivity" />
         <activity android:name=".activities.SearchResult.SearchActivity"></activity>
+        <activity android:name=".activities.PlayMovie.WebviewFullScreenActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+
     </application>
 
 </manifest>

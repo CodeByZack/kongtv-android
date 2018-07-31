@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.PlayMovie.WebviewFullScreenActivity;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.util.CountEventHelper;
@@ -143,7 +145,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
         historyMovie.setMovieType(movieDetailBean.getMovieType());
         md.insert(historyMovie);
-        Intent intent = new Intent(mActivity,FullScreenActivity.class);
+        Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
         startActivity(intent);

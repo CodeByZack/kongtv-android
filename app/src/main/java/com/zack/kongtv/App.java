@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
@@ -25,6 +26,7 @@ public class App extends Application {
         super.onCreate();
         context = this;
         initUM();
+        QbSdk.initX5Environment(this,null);
         AppConfig.initUrl(this);
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
