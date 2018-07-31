@@ -88,7 +88,17 @@ public class AppUpdate {
             }
         }
         alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
+    }
+
+    public void dismiss(){
+        this.context = null;
+        if(alertDialog!=null){
+            alertDialog.dismiss();
+            alertDialog = null;
+        }
+        appUpdate = null;
     }
 
     private class DownLoadApk extends AsyncTask<String,Integer,Boolean>{

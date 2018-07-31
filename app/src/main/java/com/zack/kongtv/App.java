@@ -11,11 +11,15 @@ import android.util.Log;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
+import com.zackdk.Utils.LogUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class App extends Application {
     private static Context context;
-
+    private static List<Activity> activities = new LinkedList<>();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,7 +48,7 @@ public class App extends Application {
     private ActivityLifecycleCallbacks life = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+            activities.add(activity);
         }
 
         @Override
@@ -56,12 +60,14 @@ public class App extends Application {
         public void onActivityResumed(Activity activity) {
             //MobclickAgent.onPageStart(this.getClass().getName());
             MobclickAgent.onResume(activity);
+            LogUtil.d(activity.getLocalClassName()+"dkdkonResume");
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
             //MobclickAgent.onPageEnd(this.getClass().getName());
             MobclickAgent.onPause(activity);
+            LogUtil.d(activity.getLocalClassName()+"dkdkonPause");
         }
 
         @Override
@@ -76,7 +82,7 @@ public class App extends Application {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-
+            activities.remove(activity);
         }
     };
 
@@ -85,5 +91,11 @@ public class App extends Application {
         NetStateChangeReceiver.unregisterReceiver(this);
         super.onTerminate();
 
+    }
+
+    public static void finshAllActivity(){
+        for (Activity a:activities) {
+            a.finish();
+        }
     }
 }

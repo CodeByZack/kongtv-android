@@ -41,6 +41,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,6 +57,8 @@ public class MainActivity extends AbsActivity {
     private List<String> titles = new LinkedList<>();
     private TextView nav_version,tv_xianlu;
     private long clickTime;
+    private Disposable updateInfoDisposable;
+    private AppUpdate appupdate;
 
     @Override
     public int setView() {
@@ -130,18 +133,25 @@ public class MainActivity extends AbsActivity {
         nav_version.setText("风影院 version"+name);
         tv_xianlu.setText(AppConfig.getNowXianLu());
 
-        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<UpdateInfo>() {
                     @Override
                     public void accept(UpdateInfo o) throws Exception {
-                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
+                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
                             showUpdateDilog(o);
                         }
                     }
                 });
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(updateInfoDisposable!=null &&!updateInfoDisposable.isDisposed())updateInfoDisposable.dispose();
+        if(appupdate!=null)appupdate.dismiss();
     }
 
     private void showUpdateDilog(UpdateInfo updateInfo) {
@@ -153,10 +163,10 @@ public class MainActivity extends AbsActivity {
             //SD卡没有用
             dirFilePath = getFilesDir()+ File.separator+"apk/test.apk";
         }
-        AppUpdate.init(this)
+        appupdate = AppUpdate.init(this)
                 .setDownloadUrl(updateInfo.getDownload_url())
-                .setSavePath(dirFilePath)
-                .showUpdateDialog("检查到有更新！",updateInfo.getApp_updateInfo(),null);
+                .setSavePath(dirFilePath);
+        appupdate.showUpdateDialog("检查到有更新！",updateInfo.getApp_updateInfo(),null);
     }
 
     private void initView() {

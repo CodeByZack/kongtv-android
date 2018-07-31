@@ -237,9 +237,10 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				@Override
 				public void run() {
 					play2(videoUrl,NiceVideoPlayer.TYPE_IJK);
+					webView.destroy();
 				}
 			});
-			webView.destroy();
+
 		}
 	}
 

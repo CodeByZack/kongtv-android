@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.zack.kongtv.activities.MainActivity;
 import com.zackdk.Utils.SPUtil;
 
 import java.util.LinkedList;
@@ -118,8 +119,8 @@ public class AppConfig {
         AppConfig.defaultXIANLU = defaultXIANLU;
         SPUtil.saveDate(context,XIANLU,defaultXIANLU);
         initUrl(context);
-        final Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        App.finshAllActivity();
+        final Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 
