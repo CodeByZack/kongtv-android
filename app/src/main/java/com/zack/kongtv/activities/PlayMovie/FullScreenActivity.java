@@ -123,6 +123,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	private String video_url;
 	private int playerType = NiceVideoPlayer.TYPE_IJK;
 	private CustomPlayerControl controller;
+	private WebView webView;
 
 	@Override
 	public int setView() {
@@ -179,7 +180,10 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		String id = "";
 		if(AppConfig.getDefaultXIANLU() == AppConfig.PIPIGUI){
 			id+=url.substring(url.indexOf("id=")+3,url.indexOf("&"));
-		}else{
+		}else if(AppConfig.getDefaultXIANLU() == AppConfig._4KWU){
+
+		}
+		else{
 			id+=url.substring(url.indexOf("id=")+3);
 		}
 		final String js = "if(typeof(vid)!='undefined'){\n" +
@@ -193,8 +197,8 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				"}";
 		final String jsGetContent = "window.local_obj.showSource('<head>'+"
 				+ "document.getElementsByTagName('body')[0].innerHTML+'</head>');";
-		WebView webView = new WebView(this);
-//		WebView webView = findViewById(R.id.webview);
+		webView = new WebView(this);
+		//WebView webView = findViewById(R.id.webview);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
 		WebSettings webSettings = webView.getSettings();
 		// 设置与Js交互的权限
@@ -235,6 +239,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 					play2(videoUrl,NiceVideoPlayer.TYPE_IJK);
 				}
 			});
+			webView.destroy();
 		}
 	}
 

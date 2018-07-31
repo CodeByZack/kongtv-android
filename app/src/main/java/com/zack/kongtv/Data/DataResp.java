@@ -197,7 +197,7 @@ public class DataResp {
         return observable;
     }
 
-    //巴巴鱼解析规则
+/*    //巴巴鱼解析规则
     private static HomeDataBean getHomeData(String url) {
         Document document;
         List<BannerItemBean> bannerItemBeans = new LinkedList<>();
@@ -384,8 +384,196 @@ public class DataResp {
             return null;
         }
         return movieDetailBeans;
-    }
+    }*/
 
+    //云播TV解析规则
+    private static HomeDataBean getHomeData(String url) {
+        Document document;
+        List<BannerItemBean> bannerItemBeans = new LinkedList<>();
+        List<HomeItemBean> homeItemBeans = new LinkedList<>();
+        try {
+            document = Jsoup.connect(url).get();
+            //Elements banners = document.getElementsByClass("focusList").get(0).getElementsByClass("con");
+            Elements banners = document.select(".carousel-inner>.item");
+            for (Element e: banners) {
+                BannerItemBean itemBean = new BannerItemBean();
+                itemBean.setTargetUrl(url+e.getElementsByTag("a").attr("href"));
+                itemBean.setImg(url+e.getElementsByTag("img").attr("src"));
+                itemBean.setDesc(e.getElementsByTag("h3").text());
+                bannerItemBeans.add(itemBean);
+            }
+            Elements elements = document.select(".panel");
+            for (int i = 2; i<elements.size();i++) {
+
+                HomeItemBean homeItemBean = new HomeItemBean();
+                homeItemBean.setMovieDetailBeans(new ArrayList<MovieDetailBean>());
+                if(i == 2){
+                    homeItemBean.setType(Const.Episode);
+                }else if(i == 3){
+                    homeItemBean.setType(Const.Film);
+                }else if( i == 4){
+                    homeItemBean.setType(Const.Variety);
+                }else if(i == 5){
+                    homeItemBean.setType(Const.Anime);
+                }else{
+                    break;
+                }
+                for (Element e:elements.get(i).getElementsByClass("card")) {
+                    MovieDetailBean movieDetailBean = new MovieDetailBean();
+                    movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("data-original"));
+                    movieDetailBean.setMovieShortDesc(e.getElementsByClass("label").text());
+                    movieDetailBean.setMovieName(e.getElementsByTag("strong").text());
+                    movieDetailBean.setTargetUrl(AppConfig.baseUrl+e.getElementsByTag("a").get(0).attr("href"));
+//                    movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
+                    movieDetailBean.setMovieActors(e.getElementsByClass("card-content").text());
+                    homeItemBean.getMovieDetailBeans().add(movieDetailBean);
+                }
+                homeItemBeans.add(homeItemBean);
+            }
+            HomeDataBean dataBean = new HomeDataBean();
+            dataBean.setHomeItemBeans(homeItemBeans);
+            dataBean.setBannerItemBeans(bannerItemBeans);
+            return dataBean;
+        } catch (IOException e1) {
+            return null;
+        }
+
+    }
+    private static CategoryDataBean getCategoryData(String url,int page){
+        List<TagItemBean> tag1 = new LinkedList<>();
+        List<TagItemBean> tag2 = new LinkedList<>();
+        List<TagItemBean> tag3 = new LinkedList<>();
+        List<MovieDetailBean> movieDetailBeans = new LinkedList<>();
+        //处理页码
+        url = url.replaceFirst("PAGE", String.valueOf(page));
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+
+            //获取类型分类
+            Elements elements = document.select(".query-box>dl");
+            for(Element e : elements.get(0).select("dd>span")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("active"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(AppConfig.baseUrl+e.select("a").attr("href"));
+                tag1.add(tagItemBean);
+            }
+            //获取地区分类
+            Element element2 = document.getElementById("second_list");
+            for(Element e : elements.get(3).select("dd>span")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("cur"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(AppConfig.baseUrl+e.select("a").attr("href"));
+                tag2.add(tagItemBean);
+            }
+            //获取年份分类
+            Element element3 = document.getElementById("year_list");
+            for(Element e : elements.get(2).select("dd>span")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("cur"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(AppConfig.baseUrl+e.select("a").attr("href"));
+                tag3.add(tagItemBean);
+            }
+
+            Elements elements2 = document.select(".card");
+            for (Element e : elements2) {
+                MovieDetailBean movieDetailBean = new MovieDetailBean();
+                movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("data-original"));
+                movieDetailBean.setMovieShortDesc(e.getElementsByClass("label").text());
+                movieDetailBean.setMovieName(e.getElementsByTag("strong").text());
+                movieDetailBean.setTargetUrl(AppConfig.baseUrl+e.getElementsByTag("a").get(0).attr("href"));
+                //movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
+                movieDetailBean.setMovieActors(e.getElementsByClass("card-content").text());
+                movieDetailBeans.add(movieDetailBean);
+            }
+            CategoryDataBean categoryDataBean = new CategoryDataBean();
+            categoryDataBean.setMovieDetailBeans(movieDetailBeans);
+            categoryDataBean.setTag1(tag1);
+            categoryDataBean.setTag2(tag2);
+            categoryDataBean.setTag3(tag3);
+            return categoryDataBean;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private static MovieDetailBean getRealMovieDetail(String url) {
+        MovieDetailBean movieDetailBean = new MovieDetailBean();
+        Document document;
+
+        try {
+            document = Jsoup.connect(url).get();
+            Element element = document.getElementsByClass("vod-n-l").get(0);
+            //电影信息
+            movieDetailBean.setMovieName(element.getElementsByTag("h1").text());
+            movieDetailBean.setMovieStatus(element.getElementsByTag("p").get(0).text());
+            movieDetailBean.setMovieActors(element.getElementsByTag("p").get(1).text());
+            movieDetailBean.setMovieType(element.getElementsByTag("p").get(2).text());
+            movieDetailBean.setMovieDirector(element.getElementsByTag("p").get(3).text());
+            movieDetailBean.setMovieYear(element.getElementsByTag("p").get(4).text());
+            movieDetailBean.setMovieLanguage(element.getElementsByTag("p").get(5).text());
+            movieDetailBean.setMovieImg(document.select(".vod-n-img>img").attr("data-original"));
+            //剧集信息
+            movieDetailBean.setList(new LinkedList<JujiBean>());
+            Elements elements = document.getElementsByClass("plau-ul-list").get(0).getElementsByTag("li");
+            for (Element e :elements) {
+                JujiBean bean = new JujiBean();
+                bean.setText(e.getElementsByTag("a").text());
+                bean.setUrl(AppConfig.baseUrl+e.getElementsByTag("a").attr("href"));
+                movieDetailBean.getList().add(bean);
+            }
+            //简介信息
+            movieDetailBean.setMovieDesc(document.select(".vod_content").text());
+
+            return movieDetailBean;
+        } catch (IOException e1) {
+            return null;
+        }
+
+    }
+    private static String getRealPlayUrl(String url) {
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+            String trueUrl = document.getElementsByTag("iframe").attr("src");
+            return trueUrl;
+        } catch (IOException e1) {
+            return null;
+        }
+    }
+    private static SearchResultBean search(String text,int page){
+        //处理搜索网址
+        String search = AppConfig.SearchUrl.replace("TEMP",text);
+        search = search.replace("PAGE",String.valueOf(page));
+        SearchResultBean movieDetailBeans = new SearchResultBean();
+        movieDetailBeans.setList(new LinkedList<MovieDetailBean>());
+        Document document;
+        try {
+            document = Jsoup.connect(search).get();
+            Elements ee = document.getElementsByClass("ui-vpages").get(0).getElementsContainingOwnText("下一页");
+            if(ee.size()!=0 && ee.get(0).hasAttr("href")){
+                movieDetailBeans.setCanLoadMore(true);
+            }else{
+                movieDetailBeans.setCanLoadMore(false);
+            }
+            Elements elements = document.getElementsByClass("new_tab_img").get(0).getElementsByTag("li");
+            for (Element e :elements) {
+                MovieDetailBean movieDetailBean = new MovieDetailBean();
+                movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
+                movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
+                movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
+                movieDetailBean.setTargetUrl(AppConfig.baseUrl+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setMovieActors(e.getElementsByTag("p").get(2).getElementsByTag("span").text());
+                movieDetailBeans.getList().add(movieDetailBean);
+            }
+        } catch (IOException e1) {
+            return null;
+        }
+        return movieDetailBeans;
+    }
 
     //一米猫解析规则
     private static HomeDataBean getHomeData_2(String url) {
@@ -774,7 +962,7 @@ public class DataResp {
         List<BannerItemBean> bannerItemBeans = new LinkedList<>();
         List<HomeItemBean> homeItemBeans = new LinkedList<>();
         try {
-            document = Jsoup.connect(url).get();
+            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
             Elements banners = document.getElementsByClass("focusList").get(0).getElementsByClass("con");
             for (Element e: banners) {
                 BannerItemBean itemBean = new BannerItemBean();
@@ -829,7 +1017,7 @@ public class DataResp {
         url = url.replaceFirst("index_.",replace);
         Document document;
         try {
-            document = Jsoup.connect(url).get();
+            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
 
             //获取类型分类
             Element element = document.getElementById("mcid_list");
@@ -886,7 +1074,7 @@ public class DataResp {
         Document document;
 
         try {
-            document = Jsoup.connect(url).get();
+            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
             Element element = document.getElementsByClass("vod-n-l").get(0);
             //电影信息
             movieDetailBean.setMovieName(element.getElementsByTag("h1").text());
@@ -919,7 +1107,7 @@ public class DataResp {
     private static String getRealPlayUrl_4(String url) {
         Document document;
         try {
-            document = Jsoup.connect(url).get();
+            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
             String trueUrl = document.getElementsByTag("iframe").attr("src");
             LogUtil.d(trueUrl);
             return trueUrl;
@@ -935,7 +1123,7 @@ public class DataResp {
         movieDetailBeans.setList(new LinkedList<MovieDetailBean>());
         Document document;
         try {
-            document = Jsoup.connect(search).get();
+            document = Jsoup.connect(search).timeout(30000).validateTLSCertificates(false).get();
             Elements ee = document.getElementsByClass("ui-vpages").get(0).getElementsContainingOwnText("下一页");
             if(ee.size()!=0 && ee.get(0).hasAttr("href")){
                 movieDetailBeans.setCanLoadMore(true);
@@ -972,19 +1160,22 @@ public class DataResp {
                 itemBean.setTargetUrl(url+e.getElementsByTag("a").attr("href"));
                 itemBean.setImg(AppConfig.baseUrl+e.getElementsByTag("img").attr("src"));
                 itemBean.setDesc(e.getElementsByTag("em").text());
-                bannerItemBeans.add(itemBean);
+                //bannerItemBeans.add(itemBean);
             }
             Elements elements = document.select(".all_tab>.list_tab_img");
             for (int i = 0; i<elements.size();i++) {
+                if(i == 2){
+                    continue;
+                }
                 HomeItemBean homeItemBean = new HomeItemBean();
                 homeItemBean.setMovieDetailBeans(new ArrayList<MovieDetailBean>());
                 if(i == 0){
                     homeItemBean.setType(Const.Film);
                 }else if(i == 1){
                     homeItemBean.setType(Const.Episode);
-                }else if( i == 2){
+                }else if( i == 3){
                     homeItemBean.setType(Const.Anime);
-                }else if(i == 3){
+                }else if(i == 4){
                     homeItemBean.setType(Const.Variety);
                 }else{
                     break;
@@ -1087,7 +1278,7 @@ public class DataResp {
             movieDetailBean.setMovieDirector(element.getElementsByTag("p").get(3).text());
             movieDetailBean.setMovieYear(element.getElementsByTag("p").get(4).text());
             movieDetailBean.setMovieLanguage(element.getElementsByTag("p").get(5).text());
-            movieDetailBean.setMovieImg(document.select(".vod-n-img>img").attr("src"));
+            movieDetailBean.setMovieImg(document.select(".vod-n-img>img").attr("data-original"));
             //剧集信息
             movieDetailBean.setList(new LinkedList<JujiBean>());
             Elements elements = document.getElementsByClass("plau-ul-list").get(0).getElementsByTag("li");

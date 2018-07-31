@@ -103,4 +103,5 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':appupdate')
+    implementation files('libs/jsoup-1.9.2.jar')
 }

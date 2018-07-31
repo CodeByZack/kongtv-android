@@ -95,7 +95,7 @@ public class MainActivity extends AbsActivity {
                         @Override
                         public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                             Toast.makeText(mActivity, "切换到线路"+text, Toast.LENGTH_SHORT).show();
-                            AppConfig.setDefaultXIANLU(position+1,mActivity);
+                            AppConfig.setDefaultXIANLU(Integer.parseInt(((String) text).substring(2)),mActivity);
                         }
                     })
                     .show();

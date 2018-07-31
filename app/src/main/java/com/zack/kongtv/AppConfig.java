@@ -10,11 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AppConfig {
-    private static final String baseUrlBABAYU = "https://m.babayu.com";
-    private static final String MovieUrlBABAYU = baseUrlBABAYU+"/dy/index_1_______1.html";
-    private static final String EpisodeUrlBABAYU = baseUrlBABAYU+"/dsj/index_1_______1.html";
-    private static final String AnimeUrlBABAYU = baseUrlBABAYU+"/Animation/index_1_______1.html";
-    private static final String VarietyUrlBABAYU = baseUrlBABAYU+"/Arts/index_1_______1.html";
+    private static final String baseUrlBABAYU = "http://www.yunbtv.com";
+    private static final String EpisodeUrlBABAYU = baseUrlBABAYU+"/search.php?page=PAGE&searchtype=5&tid=2";
+    private static final String MovieUrlBABAYU = baseUrlBABAYU+"/search.php?page=PAGE&searchtype=5&tid=1";
+    private static final String AnimeUrlBABAYU = baseUrlBABAYU+"/search.php?page=PAGE&searchtype=5&tid=4";
+    private static final String VarietyUrlBABAYU = baseUrlBABAYU+"/search.php?page=PAGE&searchtype=5&tid=3";
     private static final String SearchUrlBABAYU = baseUrlBABAYU+"/vod-search-wd-TEMP-p-PAGE.html";
 
     private static final String baseUrlYIMIMAO = "https://m.yimimao.com";
@@ -125,10 +125,10 @@ public class AppConfig {
 
     public static List<String> getXianLuList(){
         List<String> list = new LinkedList<>();
-        list.add("线路"+String.valueOf(BABAYU));
+        //list.add("线路"+String.valueOf(BABAYU));
         list.add("线路"+String.valueOf(YIMIMAO));
-        list.add("线路"+String.valueOf(_4KWU));
-        list.add("线路"+String.valueOf(KANKANWU));
+        //list.add("线路"+String.valueOf(_4KWU));
+        //list.add("线路"+String.valueOf(KANKANWU));
         list.add("线路"+String.valueOf(PIPIGUI));
         return list;
     }
