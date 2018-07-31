@@ -66,6 +66,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#444444"
+                    android:text="一些说明："
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingLeft="@dimen/normal_margin"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:layout_marginRight="@dimen/normal_margin"
+                    android:textColor="#444444"
+                    android:textSize="@dimen/tiny_text_size"
+                    android:padding="@dimen/normal_margin"
+                    android:text="      软件最初开发时的视频源挂掉了，我可是因为这个视频源超级稳定才开始做这个软件的。现在只能临时找到两条线路补充，但不能保证全部视频都可以正常观看。由于是自用软件，不出什么问题会一直维护下去。就这。"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
                     android:text="问题反馈或建议："
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>

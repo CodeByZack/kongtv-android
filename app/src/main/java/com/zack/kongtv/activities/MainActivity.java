@@ -130,16 +130,16 @@ public class MainActivity extends AbsActivity {
         nav_version.setText("风影院 version"+name);
         tv_xianlu.setText(AppConfig.getNowXianLu());
 
-//        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Consumer<UpdateInfo>() {
-//                    @Override
-//                    public void accept(UpdateInfo o) throws Exception {
-//                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
-//                            showUpdateDilog(o);
-//                        }
-//                    }
-//                });
+        DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<UpdateInfo>() {
+                    @Override
+                    public void accept(UpdateInfo o) throws Exception {
+                        if(o.getApp_version()>PackageUtil.packageCode(MainActivity.this)){
+                            showUpdateDilog(o);
+                        }
+                    }
+                });
 
 
     }
