@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +18,36 @@ import android.widget.Toast;
 import com.just.agentwebX5.AgentWebX5;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.zack.kongtv.R;
 import com.zackdk.Utils.LogUtil;
+import com.zackdk.base.AbsActivity;
 
-public class WebviewFullScreenActivity extends Activity {
+public class WebviewFullScreenActivity extends AbsActivity {
 
-	/**
-	 * 用于演示X5webview实现视频的全屏播放功能 其中注意 X5的默认全屏方式 与 android 系统的全屏方式
-	 */
 
 	LinearLayout webView;
 	private AgentWebX5 mAgentWeb;
+	private Toolbar toolbar;
+	private String name,url;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.webviewdemo);
-		webView = findViewById(R.id.container);
+	protected void initImmersionBar() {
+		super.initImmersionBar();
+		immersionBar.titleBar(toolbar).statusBarColor(R.color.colorPrimaryDark).init();
+	}
+	@Override
+	public int setView() {
+		return R.layout.webviewdemo;
+	}
+
+	@Override
+	public void initBasic(Bundle savedInstanceState) {
 		Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        //Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+		name = intent.getStringExtra("name");
+		url = intent.getStringExtra("url");
+		initView();
+		//Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
 		mAgentWeb = AgentWebX5.with(this)
 				.setAgentWebParent(webView, new LinearLayout.LayoutParams(-1, -1))
 				.useDefaultIndicator()
@@ -62,5 +72,17 @@ public class WebviewFullScreenActivity extends Activity {
 		mAgentWeb.getWebCreator().get().setVisibility(View.INVISIBLE);
 	}
 
-
+	private void initView() {
+		webView = findViewById(R.id.container);
+		toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setTitle(name);
+		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	}
 }

@@ -28,7 +28,7 @@
         android:textSize="@dimen/tiny_text_size"
         android:textColor="#888888"
         android:layout_height="wrap_content"
-        android:text="播放若出现问题，可尝试更换播放器试试："/>
+        android:text="解析若出现问题，可尝试X5播放器:"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
                 android:textColor="#888888"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="复制播放链接"/>
+                android:text="X5播放器"/>
         </LinearLayout>
         <LinearLayout
             android:onClick="onclick"
@@ -114,5 +114,4 @@
                 android:text="第三方播放器"/>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

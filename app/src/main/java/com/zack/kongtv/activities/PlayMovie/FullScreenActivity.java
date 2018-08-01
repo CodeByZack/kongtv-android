@@ -147,7 +147,11 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 		switch (v.getId()){
 			case R.id.copy:
-				AndroidUtil.copy(this,video_url);
+				//AndroidUtil.copy(this,video_url);
+				Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
+				intent.putExtra("url",url);
+				intent.putExtra("name",getSupportActionBar().getTitle());
+				startActivity(intent);
 				break;
 			case R.id.change:
 				if(playerType == NiceVideoPlayer.TYPE_IJK){

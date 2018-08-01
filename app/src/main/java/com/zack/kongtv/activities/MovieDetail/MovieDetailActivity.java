@@ -145,7 +145,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
         historyMovie.setMovieType(movieDetailBean.getMovieType());
         md.insert(historyMovie);
-        Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
+        Intent intent = new Intent(mActivity, FullScreenActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
         startActivity(intent);
