@@ -147,7 +147,8 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 		switch (v.getId()){
 			case R.id.openAlipay:
-				
+				AndroidUtil.copy(this,AndroidUtil.getAlipayText());
+				AndroidUtil.openAlipay(this);
 				break;
 			case R.id.copy:
 				AndroidUtil.copy(this,video_url);

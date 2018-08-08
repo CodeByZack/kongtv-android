@@ -3,6 +3,8 @@ package com.zack.kongtv.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.zack.kongtv.Const;
@@ -28,4 +30,10 @@ public class AndroidUtil {
             return "";
         }
     }
+    public static void openAlipay(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage("com.eg.android.AlipayGphone");
+        context.startActivity(intent);
+    }
+
 }
