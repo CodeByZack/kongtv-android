@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.zack.kongtv.Const;
 import com.zackdk.Utils.ToastUtil;
 
 public class AndroidUtil {
@@ -16,5 +17,15 @@ public class AndroidUtil {
         // 将ClipData内容放到系统剪贴板里。
         cm.setPrimaryClip(mClipData);
         Toast.makeText(context,"已复制："+copy,Toast.LENGTH_SHORT).show();
+    }
+
+    public static String getAlipayText(){
+        int length = Const.AlipayTextArr.length;
+        int x=(int)(Math.random()*length);
+        if(x<length){
+            return Const.AlipayTextArr[x];
+        }else{
+            return "";
+        }
     }
 }

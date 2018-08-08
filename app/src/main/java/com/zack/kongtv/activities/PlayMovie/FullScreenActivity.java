@@ -146,22 +146,25 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
     public void onclick(View v) {
 
 		switch (v.getId()){
+			case R.id.openAlipay:
+				
+				break;
 			case R.id.copy:
-				//AndroidUtil.copy(this,video_url);
+				AndroidUtil.copy(this,video_url);
+				break;
+			case R.id.change:
+//				if(playerType == NiceVideoPlayer.TYPE_IJK){
+//					playerType = NiceVideoPlayer.TYPE_NATIVE;
+//					showToast("已切换为NATIVEPLAYER");
+//				}else{
+//					playerType = NiceVideoPlayer.TYPE_IJK;
+//					showToast("已切换为IJKPLAYER");
+//				}
+//				play2(video_url,playerType);
 				Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
 				intent.putExtra("url",url);
 				intent.putExtra("name",getSupportActionBar().getTitle());
 				startActivity(intent);
-				break;
-			case R.id.change:
-				if(playerType == NiceVideoPlayer.TYPE_IJK){
-					playerType = NiceVideoPlayer.TYPE_NATIVE;
-					showToast("已切换为NATIVEPLAYER");
-				}else{
-					playerType = NiceVideoPlayer.TYPE_IJK;
-					showToast("已切换为IJKPLAYER");
-				}
-				play2(video_url,playerType);
 				break;
 			case R.id.touping:
 				searchDLNA();

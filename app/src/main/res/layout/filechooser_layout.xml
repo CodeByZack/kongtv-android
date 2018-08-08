@@ -22,13 +22,31 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
     </com.xiao.nicevideoplayer.NiceVideoPlayer>
-    <TextView
-        android:padding="@dimen/little_margin"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:textSize="@dimen/tiny_text_size"
-        android:textColor="#888888"
-        android:layout_height="wrap_content"
-        android:text="解析若出现问题，可尝试X5播放器:"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:visibility="gone"
+            android:onClick="onclick"
+            android:id="@+id/x5player"
+            android:padding="@dimen/little_margin"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/tiny_text_size"
+            android:textColor="#888888"
+            android:layout_height="wrap_content"
+            android:text="解析失败，试试X5播放器:"/>
+        <TextView
+            android:onClick="onclick"
+            android:id="@+id/openAlipay"
+            android:padding="@dimen/little_margin"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/tiny_text_size"
+            android:textColor="#888888"
+            android:layout_height="wrap_content"
+            android:text="领个红包，支持开发者"/>
+
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -51,7 +69,7 @@
                 android:textColor="#888888"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X5播放器"/>
+                android:text="复制链接"/>
         </LinearLayout>
         <LinearLayout
             android:onClick="onclick"
@@ -71,7 +89,7 @@
                 android:textSize="@dimen/tiny_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="更换内核"/>
+                android:text="X5播放器"/>
         </LinearLayout>
         <LinearLayout
             android:onClick="onclick"
@@ -114,4 +132,5 @@
                 android:text="第三方播放器"/>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

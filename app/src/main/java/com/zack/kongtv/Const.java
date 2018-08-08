@@ -9,14 +9,12 @@ public class Const {
 
     public static final int History = 5;
     public static final int Collect = 6;
-    /*
-    * https://m.babayu.com/dy/index_1_8______1.html
-    * https://m.babayu.com/dy/index_1_8__2018___大陆_1.html 筛选分类
-    *
-    *
-    * */
 
     public static final String CHECK_UPDATE_URL = "http://65.49.209.21/apk/app_update.json";
+    public static final String[] AlipayTextArr= {
+            "支付宝发红包啦！8月1日-8日还有机会获得最高4888元大红包！长按复制此消息，打开最新版支付宝就能领取！TgolR186Sl",
+            "",
+            ""};
 
 
 }
