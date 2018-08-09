@@ -26,6 +26,7 @@ import com.zack.appupdate.AppUpdate;
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.Instance.GetDataInterface;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
@@ -40,6 +41,7 @@ import com.zackdk.base.AbsActivity;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -90,7 +92,11 @@ public class MainActivity extends AbsActivity {
             share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
             startActivity(share_intent);
         } else if(id == R.id.nav_change){
-            List<String> list = AppConfig.getXianLuList();
+            List<String> list = new LinkedList<>();
+            for (Map.Entry<String, GetDataInterface> entry : DataResp.ALL_INSTANCE.entrySet()) {
+                list.add(entry.getKey());
+            }
+
             new MaterialDialog.Builder(this)
                     .title("切换线路")
                     .items(list)
@@ -98,7 +104,7 @@ public class MainActivity extends AbsActivity {
                         @Override
                         public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                             Toast.makeText(mActivity, "切换到线路"+text, Toast.LENGTH_SHORT).show();
-                            AppConfig.setDefaultXIANLU(Integer.parseInt(((String) text).substring(2)),mActivity);
+                            DataResp.changeInstance(mActivity,text.toString());
                         }
                     })
                     .show();
@@ -114,10 +120,10 @@ public class MainActivity extends AbsActivity {
         titles.add("综艺");
 
         fragments.add(new HomeFragment());
-        fragments.add(CategoryFragment.instance(AppConfig.MovieUrl));
-        fragments.add(CategoryFragment.instance(AppConfig.EpisodeUrl));
-        fragments.add(CategoryFragment.instance(AppConfig.AnimeUrl));
-        fragments.add(CategoryFragment.instance(AppConfig.VarietyUrl));
+        fragments.add(CategoryFragment.instance(DataResp.MovieUrl));
+        fragments.add(CategoryFragment.instance(DataResp.EpisodeUrl));
+        fragments.add(CategoryFragment.instance(DataResp.AnimeUrl));
+        fragments.add(CategoryFragment.instance(DataResp.VarietyUrl));
     }
 
     private void initLogic() {
@@ -131,7 +137,7 @@ public class MainActivity extends AbsActivity {
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
-        tv_xianlu.setText(AppConfig.getNowXianLu());
+        tv_xianlu.setText(DataResp.INSTANCE.getName());
 
         updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

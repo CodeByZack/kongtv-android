@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.zack.kongtv.Const;
+import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.ToastUtil;
 
 public class AndroidUtil {
@@ -25,6 +26,7 @@ public class AndroidUtil {
         int length = Const.AlipayTextArr.length;
         int x=(int)(Math.random()*length);
         if(x<length){
+            LogUtil.d(Const.AlipayTextArr[x]);
             return Const.AlipayTextArr[x];
         }else{
             return "";

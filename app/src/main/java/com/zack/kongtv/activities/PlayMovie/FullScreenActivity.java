@@ -32,6 +32,7 @@ import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
+import com.zackdk.Utils.LogUtil;
 import com.zackdk.base.BaseMvpActivity;
 
 import org.fourthline.cling.android.AndroidUpnpService;
@@ -186,14 +187,17 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	@Override
 	public void play(String url) {
 		String id = "";
-		if(AppConfig.getDefaultXIANLU() == AppConfig.PIPIGUI){
-			id+=url.substring(url.indexOf("id=")+3,url.indexOf("&"));
-		}else if(AppConfig.getDefaultXIANLU() == AppConfig._4KWU){
-
-		}
-		else{
-			id+=url.substring(url.indexOf("id=")+3);
-		}
+//		if(AppConfig.getDefaultXIANLU() == AppConfig.PIPIGUI){
+//			id+=url.substring(url.indexOf("id=")+3,url.indexOf("&"));
+//		}else if(AppConfig.getDefaultXIANLU() == AppConfig._4KWU){
+//
+//		}
+//		else{
+//			id+=url.substring(url.indexOf("id=")+3);
+//		}
+		id+=url.substring(url.indexOf("id=")+3);
+		final String js_kkkkwu = "window.local_obj.showSource($('video').attr('src'))";
+		final String js_kkkkwu2 = "window.local_obj.showSource($('body').html())";
 		final String js = "if(typeof(vid)!='undefined'){\n" +
 				"    window.local_obj.showSource(vid)\n" +
 				"}else{\n" +
@@ -215,7 +219,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				view.loadUrl("javascript:"+js);
+				view.loadUrl("javascript:"+js_kkkkwu2);
 			}
 
 		});
@@ -239,7 +243,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	public final class InJavaScriptLocalObj {
 		@JavascriptInterface
 		public void showSource(final String videoUrl) {
-			//LogUtil.d(videoUrl);
+			LogUtil.d(videoUrl);
 			video_url = videoUrl;
 			mActivity.runOnUiThread(new Runnable() {
 				@Override

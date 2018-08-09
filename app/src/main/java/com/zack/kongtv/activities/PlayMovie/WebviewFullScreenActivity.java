@@ -85,4 +85,13 @@ public class WebviewFullScreenActivity extends AbsActivity {
 			}
 		});
 	}
+
+	public void onclick(View v){
+		mAgentWeb.getJsEntraceAccess().callJs("$('video')[0]", new ValueCallback<String>() {
+			@Override
+			public void onReceiveValue(String value) {
+				LogUtil.d(value);
+			}
+		});
+	}
 }

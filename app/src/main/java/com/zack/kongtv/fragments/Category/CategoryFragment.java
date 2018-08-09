@@ -75,7 +75,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         if(bundle!=null){
             targetUrl = bundle.getString("url");
         }else {
-            targetUrl = AppConfig.MovieUrl;
+            targetUrl = DataResp.MovieUrl;
         }
         presenter.setTargetUrl(targetUrl);
         initView();
