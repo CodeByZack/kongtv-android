@@ -5,6 +5,8 @@ public interface IView {
 
     void showLoading();
 
+    void showLoading(String msg);
+
     void hideLoading();
 
     void onNetError();

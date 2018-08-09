@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.zack.kongtv.AppConfig;
+import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
@@ -155,23 +157,23 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				AndroidUtil.copy(this,video_url);
 				break;
 			case R.id.change:
-//				if(playerType == NiceVideoPlayer.TYPE_IJK){
-//					playerType = NiceVideoPlayer.TYPE_NATIVE;
-//					showToast("已切换为NATIVEPLAYER");
-//				}else{
-//					playerType = NiceVideoPlayer.TYPE_IJK;
-//					showToast("已切换为IJKPLAYER");
-//				}
-//				play2(video_url,playerType);
 				Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
 				intent.putExtra("url",url);
 				intent.putExtra("name",getSupportActionBar().getTitle());
 				startActivity(intent);
 				break;
 			case R.id.touping:
+				if(TextUtils.isEmpty(video_url)){
+					showToast("解析失败咯，不能投屏哦！");
+					return;
+				}
 				searchDLNA();
 				break;
 			case R.id.third:
+				if(TextUtils.isEmpty(video_url)){
+					showToast("解析失败咯，不能调用第三方哦！");
+					return;
+				}
 				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
 				mediaIntent.setDataAndType(Uri.parse(video_url), "video/mp4");
 				startActivity(mediaIntent);
@@ -187,39 +189,18 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	@Override
 	public void play(String url) {
 		String id = "";
-//		if(AppConfig.getDefaultXIANLU() == AppConfig.PIPIGUI){
-//			id+=url.substring(url.indexOf("id=")+3,url.indexOf("&"));
-//		}else if(AppConfig.getDefaultXIANLU() == AppConfig._4KWU){
-//
-//		}
-//		else{
-//			id+=url.substring(url.indexOf("id=")+3);
-//		}
 		id+=url.substring(url.indexOf("id=")+3);
-		final String js_kkkkwu = "window.local_obj.showSource($('video').attr('src'))";
-		final String js_kkkkwu2 = "window.local_obj.showSource($('body').html())";
-		final String js = "if(typeof(vid)!='undefined'){\n" +
-				"    window.local_obj.showSource(vid)\n" +
-				"}else{\n" +
-				"    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
-				"    function(data){\n" +
-				"		console.log('data:'+JSON.stringify(data));\n" +
-				"		window.local_obj.showSource(data.url)\n" +
-				"    },\"json\");\n" +
-				"}";
-		final String jsGetContent = "window.local_obj.showSource('<head>'+"
-				+ "document.getElementsByTagName('body')[0].innerHTML+'</head>');";
+		final String Inject_Js = DataResp.INSTANCE.getInjectJS(id);
+		final String getContent = "window.local_obj.showSource($('html').html())";
 		webView = new WebView(this);
-		//WebView webView = findViewById(R.id.webview);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
 		WebSettings webSettings = webView.getSettings();
-		// 设置与Js交互的权限
 		webSettings.setJavaScriptEnabled(true);
 		webView.setWebViewClient(new WebViewClient(){
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				view.loadUrl("javascript:"+js_kkkkwu2);
+				view.loadUrl("javascript:"+Inject_Js);
 			}
 
 		});
@@ -243,7 +224,11 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	public final class InJavaScriptLocalObj {
 		@JavascriptInterface
 		public void showSource(final String videoUrl) {
-			LogUtil.d(videoUrl);
+			if(TextUtils.equals(videoUrl,"undefined")){
+				showToast("哦，解析失败，试试X5播放器咯！");
+				hideLoading();
+				return;
+			}
 			video_url = videoUrl;
 			mActivity.runOnUiThread(new Runnable() {
 				@Override

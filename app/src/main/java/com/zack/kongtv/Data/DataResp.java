@@ -1,15 +1,19 @@
 package com.zack.kongtv.Data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.zack.kongtv.App;
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
 import com.zack.kongtv.Data.Instance.Impl_4kwu;
 import com.zack.kongtv.Data.Instance.Impl_kankanwu;
 import com.zack.kongtv.Data.Instance.Impl_pipigui;
+import com.zack.kongtv.Data.Instance.Impl_yimimao;
+import com.zack.kongtv.activities.MainActivity;
 import com.zack.kongtv.bean.BannerItemBean;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.HomeDataBean;
@@ -54,14 +58,22 @@ public class DataResp {
     public static  String SearchUrl = "";
 
     public static void initInstaceList(){
+        //创建不同线路实例
         GetDataInterface Impl4kwu = new Impl_4kwu();
         GetDataInterface Implkankanwu = new Impl_kankanwu();
         GetDataInterface Implpipigui = new Impl_pipigui();
+        GetDataInterface Implyimimao = new Impl_yimimao();
+
+        //存入map;其实可以按需创建实列；
         ALL_INSTANCE.put(Impl4kwu.getName(),Impl4kwu);
         ALL_INSTANCE.put(Implkankanwu.getName(),Implkankanwu);
         ALL_INSTANCE.put(Implpipigui.getName(),Implpipigui);
+        ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
 
-        INSTANCE = Implpipigui;
+        //获取之前储存线路，指定当前实例
+        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implpipigui.getName());
+        INSTANCE = ALL_INSTANCE.get(mapkay);
+        //初始化url
         baseUrl = INSTANCE.getBaseUrl();
         MovieUrl = INSTANCE.getMovieUrl();
         EpisodeUrl = INSTANCE.getEpisodeUrl();
@@ -70,10 +82,13 @@ public class DataResp {
         SearchUrl = INSTANCE.getSearchUrl();
     }
     public static void changeInstance(Context context,String mapkey) {
+        //切换线路实例
         INSTANCE = ALL_INSTANCE.get(mapkey);
 
+        //储存线路名字
         SPUtil.saveDate(context,XIANLU,mapkey);
 
+        //切换网址
         baseUrl = INSTANCE.getBaseUrl();
         MovieUrl = INSTANCE.getMovieUrl();
         EpisodeUrl = INSTANCE.getEpisodeUrl();
@@ -82,6 +97,9 @@ public class DataResp {
         SearchUrl = INSTANCE.getSearchUrl();
 
         //重启应用
+        App.finshAllActivity();
+        final Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 
     public static Observable getHomeData(){

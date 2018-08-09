@@ -41,6 +41,17 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends AbsActivi
     }
 
     @Override
+    public void showLoading(String msg) {
+        hideLoading();
+        loadingDialog = new MaterialDialog.Builder(this)
+                .title("解析视频地址中...")
+                .content(msg)
+                .progress(true, 0)
+                .progressIndeterminateStyle(false)
+                .show();
+    }
+
+    @Override
     public void hideLoading() {
         if(loadingDialog != null){
             loadingDialog.dismiss();

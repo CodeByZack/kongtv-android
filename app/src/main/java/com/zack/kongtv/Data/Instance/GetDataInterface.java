@@ -19,4 +19,6 @@ public interface GetDataInterface {
     String getVarietyUrl();
     String getSearchUrl();
     String getName();
+
+    String getInjectJS(String id);
 }

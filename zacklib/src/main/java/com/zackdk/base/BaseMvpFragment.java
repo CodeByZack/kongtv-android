@@ -44,6 +44,11 @@ public abstract class BaseMvpFragment<T extends BasePresenter> extends AbsFragme
     }
 
     @Override
+    public void showLoading(String msg) {
+
+    }
+
+    @Override
     public void hideLoading() {
         if(loadingDialog != null){
             loadingDialog.dismiss();

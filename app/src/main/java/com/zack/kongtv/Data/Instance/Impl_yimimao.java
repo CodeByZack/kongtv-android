@@ -2,7 +2,6 @@ package com.zack.kongtv.Data.Instance;
 
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
-import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.bean.BannerItemBean;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.HomeDataBean;
@@ -11,7 +10,6 @@ import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.bean.TagItemBean;
-import com.zackdk.Utils.LogUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,15 +21,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Impl_pipigui implements GetDataInterface {
-
-    private static final String NAME = "皮皮龟";
-    private static final String baseUrlPIPIGUI = "https://m.pipigui.cc";
-    private static final String MovieUrlPIPIGUI = baseUrlPIPIGUI+"/dianying/index_1_______1.html";
-    private static final String EpisodeUrlPIPIGUI = baseUrlPIPIGUI+"/tv/index_1_______1.html";
-    private static final String AnimeUrlPIPIGUI = baseUrlPIPIGUI+"/dongman/index_1_______1.html";
-    private static final String VarietyUrlPIPIGUI = baseUrlPIPIGUI+"/zongyi/index_1_______1.html";
-    private static final String SearchUrlPIPIGUI = baseUrlPIPIGUI+"/vod-search-wd-TEMP-p-PAGE.html";
+public class Impl_yimimao implements GetDataInterface {
+    private static final String NAME = "一米猫";
+    private static final String baseUrlYIMIMAO = "https://m.yimimao.com";
+    private static final String MovieUrlYIMIMAO = baseUrlYIMIMAO+"/dy/index_1_______1.html";
+    private static final String EpisodeUrlYIMIMAO = baseUrlYIMIMAO+"/dsj/index_1_______1.html";
+    private static final String AnimeUrlYIMIMAO = baseUrlYIMIMAO+"/dm/index_1_______1.html";
+    private static final String VarietyUrlYIMIMAO = baseUrlYIMIMAO+"/arts/index_1_______1.html";
+    private static final String SearchUrlYIMIMAO = baseUrlYIMIMAO+"/vod-search-wd-TEMP-p-PAGE.html";
 
     @Override
     public HomeDataBean getHomeData() {
@@ -39,15 +36,15 @@ public class Impl_pipigui implements GetDataInterface {
         List<BannerItemBean> bannerItemBeans = new LinkedList<>();
         List<HomeItemBean> homeItemBeans = new LinkedList<>();
         try {
-            document = Jsoup.connect(baseUrlPIPIGUI).timeout(30000).validateTLSCertificates(false).get();
-//            Elements banners = document.getElementsByClass("focusList").get(0).getElementsByClass("con");
-//            for (Element e: banners) {
-//                BannerItemBean itemBean = new BannerItemBean();
-//                itemBean.setTargetUrl(baseUrlPIPIGUI+e.getElementsByTag("a").attr("href"));
-//                itemBean.setImg(baseUrlPIPIGUI+e.getElementsByTag("img").attr("src"));
-//                itemBean.setDesc(e.getElementsByTag("em").text());
-//                bannerItemBeans.add(itemBean);
-//            }
+            document = Jsoup.connect(baseUrlYIMIMAO).get();
+            Elements banners = document.getElementsByClass("focusList").get(0).getElementsByClass("con");
+            for (Element e: banners) {
+                BannerItemBean itemBean = new BannerItemBean();
+                itemBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").attr("href"));
+                itemBean.setImg(e.getElementsByTag("img").attr("src"));
+                itemBean.setDesc(e.getElementsByTag("em").text());
+                bannerItemBeans.add(itemBean);
+            }
             Elements elements = document.select(".all_tab>.list_tab_img");
             for (int i = 0; i<elements.size();i++) {
                 HomeItemBean homeItemBean = new HomeItemBean();
@@ -68,7 +65,7 @@ public class Impl_pipigui implements GetDataInterface {
                     movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
                     movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
                     movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
-                    movieDetailBean.setTargetUrl(baseUrlPIPIGUI+e.getElementsByTag("a").get(0).attr("href"));
+                    movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
                     movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
                     movieDetailBean.setMovieActors(e.getElementsByTag("p").text());
                     homeItemBean.getMovieDetailBeans().add(movieDetailBean);
@@ -95,7 +92,7 @@ public class Impl_pipigui implements GetDataInterface {
         url = url.replaceFirst("index_.",replace);
         Document document;
         try {
-            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
+            document = Jsoup.connect(url).get();
 
             //获取类型分类
             Element element = document.getElementById("mcid_list");
@@ -103,7 +100,7 @@ public class Impl_pipigui implements GetDataInterface {
                 TagItemBean tagItemBean = new TagItemBean();
                 tagItemBean.setSelect(e.hasClass("cur"));
                 tagItemBean.setTag(e.text());
-                tagItemBean.setUrl(baseUrlPIPIGUI+e.attr("href"));
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
                 tag1.add(tagItemBean);
             }
             //获取地区分类
@@ -112,7 +109,7 @@ public class Impl_pipigui implements GetDataInterface {
                 TagItemBean tagItemBean = new TagItemBean();
                 tagItemBean.setSelect(e.hasClass("cur"));
                 tagItemBean.setTag(e.text());
-                tagItemBean.setUrl(baseUrlPIPIGUI+e.attr("href"));
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
                 tag2.add(tagItemBean);
             }
             //获取年份分类
@@ -121,7 +118,7 @@ public class Impl_pipigui implements GetDataInterface {
                 TagItemBean tagItemBean = new TagItemBean();
                 tagItemBean.setSelect(e.hasClass("cur"));
                 tagItemBean.setTag(e.text());
-                tagItemBean.setUrl(baseUrlPIPIGUI+e.attr("href"));
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
                 tag3.add(tagItemBean);
             }
 
@@ -131,7 +128,7 @@ public class Impl_pipigui implements GetDataInterface {
                 movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
                 movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
                 movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
-                movieDetailBean.setTargetUrl(baseUrlPIPIGUI+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
                 movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
                 movieDetailBean.setMovieActors(e.getElementsByTag("p").text());
                 movieDetailBeans.add(movieDetailBean);
@@ -171,7 +168,7 @@ public class Impl_pipigui implements GetDataInterface {
             for (Element e :elements) {
                 JujiBean bean = new JujiBean();
                 bean.setText(e.getElementsByTag("a").text());
-                bean.setUrl(baseUrlPIPIGUI+e.getElementsByTag("a").attr("href"));
+                bean.setUrl(baseUrlYIMIMAO+e.getElementsByTag("a").attr("href"));
                 movieDetailBean.getList().add(bean);
             }
             //简介信息
@@ -190,7 +187,6 @@ public class Impl_pipigui implements GetDataInterface {
         try {
             document = Jsoup.connect(url).get();
             String trueUrl = document.getElementsByTag("iframe").attr("src");
-            LogUtil.d("-------------------"+trueUrl);
             return trueUrl;
         } catch (IOException e1) {
             return null;
@@ -200,7 +196,7 @@ public class Impl_pipigui implements GetDataInterface {
     @Override
     public SearchResultBean search(String text, int page) {
         //处理搜索网址
-        String search = DataResp.SearchUrl.replace("TEMP",text);
+        String search = SearchUrlYIMIMAO.replace("TEMP",text);
         search = search.replace("PAGE",String.valueOf(page));
         SearchResultBean movieDetailBeans = new SearchResultBean();
         movieDetailBeans.setList(new LinkedList<MovieDetailBean>());
@@ -219,7 +215,7 @@ public class Impl_pipigui implements GetDataInterface {
                 movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
                 movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
                 movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
-                movieDetailBean.setTargetUrl(baseUrlPIPIGUI+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
                 movieDetailBean.setMovieActors(e.getElementsByTag("p").get(2).getElementsByTag("span").text());
                 movieDetailBeans.getList().add(movieDetailBean);
             }
@@ -231,32 +227,32 @@ public class Impl_pipigui implements GetDataInterface {
 
     @Override
     public String getBaseUrl() {
-        return baseUrlPIPIGUI;
+        return baseUrlYIMIMAO;
     }
 
     @Override
     public String getMovieUrl() {
-        return MovieUrlPIPIGUI;
+        return MovieUrlYIMIMAO;
     }
 
     @Override
     public String getEpisodeUrl() {
-        return EpisodeUrlPIPIGUI;
+        return EpisodeUrlYIMIMAO;
     }
 
     @Override
     public String getAnimeUrl() {
-        return AnimeUrlPIPIGUI;
+        return AnimeUrlYIMIMAO;
     }
 
     @Override
     public String getVarietyUrl() {
-        return VarietyUrlPIPIGUI;
+        return VarietyUrlYIMIMAO;
     }
 
     @Override
     public String getSearchUrl() {
-        return SearchUrlPIPIGUI;
+        return SearchUrlYIMIMAO;
     }
 
     @Override

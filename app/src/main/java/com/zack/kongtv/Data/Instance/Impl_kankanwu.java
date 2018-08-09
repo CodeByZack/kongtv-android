@@ -263,4 +263,18 @@ public class Impl_kankanwu implements GetDataInterface {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public String getInjectJS(String id) {
+        String INJECT_JS = "if(typeof(vid)!='undefined'){\n" +
+                "    window.local_obj.showSource(vid)\n" +
+                "}else{\n" +
+                "    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
+                "    function(data){\n" +
+                "		console.log('data:'+JSON.stringify(data));\n" +
+                "		window.local_obj.showSource(data.url)\n" +
+                "    },\"json\");\n" +
+                "}";
+        return INJECT_JS;
+    }
 }
