@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<V> {
 
-    private String[] msgs = {"维护不易，不妨捐助一波...","多试试X5播放器...","我本将心向明月，奈何明月照沟渠"};
+    private String[] msgs = {"开发不易，不妨捐助一波...","多试试X5播放器...","在茫茫人海中，竟遇见了你。"};
 
     public void requestData(String url) {
         getView().showLoading(getMsg());

@@ -48,7 +48,7 @@ public class DataResp {
 
     public static Map<String,GetDataInterface> ALL_INSTANCE = new HashMap<>();
     public static GetDataInterface INSTANCE;
-    public static final String XIANLU = "XIANLU";
+    public static final String XIANLU = "XIANLU_NAME";
     //统一提供URL
     public static  String baseUrl = "";
     public static  String MovieUrl = "";
