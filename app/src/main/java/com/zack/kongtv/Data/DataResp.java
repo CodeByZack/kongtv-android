@@ -48,7 +48,7 @@ public class DataResp {
 
     public static Map<String,GetDataInterface> ALL_INSTANCE = new HashMap<>();
     public static GetDataInterface INSTANCE;
-    private static final String XIANLU = "XIANLU_NAME";
+    public static final String XIANLU = "XIANLU";
     //统一提供URL
     public static  String baseUrl = "";
     public static  String MovieUrl = "";
@@ -71,8 +71,13 @@ public class DataResp {
         ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
 
         //获取之前储存线路，指定当前实例
-        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implpipigui.getName());
-        INSTANCE = ALL_INSTANCE.get(mapkay);
+        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implyimimao.getName());
+        if(ALL_INSTANCE.containsKey(mapkay)){
+            INSTANCE = ALL_INSTANCE.get(mapkay);
+        }else{
+            SPUtil.saveDate(App.getContext(),XIANLU,Implyimimao.getName());
+            INSTANCE = ALL_INSTANCE.get(Implyimimao.getName());
+        }
         //初始化url
         baseUrl = INSTANCE.getBaseUrl();
         MovieUrl = INSTANCE.getMovieUrl();

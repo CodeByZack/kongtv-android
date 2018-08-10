@@ -25,7 +25,7 @@ import java.util.List;
 
 public class Impl_pipigui implements GetDataInterface {
 
-    private static final String NAME = "皮皮龟";
+    public static final String NAME = "线路三";
     private static final String baseUrlPIPIGUI = "https://m.pipigui.cc";
     private static final String MovieUrlPIPIGUI = baseUrlPIPIGUI+"/dianying/index_1_______1.html";
     private static final String EpisodeUrlPIPIGUI = baseUrlPIPIGUI+"/tv/index_1_______1.html";

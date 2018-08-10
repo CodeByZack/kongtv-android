@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Impl_yimimao implements GetDataInterface {
-    private static final String NAME = "一米猫";
+    public static final String NAME = "线路四";
     private static final String baseUrlYIMIMAO = "https://m.yimimao.com";
     private static final String MovieUrlYIMIMAO = baseUrlYIMIMAO+"/dy/index_1_______1.html";
     private static final String EpisodeUrlYIMIMAO = baseUrlYIMIMAO+"/dsj/index_1_______1.html";

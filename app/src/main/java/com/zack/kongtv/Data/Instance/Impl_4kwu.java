@@ -30,7 +30,7 @@ public class Impl_4kwu implements GetDataInterface {
     private static final String AnimeUrl_4KWU = baseUrl_4KWU+"/Animation/index_1_______1.html";
     private static final String VarietyUrl_4KWU = baseUrl_4KWU+"/Arts/index_1_______1.html";
     private static final String SearchUrl_4KWU = baseUrl_4KWU+"/vod-search-wd-TEMP-p-PAGE.html";
-    private static final String NAME = "看看猫";
+    public static final String NAME = "线路一";
 
 
     @Override

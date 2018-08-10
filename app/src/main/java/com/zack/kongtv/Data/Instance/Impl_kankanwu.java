@@ -25,7 +25,7 @@ import java.util.List;
 
 public class Impl_kankanwu implements GetDataInterface {
     private static final String baseUrlKANKANWU = "https://m.kankanwu.com";
-    private static final String NAME = "看看屋";
+    public static final String NAME = "线路二";
     private static final String MovieUrlKANKANWU = baseUrlKANKANWU+"/dy/index_1_______1.html";
     private static final String EpisodeUrlKANKANWU = baseUrlKANKANWU+"/dsj/index_1_______1.html";
     private static final String AnimeUrlKANKANWU = baseUrlKANKANWU+"/Animation/index_1_______1.html";
@@ -164,7 +164,7 @@ public class Impl_kankanwu implements GetDataInterface {
             movieDetailBean.setMovieDirector(element.getElementsByTag("p").get(3).text());
             movieDetailBean.setMovieYear(element.getElementsByTag("p").get(4).text());
             movieDetailBean.setMovieLanguage(element.getElementsByTag("p").get(5).text());
-            movieDetailBean.setMovieImg(document.select(".vod-n-img>img").attr("src"));
+            movieDetailBean.setMovieImg("http:"+document.select(".vod-n-img>img").attr("data-original"));
             //剧集信息
             movieDetailBean.setList(new LinkedList<JujiBean>());
             Elements elements = document.getElementsByClass("plau-ul-list").get(0).getElementsByTag("li");
@@ -266,15 +266,7 @@ public class Impl_kankanwu implements GetDataInterface {
 
     @Override
     public String getInjectJS(String id) {
-        String INJECT_JS = "if(typeof(vid)!='undefined'){\n" +
-                "    window.local_obj.showSource(vid)\n" +
-                "}else{\n" +
-                "    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
-                "    function(data){\n" +
-                "		console.log('data:'+JSON.stringify(data));\n" +
-                "		window.local_obj.showSource(data.url)\n" +
-                "    },\"json\");\n" +
-                "}";
+        String INJECT_JS = "window.local_obj.showSource($('video').attr('src'))";
         return INJECT_JS;
     }
 }

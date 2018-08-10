@@ -8,6 +8,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.Instance.Impl_4kwu;
+import com.zack.kongtv.Data.Instance.Impl_kankanwu;
 import com.zack.kongtv.Data.room.CollectMovie;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
@@ -145,7 +149,13 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
         historyMovie.setMovieType(movieDetailBean.getMovieType());
         md.insert(historyMovie);
-        Intent intent = new Intent(mActivity, FullScreenActivity.class);
+        Class target ;
+        if(DataResp.INSTANCE.getName() == Impl_4kwu.NAME || DataResp.INSTANCE.getName() == Impl_kankanwu.NAME){
+            target = WebviewFullScreenActivity.class;
+        }else{
+            target = FullScreenActivity.class;
+        }
+        Intent intent = new Intent(mActivity, target);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
         startActivity(intent);
