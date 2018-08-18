@@ -261,7 +261,9 @@ public class Impl_yimimao implements GetDataInterface {
     }
 
     @Override
-    public String getInjectJS(String id) {
+    public String getInjectJS(String url) {
+        String id = "";
+        id+=url.substring(url.indexOf("id=")+3);
         String INJECT_JS = "if(typeof(vid)!='undefined'){\n" +
                 "    window.local_obj.showSource(vid)\n" +
                 "}else{\n" +

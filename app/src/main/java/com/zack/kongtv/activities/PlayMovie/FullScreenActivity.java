@@ -188,9 +188,9 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 	@Override
 	public void play(String url) {
-		String id = "";
-		id+=url.substring(url.indexOf("id=")+3);
-		final String Inject_Js = DataResp.INSTANCE.getInjectJS(id);
+//		String id = "";
+//		id+=url.substring(url.indexOf("id=")+3);
+		final String Inject_Js = DataResp.INSTANCE.getInjectJS(url);
 		final String getContent = "window.local_obj.showSource($('html').html())";
 		webView = new WebView(this);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");

@@ -34,6 +34,7 @@ import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
+import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.AbsActivity;
@@ -69,6 +70,7 @@ public class MainActivity extends AbsActivity {
 
     @Override
     public void initBasic(Bundle savedInstanceState) {
+        AndroidUtil.copy(this,AndroidUtil.getAlipayText());
         init();
         initView();
         initLogic();
