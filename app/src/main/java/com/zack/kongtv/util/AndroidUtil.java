@@ -19,7 +19,7 @@ public class AndroidUtil {
         ClipData mClipData = ClipData.newPlainText("Label", copy);
         // 将ClipData内容放到系统剪贴板里。
         cm.setPrimaryClip(mClipData);
-        Toast.makeText(context,"已复制："+copy,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"已复制："+copy,Toast.LENGTH_SHORT).show();
     }
 
     public static String getAlipayText(){

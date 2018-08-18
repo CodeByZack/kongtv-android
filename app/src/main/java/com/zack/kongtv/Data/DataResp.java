@@ -10,6 +10,7 @@ import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
 import com.zack.kongtv.Data.Instance.Impl_4kwu;
+import com.zack.kongtv.Data.Instance.Impl_jukan;
 import com.zack.kongtv.Data.Instance.Impl_kankanwu;
 import com.zack.kongtv.Data.Instance.Impl_pipigui;
 import com.zack.kongtv.Data.Instance.Impl_yimimao;
@@ -63,12 +64,14 @@ public class DataResp {
         GetDataInterface Implkankanwu = new Impl_kankanwu();
         GetDataInterface Implpipigui = new Impl_pipigui();
         GetDataInterface Implyimimao = new Impl_yimimao();
+//        GetDataInterface Impljukan = new Impl_jukan();
 
         //存入map;其实可以按需创建实列；
         ALL_INSTANCE.put(Impl4kwu.getName(),Impl4kwu);
         ALL_INSTANCE.put(Implkankanwu.getName(),Implkankanwu);
         ALL_INSTANCE.put(Implpipigui.getName(),Implpipigui);
         ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
+//        ALL_INSTANCE.put(Impljukan.getName(),Impljukan);
 
         //获取之前储存线路，指定当前实例
         String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implyimimao.getName());
