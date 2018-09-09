@@ -56,6 +56,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private TextView tvLanguage;
     private TextView tvPlay;
     private TextView tvCollect;
+    private TextView tvHistory;
     private ExpandableTextView tvMovieDesc;
     private MovieDetailBean movieDetailBean;
     private String targetUrl;
@@ -88,6 +89,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         tvCollect = (TextView)findViewById( R.id.tv_collect );
         toolbar = (Toolbar)findViewById( R.id.toolbar );
         tvMovieDesc = (ExpandableTextView) findViewById( R.id.tv_movie_desc );
+        tvHistory = findViewById(R.id.tv_history);
     }
 
 
@@ -148,6 +150,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setMovieImg(movieDetailBean.getMovieImg());
         historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
         historyMovie.setMovieType(movieDetailBean.getMovieType());
+        historyMovie.setMovieRecord(data.get(position).getText());
         md.insert(historyMovie);
         Class target ;
         if(DataResp.INSTANCE.getName() == Impl_4kwu.NAME || DataResp.INSTANCE.getName() == Impl_kankanwu.NAME){
@@ -202,6 +205,12 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             tvCollect.setClickable(true);
             tvCollect.setText("收藏");
         }
+    }
+
+    @Override
+    public void setRecord(String record) {
+        tvHistory.setText("上次观看到："+record);
+        tvHistory.setVisibility(View.VISIBLE);
     }
 
     private class Adapter extends BaseQuickAdapter<JujiBean,BaseViewHolder> {

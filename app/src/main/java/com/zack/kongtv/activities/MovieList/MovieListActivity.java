@@ -132,6 +132,12 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
             helper.setText(R.id.movie_name,item.getMovieName());
             helper.setText(R.id.movie_status,item.getMovieStatus());
             helper.setText(R.id.movie_type,item.getMovieType());
+            if(item.getMovieRecord() != null){
+                helper.setVisible(R.id.movie_record,true);
+                helper.setText(R.id.movie_record,"上次观看到："+item.getMovieRecord());
+            }else{
+                helper.getView(R.id.movie_record).setVisibility(View.GONE);
+            }
         }
     }
 }

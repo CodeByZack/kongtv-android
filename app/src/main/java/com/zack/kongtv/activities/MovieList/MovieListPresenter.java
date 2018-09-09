@@ -37,6 +37,7 @@ public class MovieListPresenter<V extends IMovieListView> extends BasePresenter<
             d.setMovieName(historyMovie.getMovieName());
             d.setMovieStatus(historyMovie.getMovieStatus());
             d.setMovieType(historyMovie.getMovieType());
+            d.setMovieRecord(historyMovie.getMovieRecord());
             list.add(d);
         }
 

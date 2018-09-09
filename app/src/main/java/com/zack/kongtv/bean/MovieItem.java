@@ -7,6 +7,16 @@ public class MovieItem {
     private String movieName;
     private String movieStatus;
     private String movieType;
+    private String movieRecord;
+
+
+    public String getMovieRecord() {
+        return movieRecord;
+    }
+
+    public void setMovieRecord(String movieRecord) {
+        this.movieRecord = movieRecord;
+    }
 
     public String getMovieStatus() {
         return movieStatus;

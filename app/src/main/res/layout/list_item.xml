@@ -41,6 +41,17 @@
             android:layout_weight="1"
             android:textSize="@dimen/mini_text_size"
             android:text="电影名字"/>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/movie_record"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/md_green_700"
+            android:textSize="@dimen/mini_text_size"
+            android:text="观看到6集"/>
         <TextView
             android:id="@+id/movie_type"
             android:gravity="center_vertical"

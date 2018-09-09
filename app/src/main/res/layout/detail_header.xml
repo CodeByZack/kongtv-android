@@ -39,13 +39,12 @@
     <TextView
         android:visibility="gone"
         android:id="@+id/tv_history"
-        android:paddingTop="@dimen/normal_margin"
         android:paddingLeft="@dimen/normal_margin"
         android:paddingRight="@dimen/normal_margin"
-        android:textSize="@dimen/mini_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000"
+        android:textColor="@color/md_green_700"
+        android:textSize="@dimen/mini_text_size"
         android:text="上次观看到第6集"/>
     <View
         android:layout_marginTop="@dimen/little_margin"

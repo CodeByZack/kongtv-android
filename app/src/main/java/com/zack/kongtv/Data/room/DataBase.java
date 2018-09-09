@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.zack.kongtv.App;
 
-@Database(entities = {HistoryMovie.class,CollectMovie.class}, version = 1,exportSchema = false)
+@Database(entities = {HistoryMovie.class,CollectMovie.class}, version = 2,exportSchema = false)
 public abstract class DataBase extends RoomDatabase{
     private static DataBase INSTANCE;
     public abstract HistoryMovieDao historyMovieDao();
@@ -15,7 +15,8 @@ public abstract class DataBase extends RoomDatabase{
 
     public static DataBase getInstance(){
         if(INSTANCE == null){
-            INSTANCE = Room.databaseBuilder(App.getContext(),DataBase.class,"movie.db").allowMainThreadQueries().build();
+            INSTANCE = Room.databaseBuilder(App.getContext(),DataBase.class,"movie.db")
+                    .fallbackToDestructiveMigration().allowMainThreadQueries().build();
         }
         return INSTANCE;
     }

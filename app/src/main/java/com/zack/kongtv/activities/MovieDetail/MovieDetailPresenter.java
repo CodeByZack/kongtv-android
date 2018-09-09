@@ -1,10 +1,14 @@
 package com.zack.kongtv.activities.MovieDetail;
 
+import android.arch.persistence.room.Database;
+
 import com.umeng.commonsdk.debug.D;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.Data.room.CollectMovie;
 import com.zack.kongtv.Data.room.DataBase;
+import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.bean.MovieDetailBean;
+import com.zackdk.Utils.LogUtil;
 import com.zackdk.mvp.p.BasePresenter;
 
 
@@ -31,6 +35,10 @@ public class MovieDetailPresenter<V extends IMovieDetailView> extends BasePresen
             getView().collect(true);
         }else{
             getView().collect(false);
+        }
+        HistoryMovie historyMovie = DataBase.getInstance().historyMovieDao().findByTargetUrl(url);
+        if(historyMovie!=null){
+            getView().setRecord(historyMovie.getMovieRecord());
         }
     }
 }
