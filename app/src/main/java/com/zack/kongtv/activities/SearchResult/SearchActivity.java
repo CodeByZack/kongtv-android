@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,11 +29,16 @@ import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
+import com.zackdk.Utils.SPUtil;
 import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements ISearchView{
 
@@ -41,8 +47,12 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     private RecyclerView recyclerView;
     private MovieListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TagFlowLayout flowLayout;
+    private LinearLayout recentSearchList;
     private List<MovieDetailBean> data = new LinkedList<>();
     private String searchtext;
+    private List<String> searchHistoryList = new LinkedList<>();
+
     @Override
     public int setView() {
         return R.layout.activity_search;
@@ -52,6 +62,13 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     public void initBasic(Bundle savedInstanceState) {
         initView();
         initLogic();
+        requestData();
+    }
+
+    private void requestData() {
+        SPUtil.loadArray(this,searchHistoryList,"searchHistory");
+        flowLayout.getAdapter().notifyDataChanged();
+
     }
 
     private void initLogic() {
@@ -97,6 +114,9 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
                     adapter.notifyDataSetChanged();
                     searchtext = "";
                     presenter.clear();
+                    if(recentSearchList.getVisibility() == View.GONE){
+                        recentSearchList.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -119,10 +139,43 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
                 search();
             }
         },recyclerView);
+
+        flowLayout.setAdapter(new TagAdapter<String>(searchHistoryList) {
+
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.search_item,
+                        flowLayout, false);
+                tv.setText(s);
+                return tv;
+            }
+        });
+        flowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            @Override
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+                searchtext = searchHistoryList.get(position);
+                searchText.setText(searchHistoryList.get(position));
+                search();
+                return false;
+            }
+        });
     }
 
     private void search() {
+        if(recentSearchList.getVisibility() == View.VISIBLE){
+            recentSearchList.setVisibility(View.GONE);
+        }
         CountEventHelper.countMovieSearch(this,searchtext);
+        if(!searchHistoryList.contains(searchtext)){
+            searchHistoryList.add(searchtext);
+            if(searchHistoryList.size()>20){
+                searchHistoryList.remove(0);
+            }
+            SPUtil.deleteArray(this,"searchHistory");
+            SPUtil.saveArray(this,searchHistoryList,"searchHistory");
+            flowLayout.getAdapter().notifyDataChanged();
+        }
+
         presenter.search(searchtext);
     }
 
@@ -134,6 +187,9 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
         recyclerView = findViewById(R.id.recycleview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity,3);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        flowLayout = findViewById(R.id.id_flowlayout);
+        recentSearchList = findViewById(R.id.ll_recnet_search);
     }
 
     @Override

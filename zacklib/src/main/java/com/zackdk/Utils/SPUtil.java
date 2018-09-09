@@ -3,6 +3,8 @@ package com.zackdk.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.List;
+
 /**
  * Created by zack on 2018/2/28.
  */
@@ -121,5 +123,38 @@ public class SPUtil {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         editor.commit();
+    }
+
+    public static boolean saveArray(Context mContext , List<String> list, String listName) {
+        SharedPreferences sp = mContext.getSharedPreferences(FILE_NAME, mContext.MODE_PRIVATE);
+        SharedPreferences.Editor mEdit1= sp.edit();
+        mEdit1.putInt(listName,list.size());
+
+        for(int i=0;i<list.size();i++) {
+            mEdit1.remove(listName + i);
+            mEdit1.putString(listName + i, list.get(i));
+        }
+        return mEdit1.commit();
+    }
+    public static List<String> loadArray(Context mContext,List<String> list,String listName) {
+        SharedPreferences mSharedPreference1 = mContext.getSharedPreferences(FILE_NAME, mContext.MODE_PRIVATE);
+        list.clear();
+        int size = mSharedPreference1.getInt(listName, 0);
+        for(int i=0;i<size;i++) {
+            list.add(mSharedPreference1.getString(listName + i, null));
+        }
+        return list;
+    }
+
+    public static void deleteArray(Context context,String listName){
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, context.MODE_PRIVATE);
+        SharedPreferences.Editor mEdit1= sp.edit();
+
+        int size = sp.getInt(listName, 0);
+        for(int i=0;i<size;i++) {
+            mEdit1.remove(listName + i);
+        }
+        mEdit1.putInt(listName,0);
+        mEdit1.commit();
     }
 }
