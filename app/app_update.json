@@ -1,0 +1,6 @@
+{
+    "app_name":"kongtv",
+    "app_version": 7,
+    "app_updateInfo":"风影院版本1.6\n更新内容:修复线路3提取不到播放链接的错误\n增加搜索历史记录\n历史记录里增加观看集数\n若干其它优化",
+    "download_url":"https://apks-1252514056.cos.ap-chengdu.myqcloud.com/%E9%A3%8E%E5%BD%B1%E9%99%A2_v1.4_2018-08-01-release.apk"
+}
