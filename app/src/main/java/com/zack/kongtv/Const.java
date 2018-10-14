@@ -12,8 +12,8 @@ public class Const {
 
     public static final String CHECK_UPDATE_URL = "https://apks-1252514056.cos.ap-chengdu.myqcloud.com/app_update.json";
     public static final String[] AlipayTextArr= {
-            "支付宝发红包啦！8月1日-8日还有机会获得最高4888元大红包！长按复制此消息，打开最新版支付宝就能领取！TgolR186Sl",
-            "支付宝发红包啦！8月1日-8日还有机会获得最高4888元大红包！长按复制此消息，打开最新版支付宝就能领取！2Tj9iY52Dg"};
+            "支付宝红包再升级，红包种类更多，金额更大！人人可领，天天可领！长按复制此消息，打开支付宝领红包！H2QVlv86Pe",
+            "支付宝红包再升级，红包种类更多，金额更大！人人可领，天天可领！长按复制此消息，打开支付宝领红包！FS1wE952Aw"};
 
 
 }

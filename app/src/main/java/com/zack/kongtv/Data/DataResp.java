@@ -63,23 +63,23 @@ public class DataResp {
         GetDataInterface Impl4kwu = new Impl_4kwu();
         GetDataInterface Implkankanwu = new Impl_kankanwu();
         GetDataInterface Implpipigui = new Impl_pipigui();
-        GetDataInterface Implyimimao = new Impl_yimimao();
+        //GetDataInterface Implyimimao = new Impl_yimimao();
 //        GetDataInterface Impljukan = new Impl_jukan();
 
         //存入map;其实可以按需创建实列；
         ALL_INSTANCE.put(Impl4kwu.getName(),Impl4kwu);
         ALL_INSTANCE.put(Implkankanwu.getName(),Implkankanwu);
         ALL_INSTANCE.put(Implpipigui.getName(),Implpipigui);
-        ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
+        //ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
 //        ALL_INSTANCE.put(Impljukan.getName(),Impljukan);
 
         //获取之前储存线路，指定当前实例
-        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implyimimao.getName());
+        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implpipigui.getName());
         if(ALL_INSTANCE.containsKey(mapkay)){
             INSTANCE = ALL_INSTANCE.get(mapkay);
         }else{
-            SPUtil.saveDate(App.getContext(),XIANLU,Implyimimao.getName());
-            INSTANCE = ALL_INSTANCE.get(Implyimimao.getName());
+            SPUtil.saveDate(App.getContext(),XIANLU,Implpipigui.getName());
+            INSTANCE = ALL_INSTANCE.get(Implpipigui.getName());
         }
         //初始化url
         baseUrl = INSTANCE.getBaseUrl();
