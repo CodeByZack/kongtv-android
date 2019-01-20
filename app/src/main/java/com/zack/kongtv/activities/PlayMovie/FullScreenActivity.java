@@ -140,10 +140,13 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		url = intent.getStringExtra("url");
 		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
-		presenter.requestData(url);
+		//presenter.requestData(url);
 		OrientationEventListenerImpl ore = new OrientationEventListenerImpl(this);
 		ore.enable();
 		bindService(new Intent(this, AndroidUpnpServiceImpl.class), serviceConnection, Context.BIND_AUTO_CREATE);
+		play2(url,NiceVideoPlayer.TYPE_IJK);
+		Log.d("test:",url);
+		Log.d("test:",name);
 	}
 
     public void onclick(View v) {
@@ -163,7 +166,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				startActivity(intent);
 				break;
 			case R.id.touping:
-				if(TextUtils.isEmpty(video_url)){
+				if(TextUtils.isEmpty(url)){
 					showToast("解析失败咯，不能投屏哦！");
 					return;
 				}
@@ -190,20 +193,20 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	public void play(String url) {
 //		String id = "";
 //		id+=url.substring(url.indexOf("id=")+3);
-		final String Inject_Js = DataResp.INSTANCE.getInjectJS(url);
+		//final String Inject_Js = DataResp.INSTANCE.getInjectJS(url);
 		final String getContent = "window.local_obj.showSource($('html').html())";
 		webView = new WebView(this);
 		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		webView.setWebViewClient(new WebViewClient(){
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				view.loadUrl("javascript:"+Inject_Js);
-			}
-
-		});
+//		webView.setWebViewClient(new WebViewClient(){
+//			@Override
+//			public void onPageFinished(WebView view, String url) {
+//				super.onPageFinished(view, url);
+//				view.loadUrl("javascript:"+Inject_Js);
+//			}
+//
+//		});
 		Map extraHeaders = new HashMap();
 		extraHeaders.put("Referer", this.url);
 		webView.loadUrl(url, extraHeaders);
@@ -349,7 +352,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
         //需要的参数之一
         final Service avtService = listDevice.get(which).findService(AV_TRANSPORT_SERVICE);
         //需要的参数之二
-        String metadata = pushMediaToRender(video_url, "id", "name", "0",VIDEO_TYPE);
+        String metadata = pushMediaToRender("http://iqiyi.com-l-iqiyi.com/20190119/21146_3f16f3ea/index.m3u8", "id", "name", "0",VIDEO_TYPE);
 
         upnpService.getControlPoint().execute(new SetAVTransportURI(avtService, video_url,metadata) {
             @Override

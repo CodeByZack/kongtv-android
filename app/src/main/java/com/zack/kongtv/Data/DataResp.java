@@ -6,38 +6,21 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.zack.kongtv.App;
-import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
-import com.zack.kongtv.Data.Instance.Impl_4kwu;
-import com.zack.kongtv.Data.Instance.Impl_jukan;
-import com.zack.kongtv.Data.Instance.Impl_kankanwu;
-import com.zack.kongtv.Data.Instance.Impl_pipigui;
-import com.zack.kongtv.Data.Instance.Impl_yimimao;
 import com.zack.kongtv.activities.MainActivity;
-import com.zack.kongtv.bean.BannerItemBean;
 import com.zack.kongtv.bean.CategoryDataBean;
-import com.zack.kongtv.bean.HomeDataBean;
-import com.zack.kongtv.bean.HomeItemBean;
-import com.zack.kongtv.bean.JujiBean;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
-import com.zack.kongtv.bean.TagItemBean;
 import com.zack.kongtv.bean.UpdateInfo;
-import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.SPUtil;
 
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,147 +30,37 @@ import io.reactivex.ObservableOnSubscribe;
 
 public class DataResp {
 
-    public static Map<String,GetDataInterface> ALL_INSTANCE = new HashMap<>();
-    public static GetDataInterface INSTANCE;
-    public static final String XIANLU = "XIANLU_NAME";
-    //统一提供URL
-    public static  String baseUrl = "";
-    public static  String MovieUrl = "";
-    public static  String EpisodeUrl = "";
-    public static  String AnimeUrl = "";
-    public static  String VarietyUrl = "";
-    public static  String SearchUrl = "";
-
-    public static void initInstaceList(){
-        //创建不同线路实例
-        GetDataInterface Impl4kwu = new Impl_4kwu();
-        GetDataInterface Implkankanwu = new Impl_kankanwu();
-        GetDataInterface Implpipigui = new Impl_pipigui();
-        //GetDataInterface Implyimimao = new Impl_yimimao();
-//        GetDataInterface Impljukan = new Impl_jukan();
-
-        //存入map;其实可以按需创建实列；
-        ALL_INSTANCE.put(Impl4kwu.getName(),Impl4kwu);
-        ALL_INSTANCE.put(Implkankanwu.getName(),Implkankanwu);
-        ALL_INSTANCE.put(Implpipigui.getName(),Implpipigui);
-        //ALL_INSTANCE.put(Implyimimao.getName(),Implyimimao);
-//        ALL_INSTANCE.put(Impljukan.getName(),Impljukan);
-
-        //获取之前储存线路，指定当前实例
-        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implpipigui.getName());
-        if(ALL_INSTANCE.containsKey(mapkay)){
-            INSTANCE = ALL_INSTANCE.get(mapkay);
-        }else{
-            SPUtil.saveDate(App.getContext(),XIANLU,Implpipigui.getName());
-            INSTANCE = ALL_INSTANCE.get(Implpipigui.getName());
-        }
-        //初始化url
-        baseUrl = INSTANCE.getBaseUrl();
-        MovieUrl = INSTANCE.getMovieUrl();
-        EpisodeUrl = INSTANCE.getEpisodeUrl();
-        AnimeUrl = INSTANCE.getAnimeUrl();
-        VarietyUrl = INSTANCE.getVarietyUrl();
-        SearchUrl = INSTANCE.getSearchUrl();
-    }
-    public static void changeInstance(Context context,String mapkey) {
-        //切换线路实例
-        INSTANCE = ALL_INSTANCE.get(mapkey);
-
-        //储存线路名字
-        SPUtil.saveDate(context,XIANLU,mapkey);
-
-        //切换网址
-        baseUrl = INSTANCE.getBaseUrl();
-        MovieUrl = INSTANCE.getMovieUrl();
-        EpisodeUrl = INSTANCE.getEpisodeUrl();
-        AnimeUrl = INSTANCE.getAnimeUrl();
-        VarietyUrl = INSTANCE.getVarietyUrl();
-        SearchUrl = INSTANCE.getSearchUrl();
-
-        //重启应用
-        App.finshAllActivity();
-        final Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-    }
 
     public static Observable getHomeData(){
-        Observable<HomeDataBean> observable = Observable.create(new ObservableOnSubscribe<HomeDataBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<HomeDataBean> emitter) throws Exception {
-                HomeDataBean data = null;
-                data = INSTANCE.getHomeData();
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-//                    emitter.onError(new Throwable("解析出错!"));
-                }
-            }
-        });
+        Observable<List<Cms_movie>> index_data = NetTool.getInstance().getList();
+        return index_data;
+    }
+    public static Observable getFilmData(String year,String area,String classname,int page){
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDY(NetTool.getParamMap(year,area,classname,page));
         return observable;
     }
-    public static Observable getTypeData(final String url, final int page){
-        Observable<CategoryDataBean> observable = Observable.create(new ObservableOnSubscribe<CategoryDataBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<CategoryDataBean> emitter) throws Exception {
-                CategoryDataBean data = INSTANCE.getCategoryData(url,page);
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-                    //emitter.onError(new Throwable("解析出错!"));
-                }
-            }
-        });
+    public static Observable getEpisodeData(String year,String area,String classname,int page){
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDSJ(NetTool.getParamMap(year,area,classname,page));
         return observable;
     }
-    public static Observable getMovieDetail(final String url){
-        Observable<MovieDetailBean> observable = Observable.create(new ObservableOnSubscribe<MovieDetailBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<MovieDetailBean> emitter) throws Exception {
-                MovieDetailBean data = INSTANCE.getRealMovieDetail(url);
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-                    //emitter.onError(new Throwable("解析出错!"));
-                }
-            }
-        });
+    public static Observable getAnimeData(String year,String area,String classname,int page){
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDM(NetTool.getParamMap(year,area,classname,page));
         return observable;
     }
-    public static Observable getPlayUrl(final String url){
-        Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                String data = INSTANCE.getRealPlayUrl(url);
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-                    //emitter.onError(new Throwable("解析出错!"));
-                }
-            }
-        });
+    public static Observable getVarietyData(String year,String area,String classname,int page){
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getZY(NetTool.getParamMap(year,area,classname,page));
         return observable;
     }
+
     public static Observable searchText(final  String text,final int page){
         Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
             @Override
             public void subscribe(ObservableEmitter<SearchResultBean> emitter) throws Exception {
-                SearchResultBean data = INSTANCE.search(text,page);
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-//                    emitter.onError(new Throwable("解析出错!"));
-                }
+
             }
         });
         return observable;
     }
-
-
     public static Observable getAppUpdateInfo(){
         Observable<UpdateInfo> observable = Observable.create(new ObservableOnSubscribe<UpdateInfo>() {
             @Override
@@ -225,4 +98,5 @@ public class DataResp {
         });
         return observable;
     }
+
 }

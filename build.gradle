@@ -3,7 +3,7 @@
 buildscript {
     ext.rx_android_version ='2.0.2'
     ext.ok_http_version = '3.4.1'
-    ext.retrofit_version = '2.1.0'
+    ext.retrofit_version = '2.3.0'
     ext.rx_java_version = '2.1.16'
 
     repositories {

@@ -19,17 +19,17 @@ public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<
     private String[] msgs = {"开发不易，不妨捐助一波...","多试试X5播放器...","在茫茫人海中，竟遇见了你。"};
 
     public void requestData(String url) {
-        getView().showLoading(getMsg());
-        Disposable d = DataResp.getPlayUrl(url)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        getView().play(s);
-                    }
-                });
-        addDispoasble(d);
+//        getView().showLoading(getMsg());
+//        Disposable d = DataResp.getPlayUrl(url)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String s) throws Exception {
+//                        //getView().play(s);
+//                    }
+//                });
+//        addDispoasble(d);
     }
 
     private String getMsg(){

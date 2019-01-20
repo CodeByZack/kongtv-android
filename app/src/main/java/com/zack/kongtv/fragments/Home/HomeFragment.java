@@ -25,7 +25,9 @@ import com.zack.kongtv.Adapter.GridAdapter;
 import com.zack.kongtv.activities.MainActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.bean.BannerItemBean;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.HomeDataBean;
 import com.zack.kongtv.bean.HomeItemBean;
 import com.zack.kongtv.bean.MovieDetailBean;
@@ -46,7 +48,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
     private Banner banner;
     private HomeAdapter homeAdapter;
     private List<HomeItemBean> data = new LinkedList<>();
-    private List<BannerItemBean> banners = new LinkedList<>();
+    private List<Cms_movie> banners = new LinkedList<>();
 
     @Override
     public int setView() {
@@ -60,18 +62,6 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         presenter.requestData();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        MobclickAgent.onPageStart("HomeFragment");
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        MobclickAgent.onPageEnd("HomeFragment");
-//    }
-
     private void initLogic() {
         homeAdapter = new HomeAdapter(R.layout.home_item,data);
         View view = getLayoutInflater().inflate(R.layout.header,null);
@@ -79,14 +69,14 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",banners.get(position).getTargetUrl()));
+                startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",banners.get(position)));
             }
         });
         homeAdapter.addHeaderView(view);
         homeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //startActivity(new Intent(mActivity, FullScreenActivity.class));
+//                startActivity(new Intent(mActivity, FullScreenActivity.class));
             }
         });
         homeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -101,8 +91,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         banner.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
-                BannerItemBean bean = (BannerItemBean) path;
-                MyImageLoader.showImage(mActivity,bean.getImg(),imageView);
+                Cms_movie bean = (Cms_movie) path;
+                MyImageLoader.showImage(mActivity,bean.getVodPic(),imageView);
             }
         });
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
@@ -138,8 +128,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         banners.clear();
         banners.addAll(dataBean.getBannerItemBeans());
         List<String> path = new LinkedList<>();
-        for(BannerItemBean bannerItemBean:dataBean.getBannerItemBeans()){
-            path.add(bannerItemBean.getDesc());
+        for(Cms_movie cms_movie:dataBean.getBannerItemBeans()){
+            path.add(cms_movie.getVodName());
         }
         banner.setBannerTitles(path);
         banner.setImages(banners);
@@ -194,28 +184,28 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
 
             NoScrollGridView gv = helper.getView(R.id.gv_container);
 
-            gv.setAdapter(new GridAdapter<MovieDetailBean>(item.getMovieDetailBeans(),R.layout.movie_item) {
+            gv.setAdapter(new GridAdapter<Cms_movie>(item.getMovieDetailBeans(),R.layout.movie_item) {
                 @Override
-                public void bindView(ViewHolder holder, final MovieDetailBean obj) {
+                public void bindView(ViewHolder holder, final Cms_movie obj) {
                     holder.getItemView().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",obj.getTargetUrl()));
+                            startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",obj));
                         }
                     });
 
-                    MyImageLoader.showImage(mActivity,obj.getMovieImg(), (ImageView) holder.getView(R.id.movie_img));
-                    holder.setText(R.id.tv_name,obj.getMovieName());
-                    if(TextUtils.isEmpty(obj.getMovieScore())){
+                    MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.movie_img));
+                    holder.setText(R.id.tv_name,obj.getVodName());
+                    if(TextUtils.isEmpty(obj.getVodScore())){
                         holder.getView(R.id.tv_score).setVisibility(View.GONE);
                     }else{
-                        holder.setText(R.id.tv_score,obj.getMovieScore());
+                        holder.setText(R.id.tv_score,obj.getVodScore()+"分");
                     }
-                    holder.setText(R.id.tv_shortdesc,obj.getMovieShortDesc());
-                    if(TextUtils.isEmpty(obj.getMovieActors())){
-                        holder.setText(R.id.tv_actors,obj.getMovieShortDesc());
+                    holder.setText(R.id.tv_shortdesc,obj.getVodRemarks());
+                    if(TextUtils.isEmpty(obj.getVodActor())){
+                        holder.setText(R.id.tv_actors,obj.getVodRemarks());
                     }else{
-                        holder.setText(R.id.tv_actors,obj.getMovieActors());
+                        holder.setText(R.id.tv_actors,obj.getVodActor());
                     }
                 }
             });

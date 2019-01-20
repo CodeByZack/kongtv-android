@@ -3,9 +3,18 @@ package com.zackdk.NetTool;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class RetrofitFactory {
-    /*private static RetrofitFactory instance;
+    private static RetrofitFactory instance;
     private static Retrofit retrofit;
     private static Interceptor interceptor;
 
@@ -25,11 +34,15 @@ public class RetrofitFactory {
         };
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl("http://65.49.209.21:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(initClient())
                 .build();
+    }
+
+    public static Retrofit getRetrofit() {
+        return retrofit;
     }
 
     private OkHttpClient initClient() {
@@ -59,7 +72,7 @@ public class RetrofitFactory {
         return instance;
     }
 
-    public <T> T create(Class<T> service){
-        return retrofit.create(service);
-    }*/
+//    public static  <T> T create(Class<T> service){
+//        return getInstance().create(service);
+//    }
 }

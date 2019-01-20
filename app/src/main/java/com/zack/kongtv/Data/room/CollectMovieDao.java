@@ -19,13 +19,6 @@ public interface CollectMovieDao {
     @Query("SELECT * FROM CollectMovie ORDER BY id DESC")
     List<CollectMovie> getAllCollect();
 
-    /**
-     * 根据指定字段查询
-     *
-     * @return
-     */
-    @Query("SELECT * FROM CollectMovie WHERE  targetUrl= :url")
-    CollectMovie findByTargetUrl(String url);
 
     /**
      * 项数据库添加数据

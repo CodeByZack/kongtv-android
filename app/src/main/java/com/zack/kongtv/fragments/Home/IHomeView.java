@@ -1,7 +1,10 @@
 package com.zack.kongtv.fragments.Home;
 
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.HomeDataBean;
 import com.zackdk.mvp.v.IView;
+
+import java.util.List;
 
 public interface IHomeView extends IView {
     public void updateView(HomeDataBean data);

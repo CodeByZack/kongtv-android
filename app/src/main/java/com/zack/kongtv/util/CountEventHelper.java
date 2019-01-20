@@ -22,9 +22,8 @@ public class CountEventHelper {
     /**
      * 统计电影详情观看
      */
-    public static void countMovieDetail(Context context, String name,String targetUrl) {
+    public static void countMovieDetail(Context context, String name) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("movie_url", targetUrl);
         map.put("movie_name", name);
         MobclickAgent.onEvent(context, "movie_detail", map);
     }

@@ -4,7 +4,9 @@ import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.room.CollectMovie;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovie;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieItem;
+import com.zack.kongtv.util.AndroidUtil;
 import com.zackdk.mvp.p.BasePresenter;
 import com.zackdk.mvp.v.IView;
 
@@ -29,16 +31,9 @@ public class MovieListPresenter<V extends IMovieListView> extends BasePresenter<
     private void getDataHistory() {
         getView().setTitle("观看记录");
         List<HistoryMovie> data = DataBase.getInstance().historyMovieDao().getAllHistory();
-        List<MovieItem> list = new LinkedList<>();
+        List<Cms_movie> list = new LinkedList<>();
         for (HistoryMovie historyMovie:data) {
-            MovieItem d = new MovieItem();
-            d.setMovieImg(historyMovie.getMovieImg());
-            d.setTargetUrl(historyMovie.getTargetUrl());
-            d.setMovieName(historyMovie.getMovieName());
-            d.setMovieStatus(historyMovie.getMovieStatus());
-            d.setMovieType(historyMovie.getMovieType());
-            d.setMovieRecord(historyMovie.getMovieRecord());
-            list.add(d);
+            list.add(AndroidUtil.transferFromHistory(historyMovie));
         }
 
         getView().updateView(list);
@@ -47,15 +42,9 @@ public class MovieListPresenter<V extends IMovieListView> extends BasePresenter<
     public void getDataCollect() {
         getView().setTitle("我的收藏");
         List<CollectMovie> data = DataBase.getInstance().collectMovieDao().getAllCollect();
-        List<MovieItem> list = new LinkedList<>();
-        for (CollectMovie historyMovie:data) {
-            MovieItem d = new MovieItem();
-            d.setMovieImg(historyMovie.getMovieImg());
-            d.setTargetUrl(historyMovie.getTargetUrl());
-            d.setMovieStatus(historyMovie.getMovieStatus());
-            d.setMovieType(historyMovie.getMovieType());
-            d.setMovieName(historyMovie.getMovieName());
-            list.add(d);
+        List<Cms_movie> list = new LinkedList<>();
+        for (CollectMovie collectMovie:data) {
+            list.add(AndroidUtil.transferFromCollect(collectMovie));
         }
         getView().updateView(list);
     }

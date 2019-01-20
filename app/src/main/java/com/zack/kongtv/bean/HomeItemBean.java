@@ -8,16 +8,8 @@ import java.util.List;
  */
 
 public class HomeItemBean {
-    private ArrayList<MovieDetailBean> movieDetailBeans;
+    private ArrayList<Cms_movie> movieDetailBeans;
     private int type;
-
-    public ArrayList<MovieDetailBean> getMovieDetailBeans() {
-        return movieDetailBeans;
-    }
-
-    public void setMovieDetailBeans(ArrayList<MovieDetailBean> movieDetailBeans) {
-        this.movieDetailBeans = movieDetailBeans;
-    }
 
     public int getType() {
         return type;
@@ -25,5 +17,13 @@ public class HomeItemBean {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public ArrayList<Cms_movie> getMovieDetailBeans() {
+        return movieDetailBeans;
+    }
+
+    public void setMovieDetailBeans(ArrayList<Cms_movie> movieDetailBeans) {
+        this.movieDetailBeans = movieDetailBeans;
     }
 }

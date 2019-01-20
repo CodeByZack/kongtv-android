@@ -61,15 +61,12 @@ public class WebviewFullScreenActivity extends AbsActivity {
 					@Override
 					public void onPageFinished(WebView view, String url) {
 						super.onPageFinished(view, url);
-						mAgentWeb.getJsEntraceAccess().callJs("$(\"div.playerbox\").toggle()\n$(\"div\").toggle()\n$(\"header\").toggle()");
-						mAgentWeb.getWebCreator().get().setVisibility(View.VISIBLE);
 					}
 				})
 				.createAgentWeb()
 				.ready()
 				.go(url);
 
-		mAgentWeb.getWebCreator().get().setVisibility(View.INVISIBLE);
 	}
 
 	private void initView() {
@@ -86,8 +83,9 @@ public class WebviewFullScreenActivity extends AbsActivity {
 		});
 	}
 
-	public void onclick(View v){
-		mAgentWeb.getJsEntraceAccess().callJs("$('video')[0]", new ValueCallback<String>() {
+	public void onlick(View v){
+		LogUtil.d("test:");
+		mAgentWeb.getJsEntraceAccess().callJs("document.getElementsByTagName(\"html\")[0].innerHTML", new ValueCallback<String>() {
 			@Override
 			public void onReceiveValue(String value) {
 				LogUtil.d(value);

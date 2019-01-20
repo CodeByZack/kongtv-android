@@ -8,6 +8,9 @@ import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.room.CollectMovie;
+import com.zack.kongtv.Data.room.HistoryMovie;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.ToastUtil;
 
@@ -38,4 +41,71 @@ public class AndroidUtil {
         context.startActivity(intent);
     }
 
+    public static CollectMovie transferCollect(Cms_movie movie){
+        CollectMovie collectMovie = new CollectMovie();
+
+        collectMovie.setMovieId(movie.getVodId());
+        collectMovie.setMovieLang(movie.getVodLang());
+        collectMovie.setMovieActor(movie.getVodActor());
+        collectMovie.setMovieDesc(movie.getVodBlurb());
+        collectMovie.setMovieDirector(movie.getVodDirector());
+        collectMovie.setMovieImg(movie.getVodPic());
+        collectMovie.setMovieJuji(movie.getVodPlayUrl());
+        collectMovie.setMovieName(movie.getVodName());
+        collectMovie.setMovieStatus(movie.getVodRemarks());
+        collectMovie.setMovieYear(movie.getVodYear());
+        collectMovie.setMovieType(movie.getVodClass());
+
+        return collectMovie;
+    }
+
+    public static HistoryMovie transferHistory(Cms_movie movie,String record){
+        HistoryMovie historyMovie = new HistoryMovie();
+
+        historyMovie.setMovieId(movie.getVodId());
+        historyMovie.setMovieLang(movie.getVodLang());
+        historyMovie.setMovieActor(movie.getVodActor());
+        historyMovie.setMovieDesc(movie.getVodBlurb());
+        historyMovie.setMovieDirector(movie.getVodDirector());
+        historyMovie.setMovieImg(movie.getVodPic());
+        historyMovie.setMovieJuji(movie.getVodPlayUrl());
+        historyMovie.setMovieName(movie.getVodName());
+        historyMovie.setMovieStatus(movie.getVodRemarks());
+        historyMovie.setMovieYear(movie.getVodYear());
+        historyMovie.setMovieType(movie.getVodClass());
+        historyMovie.setMovieRecord(record);
+        return historyMovie;
+    }
+
+    public static Cms_movie transferFromCollect(CollectMovie collectMovie){
+        Cms_movie movie = new Cms_movie();
+        movie.setVodId(collectMovie.getMovieId());
+        movie.setVodLang(collectMovie.getMovieLang());
+        movie.setVodActor(collectMovie.getMovieActor());
+        movie.setVodBlurb(collectMovie.getMovieDesc());
+        movie.setVodDirector(collectMovie.getMovieDirector());
+        movie.setVodPic(collectMovie.getMovieImg());
+        movie.setVodPlayUrl(collectMovie.getMovieJuji());
+        movie.setVodName(collectMovie.getMovieName());
+        movie.setVodRemarks(collectMovie.getMovieStatus());
+        movie.setVodYear(collectMovie.getMovieYear());
+        movie.setVodClass(collectMovie.getMovieType());
+        return movie;
+    }
+    public static Cms_movie transferFromHistory(HistoryMovie historyMovie){
+        Cms_movie movie = new Cms_movie();
+        movie.setVodId(historyMovie.getMovieId());
+        movie.setVodLang(historyMovie.getMovieLang());
+        movie.setVodActor(historyMovie.getMovieActor());
+        movie.setVodBlurb(historyMovie.getMovieDesc());
+        movie.setVodDirector(historyMovie.getMovieDirector());
+        movie.setVodPic(historyMovie.getMovieImg());
+        movie.setVodPlayUrl(historyMovie.getMovieJuji());
+        movie.setVodName(historyMovie.getMovieName());
+        movie.setVodRemarks(historyMovie.getMovieStatus());
+        movie.setVodYear(historyMovie.getMovieYear());
+        movie.setVodClass(historyMovie.getMovieType());
+        movie.setRecord(historyMovie.getMovieRecord());
+        return movie;
+    }
 }

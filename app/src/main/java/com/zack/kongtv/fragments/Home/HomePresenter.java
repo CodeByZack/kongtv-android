@@ -1,18 +1,13 @@
 package com.zack.kongtv.fragments.Home;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.loader.ImageLoader;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
-import com.zack.kongtv.R;
-import com.zack.kongtv.bean.BannerItemBean;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.HomeDataBean;
 import com.zack.kongtv.bean.HomeItemBean;
 import com.zackdk.mvp.p.BasePresenter;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,13 +22,71 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
         Disposable d = DataResp.getHomeData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<HomeDataBean>() {
+                .subscribe(new Consumer<List<Cms_movie>>() {
                     @Override
-                    public void accept(HomeDataBean dataBean) throws Exception {
-                        getView().updateView(dataBean);
+                    public void accept(List<Cms_movie> cms_movies) throws Exception {
+                        HomeDataBean data = new HomeDataBean();
+
+                        List<Cms_movie> banners = new LinkedList<>();
+                        data.setBannerItemBeans(banners);
+
+                        List<HomeItemBean> items = new LinkedList<>();
+                        data.setHomeItemBeans(items);
+
+                        HomeItemBean film = new HomeItemBean();
+                        film.setType(Const.Film);
+                        film.setMovieDetailBeans(new ArrayList<Cms_movie>());
+
+                        HomeItemBean episode = new HomeItemBean();
+                        episode.setType(Const.Episode);
+                        episode.setMovieDetailBeans(new ArrayList<Cms_movie>());
+
+                        HomeItemBean anime = new HomeItemBean();
+                        anime.setType(Const.Anime);
+                        anime.setMovieDetailBeans(new ArrayList<Cms_movie>());
+
+                        HomeItemBean variety = new HomeItemBean();
+                        variety.setType(Const.Variety);
+                        variety.setMovieDetailBeans(new ArrayList<Cms_movie>());
+
+                        items.add(film);
+                        items.add(episode);
+                        items.add(anime);
+                        items.add(variety);
+
+                        for (Cms_movie movie: cms_movies) {
+                            if(movie.getVodLevel() == Const.Film){
+                                film.getMovieDetailBeans().add(movie);
+                                if(film.getMovieDetailBeans().size() == 1){
+                                    banners.add(movie);
+                                }
+                            }
+                            if(movie.getVodLevel() == Const.Episode){
+                                episode.getMovieDetailBeans().add(movie);
+                                if(episode.getMovieDetailBeans().size() == 1){
+                                    banners.add(movie);
+                                }
+                            }
+                            if(movie.getVodLevel() == Const.Variety){
+                                anime.getMovieDetailBeans().add(movie);
+                                if(anime.getMovieDetailBeans().size() == 1){
+                                    banners.add(movie);
+                                }
+                            }
+                            if(movie.getVodLevel() == Const.Anime){
+                                variety.getMovieDetailBeans().add(movie);
+                                if(variety.getMovieDetailBeans().size() == 1){
+                                    banners.add(movie);
+                                }
+                            }
+                        }
+
+
+                        getView().updateView(data);
                         getView().hideLoading();
                     }
                 });
+
         addDispoasble(d);
     }
 

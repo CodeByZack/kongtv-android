@@ -20,6 +20,7 @@ import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieItem;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zackdk.Utils.ToastUtil;
@@ -32,7 +33,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MovieListAdapter adapter;
-    private List<MovieItem> data = new LinkedList<>();
+    private List<Cms_movie> data = new LinkedList<>();
 
     @Override
     public int setView() {
@@ -54,7 +55,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position).getTargetUrl()));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
     }
@@ -105,7 +106,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
     }
 
     @Override
-    public void updateView(List<MovieItem> data) {
+    public void updateView(List<Cms_movie> data) {
         adapter.addData(data);
     }
 
@@ -121,20 +122,20 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         adapter.notifyDataSetChanged();
     }
 
-    private class MovieListAdapter extends BaseQuickAdapter<MovieItem,BaseViewHolder> {
-        public MovieListAdapter(int layoutResId, @Nullable List<MovieItem> data) {
+    private class MovieListAdapter extends BaseQuickAdapter<Cms_movie,BaseViewHolder> {
+        public MovieListAdapter(int layoutResId, @Nullable List<Cms_movie> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, MovieItem item) {
-            MyImageLoader.showImage(mActivity,item.getMovieImg(), (ImageView) helper.getView(R.id.movie_img));
-            helper.setText(R.id.movie_name,item.getMovieName());
-            helper.setText(R.id.movie_status,item.getMovieStatus());
-            helper.setText(R.id.movie_type,item.getMovieType());
-            if(item.getMovieRecord() != null){
+        protected void convert(BaseViewHolder helper, Cms_movie item) {
+            MyImageLoader.showImage(mActivity,item.getVodPic(), (ImageView) helper.getView(R.id.movie_img));
+            helper.setText(R.id.movie_name,item.getVodName());
+            helper.setText(R.id.movie_status,item.getVodRemarks());
+            helper.setText(R.id.movie_type,item.getVodClass());
+            if(item.getRecord() != null){
                 helper.setVisible(R.id.movie_record,true);
-                helper.setText(R.id.movie_record,"上次观看到："+item.getMovieRecord());
+                helper.setText(R.id.movie_record,"上次观看到："+item.getRecord());
             }else{
                 helper.getView(R.id.movie_record).setVisibility(View.GONE);
             }

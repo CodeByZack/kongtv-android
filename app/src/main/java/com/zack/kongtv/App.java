@@ -28,7 +28,6 @@ public class App extends Application {
         context = this;
         initUM();
         QbSdk.initX5Environment(this,null);
-        DataResp.initInstaceList();
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);

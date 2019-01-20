@@ -17,10 +17,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.umeng.analytics.MobclickAgent;
 import com.zack.kongtv.AppConfig;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.CategoryDataBean;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.TagItemBean;
 import com.zack.kongtv.util.MyImageLoader;
@@ -42,7 +44,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
     private TextView tvMore;
     private CategoryAdapter adapter;
     private TagAdapter tagAdapter1,tagAdapter2,tagAdapter3;
-    private List<MovieDetailBean> data = new LinkedList<>();
+    private List<Cms_movie> data = new LinkedList<>();
     private List<TagItemBean> data1 = new LinkedList<>(),data2 = new LinkedList<>(),data3 = new LinkedList<>();
 
     @Override
@@ -50,36 +52,25 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         return R.layout.fragment_category;
     }
 
-    public static CategoryFragment instance(String url){
+    public static CategoryFragment instance(int type){
         CategoryFragment categoryFragment = new CategoryFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("url",url);
+        bundle.putInt("type",type);
         categoryFragment.setArguments(bundle);
         return categoryFragment;
     }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        MobclickAgent.onPageStart("CategoryFragment");
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        MobclickAgent.onPageEnd("CategoryFragment");
-//    }
     @Override
     public void initBasic(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        String targetUrl;
+        int type;
         if(bundle!=null){
-            targetUrl = bundle.getString("url");
+            type = bundle.getInt("type");
         }else {
-            targetUrl = DataResp.MovieUrl;
+            type = Const.Film;
         }
-        presenter.setTargetUrl(targetUrl);
         initView();
         initLogic();
+        presenter.setTargetType(type);
         presenter.requestData();
     }
 
@@ -120,9 +111,9 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
                 }
                 data1.get(position).setSelect(true);
                 tagAdapter1.notifyDataSetChanged();
-                presenter.setTargetUrl(data1.get(position).getUrl());
+                String classname = data1.get(position).getTag().equals("全部")?null:data1.get(position).getTag();
+                presenter.setParam(presenter.getYear(),classname,presenter.getArea());
                 data.clear();
-                presenter.requestData();
             }
         });
 
@@ -134,9 +125,9 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
                 }
                 data3.get(position).setSelect(true);
                 tagAdapter3.notifyDataSetChanged();
-                presenter.setTargetUrl(data3.get(position).getUrl());
+                String year = data3.get(position).getTag().equals("全部")?null:data3.get(position).getTag();
+                presenter.setParam(year,presenter.getClassname(),presenter.getArea());
                 data.clear();
-                presenter.requestData();
             }
         });
         tagAdapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -147,9 +138,9 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
                 }
                 data2.get(position).setSelect(true);
                 tagAdapter2.notifyDataSetChanged();
-                presenter.setTargetUrl(data2.get(position).getUrl());
+                String area = data2.get(position).getTag().equals("全部")?null:data2.get(position).getTag();
+                presenter.setParam(presenter.getYear(),presenter.getClassname(),area);
                 data.clear();
-                presenter.requestData();
             }
         });
         adapter = new CategoryAdapter(R.layout.movie_item,data);
@@ -175,7 +166,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position).getTargetUrl()));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
     }
@@ -221,7 +212,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         data2.addAll(data.getTag2());
         data3.addAll(data.getTag3());
 
-        adapter.addData(data.getMovieDetailBeans());
+        adapter.addData(data.getMovieItemBeans());
         tagAdapter1.notifyDataSetChanged();
         tagAdapter2.notifyDataSetChanged();
         tagAdapter3.notifyDataSetChanged();
@@ -237,25 +228,25 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         adapter.loadMoreEnd();
     }
 
-    private class CategoryAdapter extends BaseQuickAdapter<MovieDetailBean,BaseViewHolder> {
-        public CategoryAdapter(int layoutResId, @Nullable List<MovieDetailBean> data) {
+    private class CategoryAdapter extends BaseQuickAdapter<Cms_movie,BaseViewHolder> {
+        public CategoryAdapter(int layoutResId, @Nullable List<Cms_movie> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder holder, MovieDetailBean obj) {
-            MyImageLoader.showImage(mActivity,obj.getMovieImg(), (ImageView) holder.getView(R.id.movie_img));
-            holder.setText(R.id.tv_name,obj.getMovieName());
-            if(TextUtils.isEmpty(obj.getMovieScore())){
+        protected void convert(BaseViewHolder holder, Cms_movie obj) {
+            MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.movie_img));
+            holder.setText(R.id.tv_name,obj.getVodName());
+            if(TextUtils.isEmpty(obj.getVodScore())){
                 holder.getView(R.id.tv_score).setVisibility(View.GONE);
             }else{
-                holder.setText(R.id.tv_score,obj.getMovieScore());
+                holder.setText(R.id.tv_score,obj.getVodScore()+"分");
             }
-            holder.setText(R.id.tv_shortdesc,obj.getMovieShortDesc());
-            if(TextUtils.isEmpty(obj.getMovieActors())){
-                holder.setText(R.id.tv_actors,obj.getMovieShortDesc());
+            holder.setText(R.id.tv_shortdesc,obj.getVodClass());
+            if(TextUtils.isEmpty(obj.getVodActor())){
+                holder.setText(R.id.tv_actors,obj.getVodClass());
             }else{
-                holder.setText(R.id.tv_actors,obj.getMovieActors());
+                holder.setText(R.id.tv_actors,obj.getVodActor());
             }
         }
     }

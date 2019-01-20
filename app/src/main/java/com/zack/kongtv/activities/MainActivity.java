@@ -94,22 +94,7 @@ public class MainActivity extends AbsActivity {
             share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
             startActivity(share_intent);
         } else if(id == R.id.nav_change){
-            List<String> list = new LinkedList<>();
-            for (Map.Entry<String, GetDataInterface> entry : DataResp.ALL_INSTANCE.entrySet()) {
-                list.add(entry.getKey());
-            }
 
-            new MaterialDialog.Builder(this)
-                    .title("切换线路")
-                    .items(list)
-                    .itemsCallback(new MaterialDialog.ListCallback() {
-                        @Override
-                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                            Toast.makeText(mActivity, "切换到线路"+text, Toast.LENGTH_SHORT).show();
-                            DataResp.changeInstance(mActivity,text.toString());
-                        }
-                    })
-                    .show();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -122,10 +107,10 @@ public class MainActivity extends AbsActivity {
         titles.add("综艺");
 
         fragments.add(new HomeFragment());
-        fragments.add(CategoryFragment.instance(DataResp.MovieUrl));
-        fragments.add(CategoryFragment.instance(DataResp.EpisodeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.AnimeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.VarietyUrl));
+        fragments.add(CategoryFragment.instance(Const.Film));
+        fragments.add(CategoryFragment.instance(Const.Episode));
+        fragments.add(CategoryFragment.instance(Const.Anime));
+        fragments.add(CategoryFragment.instance(Const.Variety));
     }
 
     private void initLogic() {
@@ -139,18 +124,17 @@ public class MainActivity extends AbsActivity {
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
-        tv_xianlu.setText(DataResp.INSTANCE.getName());
 
-        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<UpdateInfo>() {
-                    @Override
-                    public void accept(UpdateInfo o) throws Exception {
-                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
-                            showUpdateDilog(o);
-                        }
-                    }
-                });
+//        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<UpdateInfo>() {
+//                    @Override
+//                    public void accept(UpdateInfo o) throws Exception {
+//                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
+//                            showUpdateDilog(o);
+//                        }
+//                    }
+//                });
 
 
     }

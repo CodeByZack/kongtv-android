@@ -22,13 +22,7 @@ public interface HistoryMovieDao {
     @Query("SELECT * FROM HistoryMovie ORDER BY id DESC")
     List<HistoryMovie> getAllHistory();
 
-    /**
-     * 根据指定字段查询
-     *
-     * @return
-     */
-    @Query("SELECT * FROM HistoryMovie WHERE  targetUrl= :url")
-    HistoryMovie findByTargetUrl(String url);
+
 
     /**
      * 项数据库添加数据

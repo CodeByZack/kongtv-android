@@ -20,25 +20,25 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MovieDetailPresenter<V extends IMovieDetailView> extends BasePresenter<V> {
     public void requestData(String url) {
-        Disposable d = DataResp.getMovieDetail(url)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<MovieDetailBean>() {
-                    @Override
-                    public void accept(MovieDetailBean movieDetailBean) throws Exception {
-                        getView().updateView(movieDetailBean);
-                    }
-                });
-        addDispoasble(d);
-        CollectMovie data = DataBase.getInstance().collectMovieDao().findByTargetUrl(url);
-        if(data!=null){
-            getView().collect(true);
-        }else{
-            getView().collect(false);
-        }
-        HistoryMovie historyMovie = DataBase.getInstance().historyMovieDao().findByTargetUrl(url);
-        if(historyMovie!=null){
-            getView().setRecord(historyMovie.getMovieRecord());
-        }
+//        Disposable d = DataResp.getMovieDetail(url)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Consumer<MovieDetailBean>() {
+//                    @Override
+//                    public void accept(MovieDetailBean movieDetailBean) throws Exception {
+//                        //getView().updateView(movieDetailBean);
+//                    }
+//                });
+//        addDispoasble(d);
+//        CollectMovie data = DataBase.getInstance().collectMovieDao().findByTargetUrl(url);
+//        if(data!=null){
+//            getView().collect(true);
+//        }else{
+//            getView().collect(false);
+//        }
+//        HistoryMovie historyMovie = DataBase.getInstance().historyMovieDao().findByTargetUrl(url);
+//        if(historyMovie!=null){
+//            getView().setRecord(historyMovie.getMovieRecord());
+//        }
     }
 }

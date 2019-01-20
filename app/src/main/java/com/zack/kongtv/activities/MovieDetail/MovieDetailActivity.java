@@ -8,17 +8,13 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Data.DataResp;
-import com.zack.kongtv.Data.Instance.Impl_4kwu;
-import com.zack.kongtv.Data.Instance.Impl_kankanwu;
 import com.zack.kongtv.Data.room.CollectMovie;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
@@ -27,14 +23,18 @@ import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.PlayMovie.WebviewFullScreenActivity;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.bean.MovieDetailBean;
+import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.base.BaseMvpActivity;
 import com.zackdk.customview.ExpandableTextView;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,8 +58,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private TextView tvCollect;
     private TextView tvHistory;
     private ExpandableTextView tvMovieDesc;
-    private MovieDetailBean movieDetailBean;
-    private String targetUrl;
+    private Cms_movie targetMovie;
 
 
     private void initView() {
@@ -102,8 +101,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     public void initBasic(Bundle savedInstanceState) {
         initView();
         initLogic();
-        targetUrl = getIntent().getStringExtra("url");
-        presenter.requestData(targetUrl);
+        targetMovie = (Cms_movie) getIntent().getSerializableExtra("url");
+        updateView();
     }
 
     private void initLogic() {
@@ -125,17 +124,12 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         tvCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(movieDetailBean == null){
+                if(targetMovie == null){
                     return;
                 }
                 CollectMovieDao md = DataBase.getInstance().collectMovieDao();
-                CollectMovie collec = new CollectMovie();
-                collec.setTargetUrl(targetUrl);
-                collec.setMovieStatus(movieDetailBean.getMovieStatus());
-                collec.setMovieType(movieDetailBean.getMovieType());
-                collec.setMovieName(movieDetailBean.getMovieName());
-                collec.setMovieImg(movieDetailBean.getMovieImg());
-                md.insert(collec);
+
+                md.insert(AndroidUtil.transferCollect(targetMovie));
                 collect(true);
             }
         });
@@ -144,21 +138,9 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
     private void startPlay(int position) {
         HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
-        HistoryMovie historyMovie = new HistoryMovie();
-        historyMovie.setTargetUrl(targetUrl);
-        historyMovie.setMovieName(movieDetailBean.getMovieName());
-        historyMovie.setMovieImg(movieDetailBean.getMovieImg());
-        historyMovie.setMovieStatus(movieDetailBean.getMovieStatus());
-        historyMovie.setMovieType(movieDetailBean.getMovieType());
-        historyMovie.setMovieRecord(data.get(position).getText());
-        md.insert(historyMovie);
-        Class target ;
-        if(DataResp.INSTANCE.getName() == Impl_4kwu.NAME || DataResp.INSTANCE.getName() == Impl_kankanwu.NAME){
-            target = WebviewFullScreenActivity.class;
-        }else{
-            target = FullScreenActivity.class;
-        }
-        Intent intent = new Intent(mActivity, target);
+        md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
+
+        Intent intent = new Intent(mActivity, FullScreenActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
         startActivity(intent);
@@ -175,25 +157,49 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         return new MovieDetailPresenter();
     }
 
-    @Override
-    public void updateView(MovieDetailBean data) {
-        movieDetailBean = data;
-        MyImageLoader.showFlurImg(mActivity,data.getMovieImg(),toolbar_img);
-        MyImageLoader.showImage(mActivity,data.getMovieImg(),ivMovie);
+    public void updateView() {
+        MyImageLoader.showFlurImg(mActivity,targetMovie.getVodPic(),toolbar_img);
+        MyImageLoader.showImage(mActivity,targetMovie.getVodPic(),ivMovie);
 
-        getSupportActionBar().setTitle(data.getMovieName());
-        tvStatus.setText(data.getMovieStatus());
-        tvActor.setText(data.getMovieActors());
-        tvDirector.setText(data.getMovieDirector());
-        tvType.setText(data.getMovieType());
-        tvYear.setText(data.getMovieYear());
-        tvLanguage.setText(data.getMovieLanguage());
-        tvMovieDesc.setText(data.getMovieDesc());
+        getSupportActionBar().setTitle(targetMovie.getVodName());
+        tvStatus.setText("状态： "+targetMovie.getVodRemarks());
+        tvActor.setText("演员： "+targetMovie.getVodActor());
+        tvDirector.setText("导演： "+targetMovie.getVodDirector());
+        tvType.setText("类型： "+targetMovie.getVodClass());
+        tvYear.setText("年份： "+targetMovie.getVodYear());
+        tvLanguage.setText("语言： "+targetMovie.getVodLang());
+        tvMovieDesc.setText(targetMovie.getVodBlurb());
+
+        String playUrl = targetMovie.getVodPlayUrl();
+        String[] tmp;
+        if(playUrl.contains("$$$")){
+            tmp = playUrl.split("\\$\\$\\$");
+            if(tmp[0].contains("m3u8")){
+                tmp = tmp[0].split("#");
+            }else{
+                tmp = tmp[1].split("#");
+            }
+        }else{
+            tmp = playUrl.split("#");
+        }
+        List<JujiBean> jujiBeans = new LinkedList<>();
+        for (int i = 0; i < tmp.length ; i++) {
+            String t = tmp[i];
+            if(!t.contains("m3u8")){
+                continue;
+            }
+            JujiBean jujiBean = new JujiBean();
+            String[] tt = t.split("\\$");
+            jujiBean.setUrl(tt[1]);
+            jujiBean.setText(tt[0]);
+            jujiBeans.add(jujiBean);
+        }
+        Collections.reverse(jujiBeans);
         this.data.clear();
-        this.data.addAll(data.getList());
+        this.data.addAll(jujiBeans);
         adapter.notifyDataSetChanged();
 
-        CountEventHelper.countMovieDetail(this,data.getMovieName(),targetUrl);
+        CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
     }
 
     @Override

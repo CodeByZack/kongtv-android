@@ -22,6 +22,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:paddingLeft="@dimen/normal_margin"
         android:paddingTop="@dimen/normal_margin"
         android:gravity="center_vertical"

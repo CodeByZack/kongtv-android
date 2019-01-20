@@ -4,7 +4,7 @@ import java.util.List;
 
 public class HomeDataBean {
     private List<HomeItemBean> homeItemBeans;
-    private List<BannerItemBean> bannerItemBeans;
+    private List<Cms_movie> bannerItemBeans;
 
     public List<HomeItemBean> getHomeItemBeans() {
         return homeItemBeans;
@@ -14,11 +14,12 @@ public class HomeDataBean {
         this.homeItemBeans = homeItemBeans;
     }
 
-    public List<BannerItemBean> getBannerItemBeans() {
+
+    public List<Cms_movie> getBannerItemBeans() {
         return bannerItemBeans;
     }
 
-    public void setBannerItemBeans(List<BannerItemBean> bannerItemBeans) {
+    public void setBannerItemBeans(List<Cms_movie> bannerItemBeans) {
         this.bannerItemBeans = bannerItemBeans;
     }
 }

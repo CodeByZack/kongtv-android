@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.zack.kongtv.bean.MovieItem;
 
-@Entity(indices = {@Index(value = {"targetUrl"},unique = true)})
+@Entity(indices = {@Index(value = {"movieId"},unique = true)})
 public class CollectMovie{
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -20,12 +20,74 @@ public class CollectMovie{
         this.id = id;
     }
 
-    private String targetUrl;
+    private long movieId;
 
     private String movieImg;
     private String movieName;
     private String movieStatus;
     private String movieType;
+    private String movieDirector;
+    private String movieActor;
+    private String movieYear;
+    private String movieLang;
+    private String movieDesc;
+    private String movieJuji;
+
+    public long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(long movieId) {
+        this.movieId = movieId;
+    }
+
+    public String getMovieDirector() {
+        return movieDirector;
+    }
+
+    public void setMovieDirector(String movieDirector) {
+        this.movieDirector = movieDirector;
+    }
+
+    public String getMovieActor() {
+        return movieActor;
+    }
+
+    public void setMovieActor(String movieActor) {
+        this.movieActor = movieActor;
+    }
+
+    public String getMovieYear() {
+        return movieYear;
+    }
+
+    public void setMovieYear(String movieYear) {
+        this.movieYear = movieYear;
+    }
+
+    public String getMovieDesc() {
+        return movieDesc;
+    }
+
+    public void setMovieDesc(String movieDesc) {
+        this.movieDesc = movieDesc;
+    }
+
+    public String getMovieJuji() {
+        return movieJuji;
+    }
+
+    public void setMovieJuji(String movieJuji) {
+        this.movieJuji = movieJuji;
+    }
+
+    public String getMovieLang() {
+        return movieLang;
+    }
+
+    public void setMovieLang(String movieLang) {
+        this.movieLang = movieLang;
+    }
 
     public String getMovieStatus() {
         return movieStatus;
@@ -41,14 +103,6 @@ public class CollectMovie{
 
     public void setMovieType(String movieType) {
         this.movieType = movieType;
-    }
-
-    public String getTargetUrl() {
-        return targetUrl;
-    }
-
-    public void setTargetUrl(String targetUrl) {
-        this.targetUrl = targetUrl;
     }
 
     public String getMovieImg() {
