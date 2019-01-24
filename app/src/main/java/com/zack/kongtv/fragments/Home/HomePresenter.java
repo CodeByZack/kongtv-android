@@ -2,6 +2,7 @@ package com.zack.kongtv.fragments.Home;
 
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.ErrConsumer;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.HomeDataBean;
 import com.zack.kongtv.bean.HomeItemBean;
@@ -54,28 +55,28 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                         items.add(anime);
                         items.add(variety);
 
-                        for (Cms_movie movie: cms_movies) {
-                            if(movie.getVodLevel() == Const.Film){
+                        for (Cms_movie movie : cms_movies) {
+                            if (movie.getVodLevel() == Const.Film) {
                                 film.getMovieDetailBeans().add(movie);
-                                if(film.getMovieDetailBeans().size() == 1){
+                                if (film.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if(movie.getVodLevel() == Const.Episode){
+                            if (movie.getVodLevel() == Const.Episode) {
                                 episode.getMovieDetailBeans().add(movie);
-                                if(episode.getMovieDetailBeans().size() == 1){
+                                if (episode.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if(movie.getVodLevel() == Const.Variety){
+                            if (movie.getVodLevel() == Const.Variety) {
                                 anime.getMovieDetailBeans().add(movie);
-                                if(anime.getMovieDetailBeans().size() == 1){
+                                if (anime.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if(movie.getVodLevel() == Const.Anime){
+                            if (movie.getVodLevel() == Const.Anime) {
                                 variety.getMovieDetailBeans().add(movie);
-                                if(variety.getMovieDetailBeans().size() == 1){
+                                if (variety.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
@@ -85,7 +86,7 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                         getView().updateView(data);
                         getView().hideLoading();
                     }
-                });
+                },new ErrConsumer());
 
         addDispoasble(d);
     }

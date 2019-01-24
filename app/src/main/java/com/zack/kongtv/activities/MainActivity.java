@@ -70,7 +70,6 @@ public class MainActivity extends AbsActivity {
 
     @Override
     public void initBasic(Bundle savedInstanceState) {
-        AndroidUtil.copy(this,AndroidUtil.getAlipayText());
         init();
         initView();
         initLogic();
@@ -90,7 +89,7 @@ public class MainActivity extends AbsActivity {
             share_intent.setAction(Intent.ACTION_SEND);
             share_intent.setType("text/plain");
             //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
-            share_intent.putExtra(Intent.EXTRA_TEXT, "https://www.lanzous.com/u/%E7%A9%BA%E5%B1%B1%E4%B8%80%E5%BA%A6");
+            share_intent.putExtra(Intent.EXTRA_TEXT, "https://apks-1252514056.cos.ap-chengdu.myqcloud.com/now.apk");
             share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
             startActivity(share_intent);
         } else if(id == R.id.nav_change){
@@ -125,16 +124,16 @@ public class MainActivity extends AbsActivity {
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
 
-//        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Consumer<UpdateInfo>() {
-//                    @Override
-//                    public void accept(UpdateInfo o) throws Exception {
-//                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
-//                            showUpdateDilog(o);
-//                        }
-//                    }
-//                });
+        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<UpdateInfo>() {
+                    @Override
+                    public void accept(UpdateInfo o) throws Exception {
+                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
+                            showUpdateDilog(o);
+                        }
+                    }
+                });
 
 
     }

@@ -1,6 +1,8 @@
 package com.zack.kongtv.activities.SearchResult;
 
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.ErrConsumer;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
 import com.zackdk.mvp.p.BasePresenter;
@@ -19,19 +21,14 @@ public class SearchPresenter<V extends ISearchView> extends BasePresenter<V> {
         Disposable d = DataResp.searchText(text, page)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<SearchResultBean>() {
+                .subscribe(new Consumer<List<Cms_movie>>() {
                     @Override
-                    public void accept(SearchResultBean movieDetailBeans) throws Exception {
-                        getView().updateView(movieDetailBeans.getList());
-                        if (movieDetailBeans.isCanLoadMore()) {
-                            getView().loadMoreComplete();
-                            page++;
-                        } else {
-                            getView().loadMoreEnd();
-                        }
+                    public void accept(List<Cms_movie> cms_movies) throws Exception {
+                        getView().updateView(cms_movies);
                         getView().hideLoading();
+                        getView().loadMoreEnd();
                     }
-                });
+                },new ErrConsumer());
         addDispoasble(d);
     }
 

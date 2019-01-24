@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.zack.kongtv.App;
 
-@Database(entities = {HistoryMovie.class,CollectMovie.class}, version = 2,exportSchema = false)
+@Database(entities = {HistoryMovie.class,CollectMovie.class}, version = 3,exportSchema = false)
 public abstract class DataBase extends RoomDatabase{
     private static DataBase INSTANCE;
     public abstract HistoryMovieDao historyMovieDao();

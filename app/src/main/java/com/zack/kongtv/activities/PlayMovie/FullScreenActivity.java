@@ -35,6 +35,7 @@ import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
 import com.zackdk.Utils.LogUtil;
+import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
 
 import org.fourthline.cling.android.AndroidUpnpService;
@@ -123,10 +124,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	};
     //设备列表
     private List<Device> listDevice = new LinkedList<>();
-	private String video_url;
-	private int playerType = NiceVideoPlayer.TYPE_IJK;
 	private CustomPlayerControl controller;
-	private WebView webView;
 
 	@Override
 	public int setView() {
@@ -140,13 +138,11 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		url = intent.getStringExtra("url");
 		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
-		//presenter.requestData(url);
 		OrientationEventListenerImpl ore = new OrientationEventListenerImpl(this);
 		ore.enable();
-		bindService(new Intent(this, AndroidUpnpServiceImpl.class), serviceConnection, Context.BIND_AUTO_CREATE);
-		play2(url,NiceVideoPlayer.TYPE_IJK);
-		Log.d("test:",url);
-		Log.d("test:",name);
+		//bindService(new Intent(this, AndroidUpnpServiceImpl.class), serviceConnection, Context.BIND_AUTO_CREATE);
+
+		play2(url,NiceVideoPlayer.TYPE_NATIVE);
 	}
 
     public void onclick(View v) {
@@ -157,7 +153,8 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				AndroidUtil.openAlipay(this);
 				break;
 			case R.id.copy:
-				AndroidUtil.copy(this,video_url);
+				AndroidUtil.copy(this,url);
+				showToast(url);
 				break;
 			case R.id.change:
 				Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
@@ -166,19 +163,15 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				startActivity(intent);
 				break;
 			case R.id.touping:
-				if(TextUtils.isEmpty(url)){
-					showToast("解析失败咯，不能投屏哦！");
-					return;
-				}
-				searchDLNA();
+				//searchDLNA();
 				break;
 			case R.id.third:
-				if(TextUtils.isEmpty(video_url)){
+				if(TextUtils.isEmpty(url)){
 					showToast("解析失败咯，不能调用第三方哦！");
 					return;
 				}
 				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
-				mediaIntent.setDataAndType(Uri.parse(video_url), "video/mp4");
+				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
 				startActivity(mediaIntent);
 				break;
 		}
@@ -189,28 +182,6 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		NetStateChangeReceiver.registerObserver(this);
 	}
 
-	@Override
-	public void play(String url) {
-//		String id = "";
-//		id+=url.substring(url.indexOf("id=")+3);
-		//final String Inject_Js = DataResp.INSTANCE.getInjectJS(url);
-		final String getContent = "window.local_obj.showSource($('html').html())";
-		webView = new WebView(this);
-		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-		WebSettings webSettings = webView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-//		webView.setWebViewClient(new WebViewClient(){
-//			@Override
-//			public void onPageFinished(WebView view, String url) {
-//				super.onPageFinished(view, url);
-//				view.loadUrl("javascript:"+Inject_Js);
-//			}
-//
-//		});
-		Map extraHeaders = new HashMap();
-		extraHeaders.put("Referer", this.url);
-		webView.loadUrl(url, extraHeaders);
-	}
 
 	@Override
 	public void onNetDisconnected() {
@@ -224,25 +195,6 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		}
 	}
 
-	public final class InJavaScriptLocalObj {
-		@JavascriptInterface
-		public void showSource(final String videoUrl) {
-			if(TextUtils.equals(videoUrl,"undefined")){
-				showToast("哦，解析失败，试试X5播放器咯！");
-				hideLoading();
-				return;
-			}
-			video_url = videoUrl;
-			mActivity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					play2(videoUrl,NiceVideoPlayer.TYPE_IJK);
-					webView.destroy();
-				}
-			});
-
-		}
-	}
 
 	private void play2(String url,int playerType) {
 		hideLoading();
@@ -354,7 +306,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
         //需要的参数之二
         String metadata = pushMediaToRender("http://iqiyi.com-l-iqiyi.com/20190119/21146_3f16f3ea/index.m3u8", "id", "name", "0",VIDEO_TYPE);
 
-        upnpService.getControlPoint().execute(new SetAVTransportURI(avtService, video_url,metadata) {
+        upnpService.getControlPoint().execute(new SetAVTransportURI(avtService, url,metadata) {
             @Override
             public void success(ActionInvocation invocation) {
                 super.success(invocation);
@@ -459,7 +411,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(serviceConnection);
+        //unbindService(serviceConnection);
 
     }
 

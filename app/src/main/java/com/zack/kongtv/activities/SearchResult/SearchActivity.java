@@ -25,6 +25,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Adapter.MovieListAdapter;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.util.CountEventHelper;
@@ -49,7 +50,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TagFlowLayout flowLayout;
     private LinearLayout recentSearchList;
-    private List<MovieDetailBean> data = new LinkedList<>();
+    private List<Cms_movie> data = new LinkedList<>();
     private String searchtext;
     private List<String> searchHistoryList = new LinkedList<>();
 
@@ -82,7 +83,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position).getTargetUrl()));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
         icSearch.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +204,8 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     }
 
     @Override
-    public void updateView(List<MovieDetailBean> data) {
+    public void updateView(List<Cms_movie> data) {
+        adapter.getData().clear();
         adapter.addData(data);
     }
 

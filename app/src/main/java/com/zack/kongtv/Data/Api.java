@@ -26,4 +26,8 @@ public interface Api {
 
     @GET("zy")
     Observable<List<Cms_movie>> getZY(@QueryMap HashMap<String, String> paramsMap);
+
+
+    @GET("search")
+    Observable<List<Cms_movie>> search(@QueryMap HashMap<String, String> paramsMap);
 }

@@ -95,6 +95,7 @@
             android:onClick="onclick"
             android:id="@+id/touping"
             android:gravity="center"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_marginLeft="@dimen/little_margin"
             android:layout_height="wrap_content"

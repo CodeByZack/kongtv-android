@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.ErrConsumer;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.Cms_movie;
@@ -93,7 +94,7 @@ public class CategoryPresenter<V extends ICategoryView> extends BasePresenter<V>
                         }
                         getView().hideLoading();
                     }
-                });
+                },new ErrConsumer());
     }
 
     private CategoryDataBean transferData(List<Cms_movie> cms_movies){

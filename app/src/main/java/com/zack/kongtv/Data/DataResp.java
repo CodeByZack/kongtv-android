@@ -53,12 +53,9 @@ public class DataResp {
     }
 
     public static Observable searchText(final  String text,final int page){
-        Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
-            @Override
-            public void subscribe(ObservableEmitter<SearchResultBean> emitter) throws Exception {
-
-            }
-        });
+        HashMap<String,String> map = new HashMap<>();
+        map.put("search",text);
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().search(map);
         return observable;
     }
     public static Observable getAppUpdateInfo(){
