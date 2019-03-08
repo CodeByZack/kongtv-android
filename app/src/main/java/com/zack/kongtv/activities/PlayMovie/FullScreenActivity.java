@@ -124,7 +124,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
     //设备列表
     private List<Device> listDevice = new LinkedList<>();
 	private String video_url;
-	private int playerType = NiceVideoPlayer.TYPE_IJK;
+	private int playerType = NiceVideoPlayer.TYPE_NATIVE;
 	private CustomPlayerControl controller;
 	private WebView webView;
 
@@ -155,6 +155,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				break;
 			case R.id.copy:
 				AndroidUtil.copy(this,video_url);
+				showToast(video_url);
 				break;
 			case R.id.change:
 				Intent intent = new Intent(mActivity, WebviewFullScreenActivity.class);
