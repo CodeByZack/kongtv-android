@@ -1,0 +1,278 @@
+package com.zack.kongtv.Data.Instance;
+
+import com.zack.kongtv.AppConfig;
+import com.zack.kongtv.Const;
+import com.zack.kongtv.bean.BannerItemBean;
+import com.zack.kongtv.bean.CategoryDataBean;
+import com.zack.kongtv.bean.HomeDataBean;
+import com.zack.kongtv.bean.HomeItemBean;
+import com.zack.kongtv.bean.JujiBean;
+import com.zack.kongtv.bean.MovieDetailBean;
+import com.zack.kongtv.bean.SearchResultBean;
+import com.zack.kongtv.bean.TagItemBean;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Impl_benbenji implements GetDataInterface {
+    public static final String NAME = "笨笨鸡";
+    private static final String baseUrlYIMIMAO = "http://m.benbenji.com";
+    private static final String MovieUrlYIMIMAO = baseUrlYIMIMAO+"/dy/index_1_______1.html";
+    private static final String EpisodeUrlYIMIMAO = baseUrlYIMIMAO+"/dsj/index_1_______1.html";
+    private static final String AnimeUrlYIMIMAO = baseUrlYIMIMAO+"/dm/index_1_______1.html";
+    private static final String VarietyUrlYIMIMAO = baseUrlYIMIMAO+"/arts/index_1_______1.html";
+    private static final String SearchUrlYIMIMAO = baseUrlYIMIMAO+"/vod-search-wd-TEMP-p-PAGE.html";
+
+    @Override
+    public HomeDataBean getHomeData() {
+        Document document;
+        List<BannerItemBean> bannerItemBeans = new LinkedList<>();
+        List<HomeItemBean> homeItemBeans = new LinkedList<>();
+        try {
+            document = Jsoup.connect(baseUrlYIMIMAO).get();
+            Elements banners = document.getElementsByClass("focus_banner_list").get(0).getElementsByClass("focus_banner_item");
+            for (Element e: banners) {
+                BannerItemBean itemBean = new BannerItemBean();
+                itemBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").attr("href"));
+                itemBean.setImg(e.getElementsByTag("img").attr("src"));
+                itemBean.setDesc(e.getElementsByTag("em").text());
+                bannerItemBeans.add(itemBean);
+            }
+            Elements elements = document.select(".all_tab>.list_tab_img");
+            for (int i = 0; i<elements.size();i++) {
+                HomeItemBean homeItemBean = new HomeItemBean();
+                homeItemBean.setMovieDetailBeans(new ArrayList<MovieDetailBean>());
+                if(i == 0){
+                    homeItemBean.setType(Const.Film);
+                }else if(i == 1){
+                    homeItemBean.setType(Const.Episode);
+                }else if( i == 2){
+                    homeItemBean.setType(Const.Anime);
+                }else if(i == 3){
+                    homeItemBean.setType(Const.Variety);
+                }else{
+                    break;
+                }
+                for (Element e:elements.get(i).getElementsByTag("li")) {
+                    MovieDetailBean movieDetailBean = new MovieDetailBean();
+                    movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
+                    movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
+                    movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
+                    movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
+                    movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
+                    movieDetailBean.setMovieActors(e.getElementsByTag("p").text());
+                    homeItemBean.getMovieDetailBeans().add(movieDetailBean);
+                }
+                homeItemBeans.add(homeItemBean);
+            }
+            HomeDataBean dataBean = new HomeDataBean();
+            dataBean.setHomeItemBeans(homeItemBeans);
+            dataBean.setBannerItemBeans(bannerItemBeans);
+            return dataBean;
+        } catch (IOException e1) {
+            return null;
+        }
+    }
+
+    @Override
+    public CategoryDataBean getCategoryData(String url, int page) {
+        List<TagItemBean> tag1 = new LinkedList<>();
+        List<TagItemBean> tag2 = new LinkedList<>();
+        List<TagItemBean> tag3 = new LinkedList<>();
+        List<MovieDetailBean> movieDetailBeans = new LinkedList<>();
+        //处理页码
+        String replace = "index_"+page;
+        url = url.replaceFirst("index_.",replace);
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+
+            //获取类型分类
+            Element element = document.getElementById("mcid_list");
+            for(Element e : element.getElementsByTag("a")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("cur"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
+                tag1.add(tagItemBean);
+            }
+            //获取地区分类
+            Element element2 = document.getElementById("second_list");
+            for(Element e : element2.getElementsByTag("a")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("cur"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
+                tag2.add(tagItemBean);
+            }
+            //获取年份分类
+            Element element3 = document.getElementById("year_list");
+            for(Element e : element3.getElementsByTag("a")){
+                TagItemBean tagItemBean = new TagItemBean();
+                tagItemBean.setSelect(e.hasClass("cur"));
+                tagItemBean.setTag(e.text());
+                tagItemBean.setUrl(baseUrlYIMIMAO+e.attr("href"));
+                tag3.add(tagItemBean);
+            }
+
+            Elements elements = document.getElementsByClass("list_tab_img").get(0).getElementsByTag("li");
+            for (Element e : elements) {
+                MovieDetailBean movieDetailBean = new MovieDetailBean();
+                movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
+                movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
+                movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
+                movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setMovieScore(e.getElementsByClass("score").text());
+                movieDetailBean.setMovieActors(e.getElementsByTag("p").text());
+                movieDetailBeans.add(movieDetailBean);
+            }
+            CategoryDataBean categoryDataBean = new CategoryDataBean();
+            categoryDataBean.setMovieDetailBeans(movieDetailBeans);
+            categoryDataBean.setTag1(tag1);
+            categoryDataBean.setTag2(tag2);
+            categoryDataBean.setTag3(tag3);
+            return categoryDataBean;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public MovieDetailBean getRealMovieDetail(String url) {
+        MovieDetailBean movieDetailBean = new MovieDetailBean();
+        Document document;
+
+        try {
+            document = Jsoup.connect(url).get();
+            Element element = document.getElementsByClass("vod-n-l").get(0);
+            //电影信息
+            movieDetailBean.setMovieName(element.getElementsByTag("h1").text());
+            movieDetailBean.setMovieStatus(element.getElementsByTag("p").get(0).text());
+            movieDetailBean.setMovieActors(element.getElementsByTag("p").get(1).text());
+            movieDetailBean.setMovieType(element.getElementsByTag("p").get(2).text());
+            movieDetailBean.setMovieDirector(element.getElementsByTag("p").get(3).text());
+            movieDetailBean.setMovieYear(element.getElementsByTag("p").get(4).text());
+            movieDetailBean.setMovieLanguage(element.getElementsByTag("p").get(5).text());
+            movieDetailBean.setMovieImg(document.select(".vod-n-img>img").attr("data-original"));
+            //剧集信息
+            movieDetailBean.setList(new LinkedList<JujiBean>());
+            Elements elements = document.getElementsByClass("plau-ul-list").get(0).getElementsByTag("li");
+            for (Element e :elements) {
+                JujiBean bean = new JujiBean();
+                bean.setText(e.getElementsByTag("a").text());
+                bean.setUrl(baseUrlYIMIMAO+e.getElementsByTag("a").attr("href"));
+                movieDetailBean.getList().add(bean);
+            }
+            //简介信息
+            movieDetailBean.setMovieDesc(document.select(".vod_content").text());
+
+            return movieDetailBean;
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String getRealPlayUrl(String url) {
+        Document document;
+        try {
+            document = Jsoup.connect(url).get();
+            String trueUrl = document.getElementsByTag("iframe").attr("src");
+            return trueUrl;
+        } catch (IOException e1) {
+            return null;
+        }
+    }
+
+    @Override
+    public SearchResultBean search(String text, int page) {
+        //处理搜索网址
+        String search = SearchUrlYIMIMAO.replace("TEMP",text);
+        search = search.replace("PAGE",String.valueOf(page));
+        SearchResultBean movieDetailBeans = new SearchResultBean();
+        movieDetailBeans.setList(new LinkedList<MovieDetailBean>());
+        Document document;
+        try {
+            document = Jsoup.connect(search).get();
+            Elements ee = document.getElementsByClass("ui-vpages").get(0).getElementsContainingOwnText("下一页");
+            if(ee.size()!=0 && ee.get(0).hasAttr("href")){
+                movieDetailBeans.setCanLoadMore(true);
+            }else{
+                movieDetailBeans.setCanLoadMore(false);
+            }
+            Elements elements = document.getElementsByClass("new_tab_img").get(0).getElementsByTag("li");
+            for (Element e :elements) {
+                MovieDetailBean movieDetailBean = new MovieDetailBean();
+                movieDetailBean.setMovieImg(e.getElementsByTag("img").attr("src"));
+                movieDetailBean.setMovieShortDesc(e.getElementsByClass("title").get(0).text());
+                movieDetailBean.setMovieName(e.getElementsByTag("a").attr("title"));
+                movieDetailBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").get(0).attr("href"));
+                movieDetailBean.setMovieActors(e.getElementsByTag("p").get(2).getElementsByTag("span").text());
+                movieDetailBeans.getList().add(movieDetailBean);
+            }
+        } catch (IOException e1) {
+            return null;
+        }
+        return movieDetailBeans;
+    }
+
+    @Override
+    public String getBaseUrl() {
+        return baseUrlYIMIMAO;
+    }
+
+    @Override
+    public String getMovieUrl() {
+        return MovieUrlYIMIMAO;
+    }
+
+    @Override
+    public String getEpisodeUrl() {
+        return EpisodeUrlYIMIMAO;
+    }
+
+    @Override
+    public String getAnimeUrl() {
+        return AnimeUrlYIMIMAO;
+    }
+
+    @Override
+    public String getVarietyUrl() {
+        return VarietyUrlYIMIMAO;
+    }
+
+    @Override
+    public String getSearchUrl() {
+        return SearchUrlYIMIMAO;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public String getInjectJS(String url) {
+        String id = "";
+        id+=url.substring(url.indexOf("id=")+3);
+        String INJECT_JS = "if(typeof(vid)!='undefined'){\n" +
+                "    window.local_obj.showSource(vid)\n" +
+                "}else{\n" +
+                "    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
+                "    function(data){\n" +
+                "		console.log('data:'+JSON.stringify(data));\n" +
+                "		window.local_obj.showSource(data.url)\n" +
+                "    },\"json\");\n" +
+                "}";
+        return INJECT_JS;
+    }
+}
