@@ -106,4 +106,5 @@ dependencies {
     implementation files('libs/jsoup-1.9.2.jar')
     implementation 'com.just.agentwebX5:agentwebX5:2.0.0'
     implementation project(':nicevideoplayer')
+    compile 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'
 }

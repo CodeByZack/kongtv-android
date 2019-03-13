@@ -34,6 +34,7 @@ import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
 import com.zack.kongtv.fragments.Home.HomeFragment;
+import com.zack.kongtv.fragments.Home.HomeFragmentNew;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.Utils.ToastUtil;
@@ -105,7 +106,7 @@ public class MainActivity extends AbsActivity {
         titles.add("动漫");
         titles.add("综艺");
 
-        fragments.add(new HomeFragment());
+        fragments.add(new HomeFragmentNew());
         fragments.add(CategoryFragment.instance(Const.Film));
         fragments.add(CategoryFragment.instance(Const.Episode));
         fragments.add(CategoryFragment.instance(Const.Anime));
