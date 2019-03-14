@@ -22,7 +22,7 @@ public abstract class AbsActivity extends BaseActivity {
         mActivity = this;
         immersionBar = ImmersionBar.with(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
-        overridePendingTransition(R.anim.push_pic_left_in, R.anim.push_pic_left_out);
+//        overridePendingTransition(R.anim.push_pic_left_in, R.anim.push_pic_left_out);
         final int vid = setView();
         super.onCreate(savedInstanceState);
         if (vid != 0) {
@@ -39,7 +39,7 @@ public abstract class AbsActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.push_pic_right_in, R.anim.push_pic_right_out);
+//        overridePendingTransition(R.anim.push_pic_right_in, R.anim.push_pic_right_out);
     }
 
     public abstract int setView();

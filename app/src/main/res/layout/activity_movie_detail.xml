@@ -39,7 +39,6 @@
                     android:id="@+id/titleview"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:background="@color/bg_gray"
                     android:layout_height="?attr/actionBarSize">
 
                     <ImageView

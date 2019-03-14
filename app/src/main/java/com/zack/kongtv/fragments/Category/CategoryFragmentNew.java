@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.Cms_movie;
@@ -88,7 +89,7 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
     }

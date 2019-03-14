@@ -13,6 +13,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -66,15 +67,16 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private TextView mDesc_title;
     private ExpandableTextView mLine_desc;
     private TextView mM3u8_title;
-    private android.support.v7.widget.RecyclerView mPlay_list2;
+    private RecyclerView mPlay_list2;
     private TextView mWeburl_title;
-    private android.support.v7.widget.RecyclerView mPlay_list;
+    private RecyclerView mPlay_list;
     private TextView mRec_title;
-    private android.support.v7.widget.RecyclerView mRec_list;
+    private RecyclerView mRec_list;
 
 
     private Cms_movie targetMovie;
     private List<JujiBean> data = new LinkedList<>();
+    private Adapter adapter;
 
 
     private void initView() {
@@ -97,10 +99,15 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mLine_desc =  findViewById(R.id.line_desc);
         mM3u8_title =  findViewById(R.id.m3u8_title);
         mPlay_list2 =  findViewById(R.id.play_list2);
-        mWeburl_title =  findViewById(R.id.weburl_title);
         mPlay_list =  findViewById(R.id.play_list);
         mRec_title =  findViewById(R.id.rec_title);
         mRec_list =  findViewById(R.id.rec_list);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
+        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }
 
 
@@ -125,7 +132,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     }
 
     private void initLogic() {
-
+        adapter =  new Adapter(R.layout.m3u8_item,data);
+        mPlay_list2.setAdapter(adapter);
     }
 
     private void startPlay(int position) {
@@ -151,7 +159,21 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
     public void updateView() {
         mToolbarTitle.setText(targetMovie.getVodName());
+        StringBuilder desc = new StringBuilder();
+        desc.append("别名：");
+        desc.append(targetMovie.getVodName());
+        desc.append("\n导演：");
+        desc.append(targetMovie.getVodDirector());
+        desc.append("\n主演：");
+        desc.append(targetMovie.getVodActor());
+        desc.append("\n类型：");
+        desc.append(targetMovie.getVodClass());
+        desc.append("\n地区：");
+        desc.append(targetMovie.getVodArea());
+        desc.append("\n语言：");
+        desc.append(targetMovie.getVodLang());
 
+        mHead_desc.setText(desc.toString());
         Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -161,8 +183,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
         MyImageLoader.showImage(this,targetMovie.getVodPic(),mLine_detail_poster);
         mMv_title.setText(targetMovie.getVodName());
-        mHead_desc.setText("这里是描述。。。");
-        mLine_desc.setContent(targetMovie.getVodContent());
+        mLine_desc.setContent(targetMovie.getVodBlurb());
         String playUrl = targetMovie.getVodPlayUrl();
         String[] tmp;
         if(playUrl.contains("$$$")){
@@ -190,7 +211,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         Collections.reverse(jujiBeans);
         this.data.clear();
         this.data.addAll(jujiBeans);
-
+        adapter.notifyDataSetChanged();
         CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
     }
 
@@ -218,7 +239,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
         @Override
         protected void convert(BaseViewHolder helper, JujiBean item) {
-            helper.setText(R.id.tv_juji,item.getText());
+            helper.setText(R.id.btPlayText,item.getText());
         }
     }
 
