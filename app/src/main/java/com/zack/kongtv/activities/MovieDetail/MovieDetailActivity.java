@@ -1,100 +1,114 @@
 package com.zack.kongtv.activities.MovieDetail;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.zack.kongtv.Data.DataResp;
-import com.zack.kongtv.Data.room.CollectMovie;
+import com.ctetin.expandabletextviewlibrary.ExpandableTextView;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
-import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
-import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.PlayMovie.WebviewFullScreenActivity;
+import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
-import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.base.BaseMvpActivity;
-import com.zackdk.customview.ExpandableTextView;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> implements IMovieDetailView{
-    private Toolbar toolbar;
-    private RecyclerView recyclerView;
-    private Adapter adapter;
-    private ImageView toolbar_img;
-    private List<JujiBean> data = new LinkedList<>();
 
-    private AppBarLayout appBar;
-    private CollapsingToolbarLayout toolbarLayout;
-    private ImageView ivMovie;
-    private TextView tvStatus;
-    private TextView tvActor;
-    private TextView tvType;
-    private TextView tvDirector;
-    private TextView tvYear;
-    private TextView tvLanguage;
-    private TextView tvPlay;
-    private TextView tvCollect;
-    private TextView tvHistory;
-    private ExpandableTextView tvMovieDesc;
+    private CoordinatorLayout mRoot;
+    private AppBarLayout mApp_bar;
+    private CollapsingToolbarLayout mToolbar_layout;
+    private Toolbar mToolbar;
+    private LinearLayout mTitleview;
+    private ImageView mBack_icon;
+    private TextView mToolbarTitle;
+    private ImageView mToolbarIcon;
+    private android.support.v4.widget.NestedScrollView mScroll_content;
+    private android.support.v7.widget.CardView mPoster_border;
+    private ImageView mLine_detail_poster;
+    private TextView mMv_title;
+    private TextView mHead_desc;
+    private LinearLayout mDesc_content;
+    private TextView mDesc_title;
+    private ExpandableTextView mLine_desc;
+    private TextView mM3u8_title;
+    private android.support.v7.widget.RecyclerView mPlay_list2;
+    private TextView mWeburl_title;
+    private android.support.v7.widget.RecyclerView mPlay_list;
+    private TextView mRec_title;
+    private android.support.v7.widget.RecyclerView mRec_list;
+
+
     private Cms_movie targetMovie;
+    private List<JujiBean> data = new LinkedList<>();
 
 
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        recyclerView = findViewById(R.id.recycleview);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
-        toolbar_img = findViewById(R.id.toolbar_bg);
-        appBar = (AppBarLayout)findViewById( R.id.app_bar );
-        toolbarLayout = (CollapsingToolbarLayout)findViewById( R.id.toolbar_layout );
-        ivMovie = (ImageView)findViewById( R.id.iv_movie );
-        tvStatus = (TextView)findViewById( R.id.tv_status );
-        tvActor = (TextView)findViewById( R.id.tv_actor );
-        tvType = (TextView)findViewById( R.id.tv_type );
-        tvDirector = (TextView)findViewById( R.id.tv_director );
-        tvYear = (TextView)findViewById( R.id.tv_year );
-        tvLanguage = (TextView)findViewById( R.id.tv_language );
-        tvPlay = (TextView)findViewById( R.id.tv_play );
-        tvCollect = (TextView)findViewById( R.id.tv_collect );
-        toolbar = (Toolbar)findViewById( R.id.toolbar );
-        tvMovieDesc = (ExpandableTextView) findViewById( R.id.tv_movie_desc );
-        tvHistory = findViewById(R.id.tv_history);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mRoot =  findViewById(R.id.root);
+        mApp_bar =  findViewById(R.id.app_bar);
+        mToolbar_layout =  findViewById(R.id.toolbar_layout);
+        mToolbar =  findViewById(R.id.toolbar);
+        mTitleview =  findViewById(R.id.titleview);
+        mBack_icon =  findViewById(R.id.back_icon);
+        mToolbarTitle =  findViewById(R.id.toolbarTitle);
+        mScroll_content =  findViewById(R.id.scroll_content);
+        mPoster_border =  findViewById(R.id.poster_border);
+        mLine_detail_poster =  findViewById(R.id.line_detail_poster);
+        mMv_title =  findViewById(R.id.mv_title);
+        mHead_desc =  findViewById(R.id.head_desc);
+        mDesc_content =  findViewById(R.id.desc_content);
+        mDesc_title =  findViewById(R.id.desc_title);
+        mLine_desc =  findViewById(R.id.line_desc);
+        mM3u8_title =  findViewById(R.id.m3u8_title);
+        mPlay_list2 =  findViewById(R.id.play_list2);
+        mWeburl_title =  findViewById(R.id.weburl_title);
+        mPlay_list =  findViewById(R.id.play_list);
+        mRec_title =  findViewById(R.id.rec_title);
+        mRec_list =  findViewById(R.id.rec_list);
     }
+
+
 
 
     @Override
     public int setView() {
-        return R.layout.activity_scrolling;
+        return R.layout.activity_movie_detail;
     }
 
     @Override
@@ -102,38 +116,16 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         initView();
         initLogic();
         targetMovie = (Cms_movie) getIntent().getSerializableExtra("url");
-        updateView();
+        if (targetMovie != null){
+            updateView();
+        }else{
+            showToast("没有获取到影片信息！");
+            finish();
+        }
     }
 
     private void initLogic() {
-        MyImageLoader.showFlurImg(mActivity,"",toolbar_img);
-        adapter = new Adapter(R.layout.detail_item,data);
-        tvPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPlay(data.size()-1);
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startPlay(position);
-            }
-        });
-        tvCollect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(targetMovie == null){
-                    return;
-                }
-                CollectMovieDao md = DataBase.getInstance().collectMovieDao();
 
-                md.insert(AndroidUtil.transferCollect(targetMovie));
-                collect(true);
-            }
-        });
-        //adapter.addHeaderView(getLayoutInflater().inflate(R.layout.detail_header,null));
     }
 
     private void startPlay(int position) {
@@ -149,7 +141,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-        immersionBar.titleBar(toolbar).init();
+        immersionBar.titleBar(mToolbar).init();
     }
 
     @Override
@@ -158,18 +150,19 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     }
 
     public void updateView() {
-        MyImageLoader.showFlurImg(mActivity,targetMovie.getVodPic(),toolbar_img);
-        MyImageLoader.showImage(mActivity,targetMovie.getVodPic(),ivMovie);
+        mToolbarTitle.setText(targetMovie.getVodName());
 
-        getSupportActionBar().setTitle(targetMovie.getVodName());
-        tvStatus.setText("状态： "+targetMovie.getVodRemarks());
-        tvActor.setText("演员： "+targetMovie.getVodActor());
-        tvDirector.setText("导演： "+targetMovie.getVodDirector());
-        tvType.setText("类型： "+targetMovie.getVodClass());
-        tvYear.setText("年份： "+targetMovie.getVodYear());
-        tvLanguage.setText("语言： "+targetMovie.getVodLang());
-        tvMovieDesc.setText(targetMovie.getVodBlurb());
+        Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                setColor(resource);
+            }
+        });
 
+        MyImageLoader.showImage(this,targetMovie.getVodPic(),mLine_detail_poster);
+        mMv_title.setText(targetMovie.getVodName());
+        mHead_desc.setText("这里是描述。。。");
+        mLine_desc.setContent(targetMovie.getVodContent());
         String playUrl = targetMovie.getVodPlayUrl();
         String[] tmp;
         if(playUrl.contains("$$$")){
@@ -197,7 +190,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         Collections.reverse(jujiBeans);
         this.data.clear();
         this.data.addAll(jujiBeans);
-        adapter.notifyDataSetChanged();
 
         CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
     }
@@ -205,18 +197,18 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     @Override
     public void collect(boolean c) {
         if(c){
-            tvCollect.setClickable(false);
-            tvCollect.setText("已收藏");
+//            tvCollect.setClickable(false);
+//            tvCollect.setText("已收藏");
         }else{
-            tvCollect.setClickable(true);
-            tvCollect.setText("收藏");
+//            tvCollect.setClickable(true);
+//            tvCollect.setText("收藏");
         }
     }
 
     @Override
     public void setRecord(String record) {
-        tvHistory.setText("上次观看到："+record);
-        tvHistory.setVisibility(View.VISIBLE);
+//        tvHistory.setText("上次观看到："+record);
+//        tvHistory.setVisibility(View.VISIBLE);
     }
 
     private class Adapter extends BaseQuickAdapter<JujiBean,BaseViewHolder> {
@@ -228,5 +220,54 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         protected void convert(BaseViewHolder helper, JujiBean item) {
             helper.setText(R.id.tv_juji,item.getText());
         }
+    }
+
+    public void setColor(Bitmap bitmap) {
+        // Palette的部分
+        Palette.Builder builder = Palette.from(bitmap);
+        builder.generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                //获取到充满活力的这种色调
+                Palette.Swatch vibrant = palette.getMutedSwatch();
+                //根据调色板Palette获取到图片中的颜色设置到toolbar和tab中背景，标题等，使整个UI界面颜色统一
+                if (mRoot != null) {
+                    if (vibrant != null) {
+
+                        ValueAnimator colorAnim2 = ValueAnimator.ofArgb(Color.rgb(110, 110, 100), colorBurn(vibrant.getRgb()));
+                        colorAnim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                mRoot.setBackgroundColor((Integer) animation.getAnimatedValue());
+                                // toolbar.setBackgroundColor((Integer) animation.getAnimatedValue());
+                                mApp_bar.setBackgroundColor((Integer) animation.getAnimatedValue());
+                            }
+                        });
+                        colorAnim2.setDuration(300);
+                        colorAnim2.setRepeatMode(ValueAnimator.RESTART);
+                        colorAnim2.start();
+
+                        if (Build.VERSION.SDK_INT >= 21) {
+                            Window window = getWindow();
+                            window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                            window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+    public static int colorBurn(int RGBValues) {
+        int alpha = RGBValues >> 24;
+        int red = RGBValues >> 16 & 0xFF;
+        int green = RGBValues >> 8 & 0xFF;
+        int blue = RGBValues & 0xFF;
+        red = (int) Math.floor(red * (1 - 0.2));
+        green = (int) Math.floor(green * (1 - 0.2));
+        blue = (int) Math.floor(blue * (1 - 0.2));
+        Log.e("testcolor", red + "" + green + "" + blue);
+        return Color.rgb(red, green, blue);
     }
 }

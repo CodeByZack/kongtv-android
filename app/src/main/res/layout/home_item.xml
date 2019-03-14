@@ -5,16 +5,38 @@
     android:background="#fff"
     android:layout_marginBottom="@dimen/little_margin"
     android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_title"
-        android:gravity="center"
-        android:drawableLeft="@drawable/ic_dianshiju"
-        android:drawablePadding="@dimen/little_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="热播电视"
-        android:padding="8dp"
-        android:textColor="#000"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="10px"
+            android:layout_height="match_parent"
+            android:background="#333333"/>
+        <TextView
+            android:id="@+id/tv_more"
+            android:gravity="center"
+            android:padding="@dimen/little_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多电视剧"
+            android:textColor="#333333"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:gravity="center"
+            android:padding="@dimen/little_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:textColor="#333333"/>
+
+    </LinearLayout>
     <com.zack.kongtv.view.NoScrollGridView
         android:id="@+id/gv_container"
         android:numColumns="3"
@@ -27,15 +49,5 @@
         android:layout_marginTop="@dimen/little_margin"
         android:layout_height="1px"
         android:background="#f0f0f0"/>
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/tv_more"
-        android:gravity="center"
-        android:padding="@dimen/little_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="更多电视剧"
-        android:drawableTint="#2f972f"
-        android:drawableRight="@drawable/rightarrow_mini"
-        android:textColor="#2f972f"/>
+
 </LinearLayout>

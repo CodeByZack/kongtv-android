@@ -2,20 +2,16 @@ package com.zack.kongtv.fragments.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.umeng.analytics.MobclickAgent;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -24,13 +20,10 @@ import com.zack.kongtv.Const;
 import com.zack.kongtv.Adapter.GridAdapter;
 import com.zack.kongtv.activities.MainActivity;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
-import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
-import com.zack.kongtv.bean.BannerItemBean;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.HomeDataBean;
 import com.zack.kongtv.bean.HomeItemBean;
-import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.NoScrollGridView;
 import com.zackdk.base.BaseMvpFragment;
@@ -69,7 +62,7 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",banners.get(position)));
+                startActivity(new Intent(mActivity, MovieDetailActivitycopy.class).putExtra("url",banners.get(position)));
             }
         });
         homeAdapter.addHeaderView(view);
@@ -174,12 +167,9 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
                     id = R.drawable.ic_zongyi;
                     break;
             }
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_dianshiju);
-            drawable.setBounds(0,0,drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());
-            TextView textView = helper.getView(R.id.tv_title);
-            textView.setCompoundDrawables(drawable,null,null,null);
-            helper.setText(R.id.tv_title,title);
-            helper.setText(R.id.tv_more,more);
+
+//            helper.setText(R.id.tv_title,title);
+            helper.setText(R.id.tv_more,title);
             helper.addOnClickListener(R.id.tv_more);
 
             NoScrollGridView gv = helper.getView(R.id.gv_container);
@@ -190,23 +180,11 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements IHom
                     holder.getItemView().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",obj));
+                            startActivity(new Intent(mActivity, MovieDetailActivitycopy.class).putExtra("url",obj));
                         }
                     });
-
-                    MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.movie_img));
-                    holder.setText(R.id.tv_name,obj.getVodName());
-                    if(TextUtils.isEmpty(obj.getVodScore())){
-                        holder.getView(R.id.tv_score).setVisibility(View.GONE);
-                    }else{
-                        holder.setText(R.id.tv_score,obj.getVodScore()+"分");
-                    }
-                    holder.setText(R.id.tv_shortdesc,obj.getVodRemarks());
-                    if(TextUtils.isEmpty(obj.getVodActor())){
-                        holder.setText(R.id.tv_actors,obj.getVodRemarks());
-                    }else{
-                        holder.setText(R.id.tv_actors,obj.getVodActor());
-                    }
+                    MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.post_img));
+                    holder.setText(R.id.post_title,obj.getVodName());
                 }
             });
         }

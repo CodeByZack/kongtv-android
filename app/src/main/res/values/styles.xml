@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/fade</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -57,5 +61,16 @@
         <item name="android:paddingRight">@dimen/little_margin</item>
         <item name="android:paddingLeft">@dimen/little_margin</item>
         <item name="android:background">@drawable/btn_transparent</item>
+    </style>
+
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/anim_fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/anim_fade_out</item>
+    </style>
+
+    <style name="ToolbarTitle">
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

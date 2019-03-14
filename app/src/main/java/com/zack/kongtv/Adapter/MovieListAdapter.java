@@ -24,18 +24,7 @@ public class MovieListAdapter extends BaseQuickAdapter<Cms_movie,BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder holder, Cms_movie obj) {
-        MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.movie_img));
-        holder.setText(R.id.tv_name,obj.getVodName());
-        if(TextUtils.isEmpty(obj.getVodScore())){
-            holder.getView(R.id.tv_score).setVisibility(View.GONE);
-        }else{
-            holder.setText(R.id.tv_score,obj.getVodScore());
-        }
-        holder.setText(R.id.tv_shortdesc,obj.getVodRemarks());
-        if(TextUtils.isEmpty(obj.getVodActor())){
-            holder.setText(R.id.tv_actors,obj.getVodRemarks());
-        }else{
-            holder.setText(R.id.tv_actors,obj.getVodActor());
-        }
+        MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.post_img));
+        holder.setText(R.id.post_title,obj.getVodName());
     }
 }

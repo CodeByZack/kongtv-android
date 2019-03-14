@@ -1,6 +1,5 @@
 package com.zack.kongtv.activities.MovieList;
 
-import android.arch.persistence.room.Database;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,15 +14,10 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Const;
-import com.zack.kongtv.Data.room.DataBase;
-import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
-import com.zack.kongtv.activities.SearchResult.SearchActivity;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
-import com.zack.kongtv.bean.MovieItem;
 import com.zack.kongtv.util.MyImageLoader;
-import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
 
 import java.util.LinkedList;
@@ -55,7 +49,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
             }
         });
     }

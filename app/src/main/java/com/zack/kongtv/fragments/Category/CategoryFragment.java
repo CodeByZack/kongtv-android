@@ -8,22 +8,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.umeng.analytics.MobclickAgent;
-import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
-import com.zack.kongtv.Data.DataResp;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.Cms_movie;
-import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.TagItemBean;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
@@ -166,7 +161,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
             }
         });
     }
@@ -235,19 +230,8 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
 
         @Override
         protected void convert(BaseViewHolder holder, Cms_movie obj) {
-            MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.movie_img));
-            holder.setText(R.id.tv_name,obj.getVodName());
-            if(TextUtils.isEmpty(obj.getVodScore())){
-                holder.getView(R.id.tv_score).setVisibility(View.GONE);
-            }else{
-                holder.setText(R.id.tv_score,obj.getVodScore()+"分");
-            }
-            holder.setText(R.id.tv_shortdesc,obj.getVodClass());
-            if(TextUtils.isEmpty(obj.getVodActor())){
-                holder.setText(R.id.tv_actors,obj.getVodClass());
-            }else{
-                holder.setText(R.id.tv_actors,obj.getVodActor());
-            }
+            MyImageLoader.showImage(mActivity,obj.getVodPic(), (ImageView) holder.getView(R.id.post_img));
+            holder.setText(R.id.post_title,obj.getVodName());
         }
     }
 

@@ -33,6 +33,7 @@ import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
 import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragment;
+import com.zack.kongtv.fragments.Category.CategoryFragmentNew;
 import com.zack.kongtv.fragments.Home.HomeFragment;
 import com.zack.kongtv.fragments.Home.HomeFragmentNew;
 import com.zack.kongtv.util.AndroidUtil;
@@ -52,7 +53,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AbsActivity {
     private ViewPager viewPager;
-    private TabLayout tabLayout;
+    private com.antiless.support.widget.TabLayout tabLayout;
     private Toolbar toolbar;
 //    private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -107,10 +108,10 @@ public class MainActivity extends AbsActivity {
         titles.add("综艺");
 
         fragments.add(new HomeFragmentNew());
-        fragments.add(CategoryFragment.instance(Const.Film));
-        fragments.add(CategoryFragment.instance(Const.Episode));
-        fragments.add(CategoryFragment.instance(Const.Anime));
-        fragments.add(CategoryFragment.instance(Const.Variety));
+        fragments.add(CategoryFragmentNew.instance(Const.Film));
+        fragments.add(CategoryFragmentNew.instance(Const.Episode));
+        fragments.add(CategoryFragmentNew.instance(Const.Anime));
+        fragments.add(CategoryFragmentNew.instance(Const.Variety));
     }
 
     private void initLogic() {
@@ -170,6 +171,15 @@ public class MainActivity extends AbsActivity {
         tv_xianlu = findViewById(R.id.tv_xianlu);
     }
 
+    @Override
+    protected void initImmersionBar() {
+        immersionBar.statusBarDarkFont(true);
+
+        immersionBar.statusBarColor(R.color.white);
+
+        immersionBar.init();
+    }
+
     public void showPage(int type){
         viewPager.setCurrentItem(type);
     }
@@ -187,32 +197,6 @@ public class MainActivity extends AbsActivity {
             super.onBackPressed();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.search:
-                startActivity(new Intent(this, SearchActivity.class));
-                break;
-            case R.id.collect:
-                startActivity(new Intent(this, MovieListActivity.class).putExtra("mode", Const.Collect));
-                break;
-            case R.id.history:
-                startActivity(new Intent(this, MovieListActivity.class).putExtra("mode", Const.History));
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private class PagerAdapter extends FragmentPagerAdapter {
 

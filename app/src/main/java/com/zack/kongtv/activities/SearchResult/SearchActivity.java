@@ -1,10 +1,7 @@
 package com.zack.kongtv.activities.SearchResult;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,20 +11,16 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Adapter.MovieListAdapter;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
-import com.zack.kongtv.bean.MovieDetailBean;
-import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.Utils.SPUtil;
@@ -39,7 +32,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements ISearchView{
 
@@ -83,7 +75,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
             }
         });
         icSearch.setOnClickListener(new View.OnClickListener() {

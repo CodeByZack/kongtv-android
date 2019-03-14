@@ -9,12 +9,18 @@
     tools:context="com.zack.kongtv.activities.MainActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        app:theme="@style/toolbar"
         app:titleTextColor="@color/colorIcon"
         android:layout_width="match_parent"
+        android:paddingStart="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:background="#ffffff"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/searchbar"/>
+    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,11 +28,20 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.zack.kongtv.activities.MainActivity"
         tools:showIn="@layout/app_bar_main">
-        <android.support.design.widget.TabLayout
+        <com.antiless.support.widget.TabLayout
             android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.design.widget.TabLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffff"
+            app:tabMode="scrollable"
+            app:tabIndicatorHeight="3dp"
+            app:indicatorStartColor="#303030"
+            app:indicatorEndColor="#292929"
+            app:indicatorMarginStart="20dp"
+            app:indicatorMarginEnd="20dp"
+            app:indicatorMarginBottom="3dp">
+        </com.antiless.support.widget.TabLayout>
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
