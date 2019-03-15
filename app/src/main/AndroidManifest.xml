@@ -45,7 +45,28 @@
         <activity android:name=".activities.SearchResult.SearchActivity"></activity>
         <activity android:name=".activities.PlayMovie.WebviewFullScreenActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"></activity>
+        <activity
 
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+
+            android:configChanges="orientation|screenSize|keyboardHidden"
+
+            android:exported="false"
+
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"
+
+            android:alwaysRetainTaskState="true">
+
+            <intent-filter>
+
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

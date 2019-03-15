@@ -17,23 +17,24 @@
             android:layout_height="match_parent"
             android:background="#333333"/>
         <TextView
-            android:id="@+id/tv_more"
+            android:id="@+id/tv_desc"
             android:gravity="center"
             android:padding="@dimen/little_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更多电视剧"
+            android:text=""
             android:textColor="#333333"/>
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
         <TextView
+            android:id="@+id/tv_more"
             android:gravity="center"
             android:padding="@dimen/little_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="更多"
+            android:text="更多>"
             android:textColor="#333333"/>
 
     </LinearLayout>

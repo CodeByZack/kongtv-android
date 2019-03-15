@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -31,6 +33,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ctetin.expandabletextviewlibrary.ExpandableTextView;
+import com.tencent.smtt.sdk.TbsVideo;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
@@ -44,6 +47,7 @@ import com.zack.kongtv.util.MyImageLoader;
 import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.base.BaseMvpActivity;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,7 +81,22 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private Cms_movie targetMovie;
     private List<JujiBean> data = new LinkedList<>();
     private Adapter adapter;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    updateJuji((List<JujiBean>) msg.getData().getSerializable("juji"));
+                    break;
+            }
+        }
+    };
 
+    private void updateJuji(List<JujiBean> obj) {
+        this.data.clear();
+        this.data.addAll(obj);
+        adapter.notifyDataSetChanged();
+    }
 
     private void initView() {
         mToolbar = findViewById(R.id.toolbar);
@@ -89,7 +108,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mTitleview =  findViewById(R.id.titleview);
         mBack_icon =  findViewById(R.id.back_icon);
         mToolbarTitle =  findViewById(R.id.toolbarTitle);
-        mScroll_content =  findViewById(R.id.scroll_content);
         mPoster_border =  findViewById(R.id.poster_border);
         mLine_detail_poster =  findViewById(R.id.line_detail_poster);
         mMv_title =  findViewById(R.id.mv_title);
@@ -107,7 +125,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
-        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
+//        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }
 
 
@@ -133,13 +151,21 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
     private void initLogic() {
         adapter =  new Adapter(R.layout.m3u8_item,data);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startPlay(position);
+            }
+        });
         mPlay_list2.setAdapter(adapter);
     }
 
     private void startPlay(int position) {
         HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
         md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
-
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("screenMode", 102);
+//        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
         Intent intent = new Intent(mActivity, FullScreenActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
@@ -174,17 +200,37 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         desc.append(targetMovie.getVodLang());
 
         mHead_desc.setText(desc.toString());
-        Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                setColor(resource);
-            }
-        });
 
         MyImageLoader.showImage(this,targetMovie.getVodPic(),mLine_detail_poster);
         mMv_title.setText(targetMovie.getVodName());
         mLine_desc.setContent(targetMovie.getVodBlurb());
-        String playUrl = targetMovie.getVodPlayUrl();
+        final String playUrl = targetMovie.getVodPlayUrl();
+
+
+        Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                long startTime = System.currentTimeMillis();
+                setColor(resource);
+                long endTime = System.currentTimeMillis();
+                System.out.println("程序运是时间："+(endTime-startTime)+"ms");
+            }
+        });
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//                Message msg = handler.obtainMessage();
+//                msg.what = 0;
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("juji", (Serializable) jujiBeans);
+//                msg.setData(bundle);
+//                handler.sendMessage(msg);
+//            }
+//        }).start();
+        long startTime = System.currentTimeMillis();
         String[] tmp;
         if(playUrl.contains("$$$")){
             tmp = playUrl.split("\\$\\$\\$");
@@ -208,10 +254,10 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             jujiBean.setText(tt[0]);
             jujiBeans.add(jujiBean);
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("程序运行时间："+(endTime-startTime)+"ms");
         Collections.reverse(jujiBeans);
-        this.data.clear();
-        this.data.addAll(jujiBeans);
-        adapter.notifyDataSetChanged();
+        updateJuji(jujiBeans);
         CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
     }
 

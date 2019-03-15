@@ -12,10 +12,9 @@
         android:background="@drawable/play_btn_shape"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="4dp"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:id="@+id/btPlayText"
         android:text="高清" />
 

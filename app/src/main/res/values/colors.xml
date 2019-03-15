@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#f2f2f2</color>
-    <color name="colorAccent">#607D8B</color>
+    <color name="colorAccent">#249bb3</color>
 
     <color name="colorTextGrey1">#6e6e6e</color>
     <color name="colorTextGrey2">#949494</color>
@@ -10,6 +10,8 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDiveder">#BDBDBD</color>
     <color name="colorIcon">#FFFFFF</color>
+
+
 
     <!--文字颜色-->
     <color name="textPrimary">#212121</color><!--用于重要级文字信息，如标题，子模块功能文字等-->

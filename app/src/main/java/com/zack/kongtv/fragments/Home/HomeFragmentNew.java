@@ -71,20 +71,19 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
                 }
             }
         });
+        bannerAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mActivity, MovieDetailActivity.class).putExtra("url",banners.get(position)));
+            }
+        });
         recyclerView.setAdapter(homeAdapter);
 
         banner.setAdapter(bannerAdapter);
 
-//        swRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                presenter.refresh();
-//            }
-//        });
     }
 
     private void initView() {
-//        swRefresh = findViewById(R.id.sw_refresh);
         recyclerView = findViewById(R.id.recycleview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -154,8 +153,7 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
                     break;
             }
 
-//            helper.setText(R.id.tv_title,title);
-            helper.setText(R.id.tv_more,title);
+            helper.setText(R.id.tv_desc,title);
             helper.addOnClickListener(R.id.tv_more);
 
             NoScrollGridView gv = helper.getView(R.id.gv_container);

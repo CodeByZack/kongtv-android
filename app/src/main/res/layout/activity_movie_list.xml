@@ -6,14 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.MovieList.MovieListActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:theme="@style/toolbar"
-        app:titleTextColor="@color/colorIcon"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:orientation="horizontal"
+        android:paddingTop="40dp"
+        android:background="#249bb3"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="观看历史"
+            android:textColor="#fff"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            />
+        <Button
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:backgroundTint="#fff"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="240dp"
+            android:id="@+id/clear"
+            />
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleview"
         android:layout_width="match_parent"

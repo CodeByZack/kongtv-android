@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.util.MyImageLoader;
@@ -24,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> implements IMovieListView{
-    private Toolbar toolbar;
+    private TextView title;
     private RecyclerView recyclerView;
     private MovieListAdapter adapter;
     private List<Cms_movie> data = new LinkedList<>();
@@ -49,26 +51,17 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
     }
 
     private void initView() {
-        toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.recycleview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setTitle("我的收藏");
+        title = findViewById(R.id.title);
     }
 
     @Override
@@ -91,7 +84,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
 
     @Override
     protected void initImmersionBar() {
-        immersionBar.titleBar(toolbar).statusBarColor(R.color.colorPrimaryDark).init();
+        immersionBar.statusBarColor(R.color.colorAccent).init();
     }
 
     @Override
@@ -106,8 +99,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
 
     @Override
     public void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
-
+        this.title.setText(title);
     }
 
     @Override
@@ -125,13 +117,13 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         protected void convert(BaseViewHolder helper, Cms_movie item) {
             MyImageLoader.showImage(mActivity,item.getVodPic(), (ImageView) helper.getView(R.id.movie_img));
             helper.setText(R.id.movie_name,item.getVodName());
-            helper.setText(R.id.movie_status,item.getVodRemarks());
-            helper.setText(R.id.movie_type,item.getVodClass());
+//            helper.setText(R.id.movie_status,item.getVodRemarks());
+//            helper.setText(R.id.movie_type,item.getVodClass());
             if(item.getRecord() != null){
-                helper.setVisible(R.id.movie_record,true);
-                helper.setText(R.id.movie_record,"上次观看到："+item.getRecord());
+//                helper.setVisible(R.id.movie_record,true);
+//                helper.setText(R.id.movie_record,"上次观看到："+item.getRecord());
             }else{
-                helper.getView(R.id.movie_record).setVisibility(View.GONE);
+//                helper.getView(R.id.movie_record).setVisibility(View.GONE);
             }
         }
     }

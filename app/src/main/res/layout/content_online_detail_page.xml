@@ -11,6 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
@@ -124,6 +126,8 @@
                 android:layout_marginLeft="@dimen/mini_margin"
                 android:layout_marginRight="@dimen/mini_margin"
                 android:layout_width="match_parent"
+                android:paddingLeft="@dimen/normal_margin"
+                android:paddingRight="@dimen/normal_margin"
                 android:id="@+id/play_list2"
                 android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"/>
