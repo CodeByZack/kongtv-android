@@ -19,6 +19,10 @@ public interface CollectMovieDao {
     @Query("SELECT * FROM CollectMovie ORDER BY id DESC")
     List<CollectMovie> getAllCollect();
 
+    @Query("SELECT * FROM CollectMovie WHERE movieId= :id")
+    CollectMovie getCollectById(long id);
+
+
 
     /**
      * 项数据库添加数据

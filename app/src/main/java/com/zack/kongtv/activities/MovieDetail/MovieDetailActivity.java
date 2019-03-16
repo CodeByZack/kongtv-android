@@ -56,26 +56,13 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
     private CoordinatorLayout mRoot;
     private AppBarLayout mApp_bar;
-    private CollapsingToolbarLayout mToolbar_layout;
     private Toolbar mToolbar;
-    private LinearLayout mTitleview;
-    private ImageView mBack_icon;
     private TextView mToolbarTitle;
-    private ImageView mToolbarIcon;
-    private android.support.v4.widget.NestedScrollView mScroll_content;
-    private android.support.v7.widget.CardView mPoster_border;
     private ImageView mLine_detail_poster;
     private TextView mMv_title;
     private TextView mHead_desc;
-    private LinearLayout mDesc_content;
-    private TextView mDesc_title;
     private ExpandableTextView mLine_desc;
-    private TextView mM3u8_title;
     private RecyclerView mPlay_list2;
-    private TextView mWeburl_title;
-    private RecyclerView mPlay_list;
-    private TextView mRec_title;
-    private RecyclerView mRec_list;
 
 
     private Cms_movie targetMovie;
@@ -91,6 +78,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             }
         }
     };
+    private ImageView tvCollect;
 
     private void updateJuji(List<JujiBean> obj) {
         this.data.clear();
@@ -103,24 +91,14 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         setSupportActionBar(mToolbar);
         mRoot =  findViewById(R.id.root);
         mApp_bar =  findViewById(R.id.app_bar);
-        mToolbar_layout =  findViewById(R.id.toolbar_layout);
         mToolbar =  findViewById(R.id.toolbar);
-        mTitleview =  findViewById(R.id.titleview);
-        mBack_icon =  findViewById(R.id.back_icon);
         mToolbarTitle =  findViewById(R.id.toolbarTitle);
-        mPoster_border =  findViewById(R.id.poster_border);
         mLine_detail_poster =  findViewById(R.id.line_detail_poster);
         mMv_title =  findViewById(R.id.mv_title);
         mHead_desc =  findViewById(R.id.head_desc);
-        mDesc_content =  findViewById(R.id.desc_content);
-        mDesc_title =  findViewById(R.id.desc_title);
         mLine_desc =  findViewById(R.id.line_desc);
-        mM3u8_title =  findViewById(R.id.m3u8_title);
         mPlay_list2 =  findViewById(R.id.play_list2);
-        mPlay_list =  findViewById(R.id.play_list);
-        mRec_title =  findViewById(R.id.rec_title);
-        mRec_list =  findViewById(R.id.rec_list);
-
+        tvCollect = findViewById(R.id.collect);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -147,6 +125,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             showToast("没有获取到影片信息！");
             finish();
         }
+
+        presenter.checkCollect(targetMovie.getVodId());
     }
 
     private void initLogic() {
@@ -158,18 +138,26 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             }
         });
         mPlay_list2.setAdapter(adapter);
+        tvCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CollectMovieDao md = DataBase.getInstance().collectMovieDao();
+                md.insert(AndroidUtil.transferCollect(targetMovie));
+                collect(true);
+            }
+        });
     }
 
     private void startPlay(int position) {
         HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
         md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("screenMode", 102);
-//        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
-        Intent intent = new Intent(mActivity, FullScreenActivity.class);
-        intent.putExtra("url",data.get(position).getUrl());
-        intent.putExtra("name",getSupportActionBar().getTitle());
-        startActivity(intent);
+        Bundle bundle = new Bundle();
+        bundle.putInt("screenMode", 102);
+        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
+//        Intent intent = new Intent(mActivity, FullScreenActivity.class);
+//        intent.putExtra("url",data.get(position).getUrl());
+//        intent.putExtra("name",getSupportActionBar().getTitle());
+//        startActivity(intent);
     }
 
     @Override
@@ -264,11 +252,11 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     @Override
     public void collect(boolean c) {
         if(c){
-//            tvCollect.setClickable(false);
-//            tvCollect.setText("已收藏");
+            tvCollect.setClickable(false);
+            tvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
         }else{
-//            tvCollect.setClickable(true);
-//            tvCollect.setText("收藏");
+            tvCollect.setClickable(true);
+            tvCollect.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_black_24dp));
         }
     }
 

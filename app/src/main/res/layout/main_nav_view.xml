@@ -3,134 +3,93 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="#fff"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/sun_main"
+        android:background="@drawable/live_voice_pw_bg_one"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:gravity="center">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@mipmap/icon2"
+            />
         <TextView
             android:id="@+id/nav_version"
             android:padding="@dimen/little_margin"
             android:textColor="#fff"
+            android:layout_marginTop="@dimen/little_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textSize="10sp"
+            android:gravity="center"
             android:text="风影院 version1.0"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
-    <LinearLayout
-        android:visibility="gone"
-        android:paddingLeft="@dimen/normal_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:gravity="center_vertical"
-        android:id="@+id/nav_change"
+    <TextView
         android:onClick="onclick"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:tint="@color/md_grey_500"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_drawer_collect"/>
-        <TextView
-            android:layout_marginLeft="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:text="切换线路"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/tv_xianlu"
-            android:textColor="@color/md_teal_200"
-            android:paddingRight="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="线路1"/>
-    </LinearLayout>
-    <LinearLayout
-        android:paddingLeft="@dimen/normal_margin"
-        android:paddingTop="@dimen/normal_margin"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
+        android:text="观看历史"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_user_center_play_history"
+        android:background="@drawable/item_pressed"
+        android:textColor="#313131"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:drawablePadding="10dp"
         android:id="@+id/nav_history"
+        />
+    <TextView
         android:onClick="onclick"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="26dp"
-            android:tint="@color/md_grey_500"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_drawer_collect"/>
-        <TextView
-            android:layout_marginLeft="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:text="历史记录"/>
-    </LinearLayout>
-    <LinearLayout
-        android:paddingLeft="@dimen/normal_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:onClick="onclick"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
+        android:text="收藏"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_user_center_my_favor"
+        android:background="@drawable/item_pressed"
+        android:textColor="#313131"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:drawablePadding="10dp"
         android:id="@+id/nav_collect"
+        />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="26dp"
-            android:tint="@color/md_grey_500"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_drawer_history"/>
-        <TextView
-            android:layout_marginLeft="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:text="收藏"/>
-    </LinearLayout>
-    <LinearLayout
-        android:paddingLeft="@dimen/normal_margin"
-        android:paddingTop="@dimen/normal_margin"
+        android:layout_height="50dp"
         android:onClick="onclick"
         android:gravity="center_vertical"
+        android:text="分享"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_user_center_lixian_space"
+        android:background="@drawable/item_pressed"
+        android:textColor="#313131"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:drawablePadding="10dp"
         android:id="@+id/nav_share"
+        />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="26dp"
-            android:tint="@color/md_grey_500"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_drawer_share"/>
-        <TextView
-            android:layout_marginLeft="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:text="分享"/>
-    </LinearLayout>
-    <LinearLayout
-        android:paddingLeft="@dimen/normal_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:onClick="onclick"
+        android:layout_height="50dp"
         android:gravity="center_vertical"
+        android:text="关于"
+        android:onClick="onclick"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_user_center_help"
+        android:background="@drawable/item_pressed"
+        android:textColor="#313131"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:drawablePadding="10dp"
         android:id="@+id/nav_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="26dp"
-            android:tint="@color/md_grey_500"
-            android:layout_height="26dp"
-            android:src="@drawable/ic_drawer_about"/>
-        <TextView
-            android:layout_marginLeft="@dimen/little_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_medium"
-            android:text="关于"/>
-    </LinearLayout>
+        />
 </LinearLayout>

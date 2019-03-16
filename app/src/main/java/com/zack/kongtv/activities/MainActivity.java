@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class MainActivity extends AbsActivity {
     private Toolbar toolbar;
 //    private NavigationView navigationView;
     private DrawerLayout drawer;
+    private ImageView search;
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private PagerAdapter pagerAdapter;
     private List<String> titles = new LinkedList<>();
@@ -94,8 +96,6 @@ public class MainActivity extends AbsActivity {
             share_intent.putExtra(Intent.EXTRA_TEXT, "https://apks-1252514056.cos.ap-chengdu.myqcloud.com/now.apk");
             share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
             startActivity(share_intent);
-        } else if(id == R.id.nav_change){
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -125,6 +125,15 @@ public class MainActivity extends AbsActivity {
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -168,7 +177,7 @@ public class MainActivity extends AbsActivity {
         tabLayout = findViewById(R.id.tablayout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         nav_version = findViewById(R.id.nav_version);
-        tv_xianlu = findViewById(R.id.tv_xianlu);
+        search = findViewById(R.id.search);
     }
 
     @Override

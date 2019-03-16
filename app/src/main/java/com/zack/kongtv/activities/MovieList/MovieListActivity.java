@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> implements IMovieListView{
     private TextView title;
+    private Button delete;
     private RecyclerView recyclerView;
     private MovieListAdapter adapter;
     private List<Cms_movie> data = new LinkedList<>();
@@ -54,6 +56,12 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
                 startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.deleteAll();
+            }
+        });
     }
 
     private void initView() {
@@ -62,24 +70,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         title = findViewById(R.id.title);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.delete, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.delete:
-                presenter.deleteAll();
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
+        delete = findViewById(R.id.clear);
     }
 
     @Override
@@ -117,13 +108,27 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
         protected void convert(BaseViewHolder helper, Cms_movie item) {
             MyImageLoader.showImage(mActivity,item.getVodPic(), (ImageView) helper.getView(R.id.movie_img));
             helper.setText(R.id.movie_name,item.getVodName());
+
+            StringBuilder desc = new StringBuilder();
+            desc.append("别名：");
+            desc.append(item.getVodName());
+            desc.append("\n导演：");
+            desc.append(item.getVodDirector());
+            desc.append("\n主演：");
+            desc.append(item.getVodActor());
+            desc.append("\n类型：");
+            desc.append(item.getVodClass());
+            desc.append("\n语言：");
+            desc.append(item.getVodLang());
+
+            helper.setText(R.id.time_progress,desc.toString());
 //            helper.setText(R.id.movie_status,item.getVodRemarks());
 //            helper.setText(R.id.movie_type,item.getVodClass());
             if(item.getRecord() != null){
-//                helper.setVisible(R.id.movie_record,true);
-//                helper.setText(R.id.movie_record,"上次观看到："+item.getRecord());
+                helper.setVisible(R.id.movie_record,true);
+                helper.setText(R.id.movie_record,"上次观看到："+item.getRecord());
             }else{
-//                helper.getView(R.id.movie_record).setVisibility(View.GONE);
+                helper.getView(R.id.movie_record).setVisibility(View.GONE);
             }
         }
     }

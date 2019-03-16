@@ -41,4 +41,13 @@ public class MovieDetailPresenter<V extends IMovieDetailView> extends BasePresen
 //            getView().setRecord(historyMovie.getMovieRecord());
 //        }
     }
+
+    public void checkCollect(long id){
+        CollectMovie data = DataBase.getInstance().collectMovieDao().getCollectById(id);
+        if(data!=null){
+            getView().collect(true);
+        }else{
+            getView().collect(false);
+        }
+    }
 }

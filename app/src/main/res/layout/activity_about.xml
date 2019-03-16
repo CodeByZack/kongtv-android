@@ -12,13 +12,13 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:background="@color/colorAccent"
             app:title="@string/app_name"
             app:collapsedTitleTextAppearance="@style/white"
             android:id="@+id/collapse"
             app:expandedTitleTextAppearance="@style/transparent"
             app:statusBarScrim="@android:color/transparent"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/colorAccent"
             android:elevation="@dimen/high_elevation"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -26,17 +26,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sun_main"/>
-            <TextView
-                android:layout_gravity="center|bottom"
-                android:layout_marginBottom="@dimen/little_margin"
-                android:id="@+id/title_text"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/tiny_text_size"
-                android:textColor="#fff"
-                android:layout_height="wrap_content"
-                android:text="风影院，像风一样自由。version1.0"/>
+                android:src="@drawable/live_voice_pw_bg_one"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:gravity="bottom">
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/icon2"
+                    />
+                <TextView
+                    android:id="@+id/title_text"
+                    android:padding="@dimen/little_margin"
+                    android:textColor="#fff"
+                    android:layout_marginTop="@dimen/little_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="风影院 version1.0"
+                    android:layout_marginBottom="20dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
             <android.support.v7.widget.Toolbar
                 app:layout_collapseMode="pin"
                 app:titleTextColor="@color/colorIcon"
@@ -59,6 +72,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

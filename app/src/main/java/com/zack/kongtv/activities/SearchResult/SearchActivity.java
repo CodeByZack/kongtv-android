@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zack.kongtv.Adapter.MovieListAdapter;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.util.CountEventHelper;
@@ -35,13 +37,14 @@ import java.util.List;
 
 public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements ISearchView{
 
-    private ImageView icBack,icSearch;
+    private TextView icSearch;
     private EditText searchText;
     private RecyclerView recyclerView;
     private MovieListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TagFlowLayout flowLayout;
     private LinearLayout recentSearchList;
+    private Button clear;
     private List<Cms_movie> data = new LinkedList<>();
     private String searchtext;
     private List<String> searchHistoryList = new LinkedList<>();
@@ -66,16 +69,10 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
 
     private void initLogic() {
         adapter = new MovieListAdapter(this,R.layout.movie_item,data);
-        icBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity,MovieDetailActivitycopy.class).putExtra("url",data.get(position)));
+                startActivity(new Intent(mActivity,MovieDetailActivity.class).putExtra("url",data.get(position)));
             }
         });
         icSearch.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +149,12 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
                 return false;
             }
         });
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.setText("");
+            }
+        });
     }
 
     private void search() {
@@ -173,13 +176,14 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     }
 
     private void initView() {
-        icBack = findViewById(R.id.ic_back);
-        icSearch = findViewById(R.id.ic_search);
-        searchText = findViewById(R.id.search);
+        icSearch = findViewById(R.id.search_now);
+        searchText = findViewById(R.id.et_search);
         swipeRefreshLayout = findViewById(R.id.sw_refresh);
         recyclerView = findViewById(R.id.recycleview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity,3);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        clear = findViewById(R.id.clear_et);
 
         flowLayout = findViewById(R.id.id_flowlayout);
         recentSearchList = findViewById(R.id.ll_recnet_search);
@@ -187,7 +191,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
 
     @Override
     protected void initImmersionBar() {
-        immersionBar.titleBar(findViewById(R.id.toolbar)).statusBarColor(R.color.colorPrimaryDark).init();
+        immersionBar.titleBar(findViewById(R.id.toolbar)).statusBarColor(R.color.colorPrimary).init();
     }
 
     @Override
