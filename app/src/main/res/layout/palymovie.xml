@@ -17,11 +17,10 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.xiao.nicevideoplayer.NiceVideoPlayer
-        android:id="@+id/nice_video_player"
+    <com.dueeeke.videoplayer.player.IjkVideoView
+        android:id="@+id/player"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-    </com.xiao.nicevideoplayer.NiceVideoPlayer>
+        android:layout_height="300dp" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
