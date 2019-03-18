@@ -1,17 +1,14 @@
 package com.zack.kongtv.activities.MovieDetail;
 
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,12 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -38,16 +32,13 @@ import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
-import com.zack.kongtv.view.GridSpacingItemDecoration;
 import com.zackdk.base.BaseMvpActivity;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
