@@ -3,6 +3,7 @@ package com.zack.kongtv.fragments.Home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.leochuan.AutoPlayRecyclerView;
 import com.leochuan.CarouselLayoutManager;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zack.kongtv.Adapter.GridAdapter;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
@@ -34,14 +36,16 @@ import java.util.List;
  */
 
 public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements IHomeView{
-    private SwipeRefreshLayout swRefresh;
     private RecyclerView recyclerView;
     private AutoPlayRecyclerView banner;
+    private AVLoadingIndicatorView loadingView;
     private HomeAdapter homeAdapter;
     private List<HomeItemBean> data = new LinkedList<>();
     private List<Cms_movie> banners = new LinkedList<>();
     private BannerAdapter bannerAdapter;
     private CarouselLayoutManager carouselLayoutManager;
+    private CoordinatorLayout contentMain;
+
     @Override
     public int setView() {
         return R.layout.fragment_home_new;
@@ -52,6 +56,21 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
         initView();
         initLogic();
         presenter.requestData();
+    }
+    private void initView() {
+        recyclerView = findViewById(R.id.recycleview);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setFocusableInTouchMode(false);
+        recyclerView.requestFocus();
+        banner = findViewById(R.id.banner);
+        carouselLayoutManager = new CarouselLayoutManager(getContext(), Screenutils.dp2px(getContext(),80));
+        carouselLayoutManager.setItemSpace(Screenutils.dp2px(getContext(),100));
+        carouselLayoutManager.setMoveSpeed(0.3f);
+        banner.setLayoutManager(carouselLayoutManager);
+        loadingView = findViewById(R.id.loading);
+        contentMain = findViewById(R.id.content_main);
     }
 
     private void initLogic() {
@@ -83,21 +102,6 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
 
     }
 
-    private void initView() {
-        recyclerView = findViewById(R.id.recycleview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setFocusableInTouchMode(false);
-        recyclerView.requestFocus();
-        banner = findViewById(R.id.banner);
-        carouselLayoutManager = new CarouselLayoutManager(getContext(), Screenutils.dp2px(getContext(),80));
-        carouselLayoutManager.setItemSpace(Screenutils.dp2px(getContext(),100));
-        carouselLayoutManager.setMoveSpeed(0.3f);
-        banner.setLayoutManager(carouselLayoutManager);
-
-    }
-
     @Override
     protected HomePresenter setPresenter() {
         return new HomePresenter();
@@ -111,12 +115,22 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
         banners.clear();
         banners.addAll(dataBean.getBannerItemBeans());
         bannerAdapter.notifyDataSetChanged();
-
+        contentMain.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setRefresh(boolean refresh) {
         //swRefresh.setRefreshing(refresh);
+    }
+
+    @Override
+    public void showLoading() {
+        loadingView.smoothToShow();
+    }
+
+    @Override
+    public void hideLoading() {
+        loadingView.smoothToHide();
     }
 
     private class HomeAdapter extends BaseQuickAdapter<HomeItemBean,BaseViewHolder> {
@@ -190,15 +204,5 @@ public class HomeFragmentNew extends BaseMvpFragment<HomePresenter> implements I
 
 
 
-    }
-
-    @Override
-    public void showLoading() {
-        //swRefresh.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        //swRefresh.setRefreshing(false);
     }
 }

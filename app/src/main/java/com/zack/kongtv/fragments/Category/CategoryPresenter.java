@@ -197,15 +197,6 @@ public class CategoryPresenter<V extends ICategoryView> extends BasePresenter<V>
         this.type = type;
     }
 
-    public void setParam(String year,String classname,String area){
-        this.year = year;
-        this.classname = classname;
-        this.area = area;
-
-        this.page=1;
-        requestData();
-    }
-
     public void refresh() {
         page = 1;
         requestData();

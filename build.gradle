@@ -24,9 +24,6 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven {
-            url 'http://4thline.org/m2'
-        }
     }
 }
 

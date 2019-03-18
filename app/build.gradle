@@ -109,5 +109,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     implementation 'com.github.MZCretin:ExpandableTextView:v1.5.1'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.wang.avi:library:2.1.3'
 
 }

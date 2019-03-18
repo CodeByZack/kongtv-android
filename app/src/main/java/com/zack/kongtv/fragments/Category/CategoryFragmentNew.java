@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
@@ -32,7 +33,7 @@ import java.util.List;
 public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> implements ICategoryView {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private View headerView;
+    private AVLoadingIndicatorView loadingView;
     private CategoryAdapter adapter;
     private List<Cms_movie> data = new LinkedList<>();
 
@@ -98,6 +99,7 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
         swipeRefreshLayout = findViewById(R.id.sw_refresh);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity,3);
         recyclerView.setLayoutManager(gridLayoutManager);
+        loadingView = findViewById(R.id.loading);
     }
 
 
@@ -110,6 +112,8 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
     public void updateView(CategoryDataBean data) {
 
         adapter.addData(data.getMovieItemBeans());
+        loadingView.smoothToHide();
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
