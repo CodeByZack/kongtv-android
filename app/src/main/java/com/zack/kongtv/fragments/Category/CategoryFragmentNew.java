@@ -15,7 +15,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.TagItemBean;

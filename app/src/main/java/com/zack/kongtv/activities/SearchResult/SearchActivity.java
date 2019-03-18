@@ -21,7 +21,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zack.kongtv.Adapter.MovieListAdapter;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivitycopy;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.view.GridSpacingItemDecoration;

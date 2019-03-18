@@ -106,7 +106,6 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':appupdate')
-    implementation files('libs/jsoup-1.9.2.jar')
     implementation 'com.just.agentwebX5:agentwebX5:2.0.0'
     implementation project(':nicevideoplayer')
     implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'

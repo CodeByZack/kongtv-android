@@ -15,18 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-import com.zack.kongtv.AppConfig;
-import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
@@ -34,12 +26,9 @@ import com.zack.kongtv.view.CustomPlayerControl;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
-import com.zackdk.Utils.LogUtil;
-import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.BaseMvpActivity;
 
 import org.fourthline.cling.android.AndroidUpnpService;
-import org.fourthline.cling.android.AndroidUpnpServiceImpl;
 import org.fourthline.cling.model.action.ActionInvocation;
 import org.fourthline.cling.model.message.UpnpResponse;
 import org.fourthline.cling.model.meta.Device;
@@ -60,11 +49,8 @@ import org.seamless.util.MimeType;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
 
 
 public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver {
@@ -149,8 +135,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
 		switch (v.getId()){
 			case R.id.openAlipay:
-				AndroidUtil.copy(this,AndroidUtil.getAlipayText());
-				AndroidUtil.openAlipay(this);
+
 				break;
 			case R.id.copy:
 				AndroidUtil.copy(this,url);

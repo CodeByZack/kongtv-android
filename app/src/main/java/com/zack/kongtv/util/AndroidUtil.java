@@ -25,16 +25,6 @@ public class AndroidUtil {
         //Toast.makeText(context,"已复制："+copy,Toast.LENGTH_SHORT).show();
     }
 
-    public static String getAlipayText(){
-        int length = Const.AlipayTextArr.length;
-        int x=(int)(Math.random()*length);
-        if(x<length){
-            LogUtil.d(Const.AlipayTextArr[x]);
-            return Const.AlipayTextArr[x];
-        }else{
-            return "";
-        }
-    }
     public static void openAlipay(Context context){
         PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage("com.eg.android.AlipayGphone");
