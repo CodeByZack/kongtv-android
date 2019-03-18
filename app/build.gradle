@@ -92,6 +92,12 @@ dependencies {
     implementation 'com.umeng.sdk:common:latest.integration'
     implementation 'com.umeng.sdk:analytics:latest.integration'
 
+    //dkplayer
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.5'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.5'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.5'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.5'
+
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'

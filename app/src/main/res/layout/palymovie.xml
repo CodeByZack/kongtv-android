@@ -11,8 +11,10 @@
         app:titleTextColor="@color/colorIcon"
         android:layout_width="match_parent"
         app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorAccent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     </android.support.v7.widget.Toolbar>
@@ -22,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" />
     <LinearLayout
+        android:visibility="gone"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -47,6 +50,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:padding="@dimen/little_margin"

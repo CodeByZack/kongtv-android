@@ -1,6 +1,7 @@
 package com.zack.kongtv.activities.MovieDetail;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -32,6 +33,7 @@ import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.PlayMovie.PlayMovieActivity;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
@@ -137,6 +139,12 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 collect(true);
             }
         });
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void startPlay(int position) {
@@ -144,11 +152,11 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
         Bundle bundle = new Bundle();
         bundle.putInt("screenMode", 102);
-        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
-//        Intent intent = new Intent(mActivity, FullScreenActivity.class);
-//        intent.putExtra("url",data.get(position).getUrl());
-//        intent.putExtra("name",getSupportActionBar().getTitle());
-//        startActivity(intent);
+//        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
+        Intent intent = new Intent(mActivity, PlayMovieActivity.class);
+        intent.putExtra("url",data.get(position).getUrl());
+        intent.putExtra("name",targetMovie.getVodName()+":"+data.get(position).getText());
+        startActivity(intent);
     }
 
     @Override
@@ -190,26 +198,9 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
 
-                long startTime = System.currentTimeMillis();
                 setColor(resource);
-                long endTime = System.currentTimeMillis();
-                System.out.println("程序运是时间："+(endTime-startTime)+"ms");
             }
         });
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//                Message msg = handler.obtainMessage();
-//                msg.what = 0;
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("juji", (Serializable) jujiBeans);
-//                msg.setData(bundle);
-//                handler.sendMessage(msg);
-//            }
-//        }).start();
-        long startTime = System.currentTimeMillis();
         String[] tmp;
         if(playUrl.contains("$$$")){
             tmp = playUrl.split("\\$\\$\\$");
@@ -233,8 +224,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             jujiBean.setText(tt[0]);
             jujiBeans.add(jujiBean);
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println("程序运行时间："+(endTime-startTime)+"ms");
         Collections.reverse(jujiBeans);
         updateJuji(jujiBeans);
         CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
