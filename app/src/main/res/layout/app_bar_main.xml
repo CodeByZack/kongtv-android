@@ -30,7 +30,7 @@
         tools:showIn="@layout/app_bar_main">
         <com.antiless.support.widget.TabLayout
             android:id="@+id/tablayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_gravity="center_horizontal"
             android:background="#ffffff"
