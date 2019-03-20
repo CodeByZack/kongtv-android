@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -85,7 +86,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         tvCollect = findViewById(R.id.collect);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
         mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
 //        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }

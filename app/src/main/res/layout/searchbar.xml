@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_toLeftOf="@+id/downtask"
+        android:layout_toLeftOf="@+id/iv_share"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
@@ -16,7 +16,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/downtask"
+        android:layout_toLeftOf="@+id/iv_share"
         android:layout_marginRight="20dp"
         android:src="@drawable/play_btn_icon_search"
         />
@@ -33,8 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:onClick="onclick"
         android:layout_marginRight="10dp"
-        android:id="@+id/downtask"
+        android:id="@+id/iv_share"
         android:background="@drawable/ic_share_black_24dp"
         />
 </RelativeLayout>

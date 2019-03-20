@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
@@ -19,12 +20,13 @@ import com.zackdk.NetWorkChange.NetworkType;
 import com.zackdk.base.BaseMvpActivity;
 
 
-public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver {
+public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
 
 	private Toolbar toolbar;
 	private String name,url;
 	private IjkVideoView ijkVideoView;
 	private int color;
+	private LinearLayout root;
 
 
 	private void play2(String url,String name) {
@@ -37,7 +39,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		//高级设置（可选，须在start()之前调用方可生效）
 		PlayerConfig playerConfig = new PlayerConfig.Builder()
 				.autoRotate() //启用重力感应自动进入/退出全屏功能
-				.enableMediaCodec()//启动硬解码，启用后可能导致视频黑屏，音画不同步
+//				.enableMediaCodec()//启动硬解码，启用后可能导致视频黑屏，音画不同步
 				.usingSurfaceView() //启用SurfaceView显示视频，不调用默认使用TextureView
 				.savingProgress() //保存播放进度
 				.disableAudioFocus() //关闭AudioFocusChange监听
@@ -60,6 +62,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			}
 		});
 		ijkVideoView = findViewById(R.id.player);
+		root = findViewById(R.id.root);
 	}
 
 	public void onclick(View v) {
@@ -90,11 +93,19 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		}
 	}
 
+	public void setColor(int color){
+		if(color!=0){
+			toolbar.setBackgroundColor(color);
+			root.setBackgroundColor(color);
+		}
+	}
+
+
 
 	@Override
 	protected void initImmersionBar() {
 		super.initImmersionBar();
-		if(color>-1){
+		if(color!=0){
 			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
 		}else{
 			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
@@ -111,9 +122,10 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		Intent intent = getIntent();
 		name = intent.getStringExtra("name");
 		url = intent.getStringExtra("url");
-		color = intent.getIntExtra("color",-1);
+		color = intent.getIntExtra("color",0);
 		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
+		setColor(color);
 		play2(url,name);
 	}
 
@@ -122,19 +134,6 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		return new PlayMoviePresenter();
 	}
 
-
-
-	@Override
-	public void onNetDisconnected() {
-		showToast("网络断开了！");
-	}
-
-	@Override
-	public void onNetConnected(NetworkType networkType) {
-		if(networkType == NetworkType.NETWORK_2G || networkType == NetworkType.NETWORK_4G || networkType == NetworkType.NETWORK_3G){
-			showToast("温馨提示，你正在使用流量观看视频!");
-		}
-	}
 
 	@Override
 	protected void onPause() {
@@ -146,7 +145,6 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	protected void onResume() {
 		super.onResume();
 		ijkVideoView.resume();
-		NetStateChangeReceiver.registerObserver(this);
 	}
 
 	@Override

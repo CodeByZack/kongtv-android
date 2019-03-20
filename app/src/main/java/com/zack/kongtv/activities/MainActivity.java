@@ -53,7 +53,6 @@ public class MainActivity extends AbsActivity {
     private long clickTime;
     private Disposable updateInfoDisposable;
     private AppUpdate appupdate;
-
     @Override
     public int setView() {
         return R.layout.activity_main;
@@ -75,7 +74,7 @@ public class MainActivity extends AbsActivity {
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
-        } else if(id == R.id.nav_share){
+        } else if(id == R.id.nav_share || id == R.id.iv_share){
             Intent share_intent = new Intent();
             share_intent.setAction(Intent.ACTION_SEND);
             share_intent.setType("text/plain");
