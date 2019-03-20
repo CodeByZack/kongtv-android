@@ -24,6 +24,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private Toolbar toolbar;
 	private String name,url;
 	private IjkVideoView ijkVideoView;
+	private int color;
 
 
 	private void play2(String url,String name) {
@@ -93,7 +94,11 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	@Override
 	protected void initImmersionBar() {
 		super.initImmersionBar();
-		immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
+		if(color>-1){
+			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
+		}else{
+			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
+		}
 	}
 
 	@Override
@@ -106,6 +111,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		Intent intent = getIntent();
 		name = intent.getStringExtra("name");
 		url = intent.getStringExtra("url");
+		color = intent.getIntExtra("color",-1);
 		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
 		play2(url,name);

@@ -58,19 +58,10 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private RecyclerView mPlay_list2;
 
 
+    private int nowColor;
     private Cms_movie targetMovie;
     private List<JujiBean> data = new LinkedList<>();
     private Adapter adapter;
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0:
-                    updateJuji((List<JujiBean>) msg.getData().getSerializable("juji"));
-                    break;
-            }
-        }
-    };
     private ImageView tvCollect;
 
     private void updateJuji(List<JujiBean> obj) {
@@ -150,11 +141,12 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private void startPlay(int position) {
         HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
         md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
-        Bundle bundle = new Bundle();
-        bundle.putInt("screenMode", 102);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("screenMode", 102);
 //        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
         Intent intent = new Intent(mActivity, PlayMovieActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
+        intent.putExtra("color",nowColor);
         intent.putExtra("name",targetMovie.getVodName()+":"+data.get(position).getText());
         startActivity(intent);
     }
@@ -188,7 +180,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
         mHead_desc.setText(desc.toString());
 
-        MyImageLoader.showImage(this,targetMovie.getVodPic(),mLine_detail_poster);
         mMv_title.setText(targetMovie.getVodName());
         mLine_desc.setContent(targetMovie.getVodBlurb());
         final String playUrl = targetMovie.getVodPlayUrl();
@@ -197,7 +188,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-
+                mLine_detail_poster.setImageBitmap(resource);
                 setColor(resource);
             }
         });
@@ -268,8 +259,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 //根据调色板Palette获取到图片中的颜色设置到toolbar和tab中背景，标题等，使整个UI界面颜色统一
                 if (mRoot != null) {
                     if (vibrant != null) {
-
-                        ValueAnimator colorAnim2 = ValueAnimator.ofArgb(Color.rgb(110, 110, 100), colorBurn(vibrant.getRgb()));
+                        nowColor = colorBurn(vibrant.getRgb());
+                        ValueAnimator colorAnim2 = ValueAnimator.ofArgb(Color.rgb(110, 110, 100), nowColor);
                         colorAnim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             @Override
                             public void onAnimationUpdate(ValueAnimator animation) {
