@@ -32,29 +32,40 @@ public class DataResp {
 
 
     public static Observable getHomeData(){
-        Observable<List<Cms_movie>> index_data = NetTool.getInstance().getList();
+        HashMap<String,String> map = new HashMap<>();
+        map.put("router","index");
+        Observable<List<Cms_movie>> index_data = NetTool.getInstance().getList(map);
         return index_data;
     }
     public static Observable getFilmData(String year,String area,String classname,int page){
-        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDY(NetTool.getParamMap(year,area,classname,page));
+        HashMap<String, String> map = NetTool.getParamMap(year,area,classname,page);
+        map.put("router","dy");
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDY(map);
         return observable;
     }
     public static Observable getEpisodeData(String year,String area,String classname,int page){
-        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDSJ(NetTool.getParamMap(year,area,classname,page));
+        HashMap<String, String> map = NetTool.getParamMap(year,area,classname,page);
+        map.put("router","dsj");
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDSJ(map);
         return observable;
     }
     public static Observable getAnimeData(String year,String area,String classname,int page){
-        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDM(NetTool.getParamMap(year,area,classname,page));
+        HashMap<String, String> map = NetTool.getParamMap(year,area,classname,page);
+        map.put("router","dm");
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getDM(map);
         return observable;
     }
     public static Observable getVarietyData(String year,String area,String classname,int page){
-        Observable<List<Cms_movie>> observable = NetTool.getInstance().getZY(NetTool.getParamMap(year,area,classname,page));
+        HashMap<String, String> map = NetTool.getParamMap(year,area,classname,page);
+        map.put("router","zy");
+        Observable<List<Cms_movie>> observable = NetTool.getInstance().getZY(map);
         return observable;
     }
 
     public static Observable searchText(final  String text,final int page){
         HashMap<String,String> map = new HashMap<>();
-        map.put("search",text);
+        map.put("router","search");
+        map.put("name",text);
         Observable<List<Cms_movie>> observable = NetTool.getInstance().search(map);
         return observable;
     }

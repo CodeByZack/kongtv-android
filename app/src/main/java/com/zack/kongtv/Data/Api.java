@@ -12,22 +12,22 @@ import retrofit2.http.QueryMap;
 
 public interface Api {
 
-    @GET("index")
-    Observable<List<Cms_movie>> getList();
+    @GET("api.php")
+    Observable<List<Cms_movie>> getList(@QueryMap HashMap<String,String> map);
 
-    @GET("dy")
+    @GET("api.php")
     Observable<List<Cms_movie>> getDY(@QueryMap HashMap<String, String> paramsMap);
 
-    @GET("dsj")
+    @GET("api.php")
     Observable<List<Cms_movie>> getDSJ(@QueryMap HashMap<String, String> paramsMap);
 
-    @GET("dm")
+    @GET("api.php")
     Observable<List<Cms_movie>> getDM(@QueryMap HashMap<String, String> paramsMap);
 
-    @GET("zy")
+    @GET("api.php")
     Observable<List<Cms_movie>> getZY(@QueryMap HashMap<String, String> paramsMap);
 
 
-    @GET("search")
+    @GET("api.php")
     Observable<List<Cms_movie>> search(@QueryMap HashMap<String, String> paramsMap);
 }
