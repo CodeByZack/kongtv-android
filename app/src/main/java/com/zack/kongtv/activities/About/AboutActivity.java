@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 
 public class AboutActivity extends AbsActivity implements View.OnClickListener {
     private Toolbar toolbar;
-    private TextView linearLayout,email,qq;
+    private LinearLayout pay,email,qq;
     private TextView titleVersion;
     @Override
     public int setView() {
@@ -34,15 +34,14 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(this);
 
-        linearLayout = (TextView) findViewById(R.id.pay);
-        linearLayout.setOnClickListener(this);
-
-        email = (TextView) findViewById(R.id.email);
+        pay = findViewById(R.id.pay);
+        pay.setOnClickListener(this);
+        email =  findViewById(R.id.email);
         email.setOnClickListener(this);
         qq = findViewById(R.id.qq);
         qq.setOnClickListener(this);
-        titleVersion = findViewById(R.id.title_text);
 
+        titleVersion = findViewById(R.id.title_text);
         String name = PackageUtil.packageName(this);
         titleVersion.setText("风影院，像风一样自由。version"+name);
     }

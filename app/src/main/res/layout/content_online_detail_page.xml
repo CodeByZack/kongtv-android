@@ -132,25 +132,25 @@
                 android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:text="猜你喜欢"
-                android:textSize="14sp"
-                android:drawableLeft="@drawable/ic_slideshow_black_24dp"
-                android:textColor="@color/white"
-                android:alpha="0.7"
-                android:id="@+id/rec_title"
-                android:layout_marginLeft="26dp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="猜你喜欢"-->
+                <!--android:textSize="14sp"-->
+                <!--android:drawableLeft="@drawable/ic_slideshow_black_24dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:alpha="0.7"-->
+                <!--android:id="@+id/rec_title"-->
+                <!--android:layout_marginLeft="26dp" />-->
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:id="@+id/rec_list"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="10dp"
-                android:paddingLeft="20dp"
-                android:layout_height="200dp" />
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:id="@+id/rec_list"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:layout_height="200dp" />-->
 
         </LinearLayout>
     </RelativeLayout>

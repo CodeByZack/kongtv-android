@@ -72,68 +72,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#444444"
-                    android:text="一些说明："
-                    android:paddingTop="@dimen/normal_margin"
-                    android:paddingLeft="@dimen/normal_margin"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:layout_marginRight="@dimen/normal_margin"
-                    android:textColor="#444444"
-                    android:textSize="@dimen/tiny_text_size"
-                    android:padding="@dimen/normal_margin"
-                    android:text="      软件最初开发时的视频源挂掉了，我可是因为这个视频源超级稳定才开始做这个软件的。现在只能临时找到两条线路补充，但不能保证全部视频都可以正常观看。由于是自用软件，不出什么问题会一直维护下去。就这。"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#444444"
-                    android:text="问题反馈或建议："
-                    android:paddingTop="@dimen/normal_margin"
-                    android:paddingLeft="@dimen/normal_margin"/>
-                <TextView
-                    android:id="@+id/qq"
-                    android:textColor="#2E64FE"
-                    android:layout_width="match_parent"
-                    android:textSize="@dimen/tiny_text_size"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:padding="@dimen/normal_margin"
-                    android:text="QQ群(455971847)"/>
-                <TextView
-                    android:id="@+id/email"
-                    android:textColor="#2E64FE"
-                    android:textSize="@dimen/tiny_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:padding="@dimen/normal_margin"
-                    android:text="邮箱(958059970@qq.com)"/>
-                <TextView
-                    android:id="@+id/pay"
-                    android:layout_width="match_parent"
-                    android:textSize="@dimen/tiny_text_size"
-                    android:textColor="#2E64FE"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:padding="@dimen/normal_margin"
-                    android:text="捐赠(支付宝)"/>
-            </LinearLayout>
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -150,9 +88,9 @@
                     android:layout_marginLeft="@dimen/normal_margin"
                     android:layout_marginRight="@dimen/normal_margin"
                     android:textColor="#444444"
-                    android:textSize="@dimen/tiny_text_size"
+                    android:textSize="@dimen/text_size_medium"
                     android:padding="@dimen/normal_margin"
-                    android:text="      本软件提供的视频资源均系实时爬取自各第三方聚合网站，本软件仅作为一个解析工具，各第三方聚合网站返回的内容与本软件无关，本软件对其概不负责，亦不承担任何法律责任。本软件不提供片源资源存储，也不参与录制、上传。"/>
+                    android:text="本软件提供的视频资源均系实时爬取自各第三方聚合网站，本软件仅作为一个解析工具，各第三方聚合网站返回的内容与本软件无关，本软件对其概不负责，亦不承担任何法律责任。本软件不提供片源资源存储，也不参与录制、上传。"/>
 
             </LinearLayout>
             <LinearLayout
@@ -161,19 +99,77 @@
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
-                    android:textColor="#444444"
                     android:layout_height="wrap_content"
-                    android:text="感谢以下开源库："
+                    android:textColor="#444444"
+                    android:text="问题反馈或建议,好用就打赏支持一下："
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
-                <TextView
+                <LinearLayout
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingBottom="@dimen/normal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#444444"
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:padding="@dimen/normal_margin"
-                    android:text="Glide\nJsoup\nRxjava\nRxandroid\nPhotoView\nBaseRecyclerViewAdapterHelper\n"/>
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/qq"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/qq"/>
+                        <TextView
+                            android:layout_marginTop="@dimen/mini_margin"
+                            android:textColor="#333"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/tiny_text_size"
+                            android:layout_height="wrap_content"
+                            android:text="点击加入QQ群"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/email"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/email"/>
+                        <TextView
+                            android:textColor="#333"
+                            android:layout_marginTop="@dimen/mini_margin"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/tiny_text_size"
+                            android:layout_height="wrap_content"
+                            android:text="点击发送邮件"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/pay"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/pay"/>
+                        <TextView
+                            android:layout_marginTop="@dimen/mini_margin"
+                            android:textColor="#333"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/tiny_text_size"
+                            android:layout_height="wrap_content"
+                            android:text="支付宝打赏"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
