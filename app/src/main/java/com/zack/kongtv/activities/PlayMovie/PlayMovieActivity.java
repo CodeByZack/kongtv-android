@@ -3,21 +3,34 @@ package com.zack.kongtv.activities.PlayMovie;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.dueeeke.videoplayer.player.PlayerConfig;
+import com.zack.kongtv.Data.room.DataBase;
+import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
+import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.bean.Cms_movie;
+import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
 import com.zackdk.NetWorkChange.NetStateChangeObserver;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.NetWorkChange.NetworkType;
 import com.zackdk.base.BaseMvpActivity;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
@@ -27,9 +40,96 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private IjkVideoView ijkVideoView;
 	private int color;
 	private LinearLayout root;
+	private RecyclerView recyclerView;
+	private Adapter adpter;
+	private List<JujiBean> data;
+	private Cms_movie movie;
+	private int positionNow;
+
+
+	@Override
+	public int setView() {
+		return R.layout.palymovie;
+	}
+
+	@Override
+	protected void initImmersionBar() {
+		super.initImmersionBar();
+		if(color!=0){
+			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
+		}else{
+			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
+		}
+	}
+
+	@Override
+	protected PlayMoviePresenter setPresenter() {
+		return new PlayMoviePresenter();
+	}
+
+	@Override
+	public void initBasic(Bundle savedInstanceState) {
+		Intent intent = getIntent();
+		initData(intent);
+		initView();
+		initLogic();
+	}
+
+	private void initData(Intent intent){
+
+		movie = (Cms_movie) intent.getSerializableExtra("movie");
+		color = intent.getIntExtra("color",0);
+		data = (List<JujiBean>) intent.getSerializableExtra("juji");
+		positionNow = intent.getIntExtra("position",0);
+
+		name = movie.getVodName() + ":" + data.get(positionNow).getText();
+		url = data.get(positionNow).getUrl();
+		CountEventHelper.countMovieWatch(this,url,name);
+	}
+	private void initView() {
+		toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		ijkVideoView = findViewById(R.id.player);
+		root = findViewById(R.id.root);
+		recyclerView = findViewById(R.id.play_list2);
+		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+	}
+	private void initLogic() {
+		setColor(color);
+		play2(url,name);
+		adpter = new Adapter(R.layout.m3u8_item,data);
+		adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+			@Override
+			public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+				String tmpUrl = data.get(position).getUrl();
+				if(TextUtils.equals(tmpUrl,url)){
+					return;
+				}
+				url = tmpUrl;
+				name = name.substring(0,name.indexOf(":")+1);
+				name = name + data.get(position).getText();
+				positionNow = position;
+				play2(url,name);
+			}
+		});
+		recyclerView.setAdapter(adpter);
+	}
+
+
 
 
 	private void play2(String url,String name) {
+		getSupportActionBar().setTitle(name);
+		if(ijkVideoView.isPlaying()){
+			ijkVideoView.release();
+		}
 		ijkVideoView.setUrl(url); //设置视频地址
 		ijkVideoView.setTitle(name); //设置视频标题
 		StandardVideoController controller = new StandardVideoController(this);
@@ -48,49 +148,37 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		ijkVideoView.setPlayerConfig(playerConfig);
 
 		ijkVideoView.start(); //开始播放，不调用则不自动播放
-	}
 
-	private void initView() {
-		toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setTitle(name);
-		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
-		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		ijkVideoView = findViewById(R.id.player);
-		root = findViewById(R.id.root);
+		HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
+		md.insert(AndroidUtil.transferHistory(movie,data.get(positionNow).getText()));
 	}
 
 	public void onclick(View v) {
 
-		switch (v.getId()){
-			case R.id.openAlipay:
-
-				break;
-			case R.id.copy:
-				AndroidUtil.copy(this,url);
-				showToast(url);
-				break;
-			case R.id.change:
-
-				break;
-			case R.id.touping:
-				//searchDLNA();
-				break;
-			case R.id.third:
-				if(TextUtils.isEmpty(url)){
-					showToast("解析失败咯，不能调用第三方哦！");
-					return;
-				}
-				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
-				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
-				startActivity(mediaIntent);
-				break;
-		}
+//		switch (v.getId()){
+//			case R.id.openAlipay:
+//
+//				break;
+//			case R.id.copy:
+//				AndroidUtil.copy(this,url);
+//				showToast(url);
+//				break;
+//			case R.id.change:
+//
+//				break;
+//			case R.id.touping:
+//				//searchDLNA();
+//				break;
+//			case R.id.third:
+//				if(TextUtils.isEmpty(url)){
+//					showToast("解析失败咯，不能调用第三方哦！");
+//					return;
+//				}
+//				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
+//				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
+//				startActivity(mediaIntent);
+//				break;
+//		}
 	}
 
 	public void setColor(int color){
@@ -98,40 +186,6 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			toolbar.setBackgroundColor(color);
 			root.setBackgroundColor(color);
 		}
-	}
-
-
-
-	@Override
-	protected void initImmersionBar() {
-		super.initImmersionBar();
-		if(color!=0){
-			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
-		}else{
-			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
-		}
-	}
-
-	@Override
-	public int setView() {
-		return R.layout.palymovie;
-	}
-
-	@Override
-	public void initBasic(Bundle savedInstanceState) {
-		Intent intent = getIntent();
-		name = intent.getStringExtra("name");
-		url = intent.getStringExtra("url");
-		color = intent.getIntExtra("color",0);
-		CountEventHelper.countMovieWatch(this,url,name);
-		initView();
-		setColor(color);
-		play2(url,name);
-	}
-
-	@Override
-	protected PlayMoviePresenter setPresenter() {
-		return new PlayMoviePresenter();
 	}
 
 
@@ -153,7 +207,6 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		ijkVideoView.release();
 	}
 
-
 	@Override
 	public void onBackPressed() {
 		if (!ijkVideoView.onBackPressed()) {
@@ -161,4 +214,14 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		}
 	}
 
+	private class Adapter extends BaseQuickAdapter<JujiBean,BaseViewHolder> {
+		public Adapter(int layoutResId, @Nullable List<JujiBean> data) {
+			super(layoutResId, data);
+		}
+
+		@Override
+		protected void convert(BaseViewHolder helper, JujiBean item) {
+			helper.setText(R.id.btPlayText,item.getText());
+		}
+	}
 }

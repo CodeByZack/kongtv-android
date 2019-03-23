@@ -1,6 +1,8 @@
 package com.zack.kongtv.bean;
 
-public class JujiBean {
+import java.io.Serializable;
+
+public class JujiBean implements Serializable {
     private String url,text;
 
     public String getUrl() {

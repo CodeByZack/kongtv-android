@@ -42,6 +42,7 @@ import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zackdk.base.BaseMvpActivity;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,8 +85,6 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mLine_desc =  findViewById(R.id.line_desc);
         mPlay_list2 =  findViewById(R.id.play_list2);
         tvCollect = findViewById(R.id.collect);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
 //        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }
@@ -139,15 +138,16 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     }
 
     private void startPlay(int position) {
-        HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
-        md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
+//        HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
+//        md.insert(AndroidUtil.transferHistory(targetMovie,data.get(position).getText()));
 //        Bundle bundle = new Bundle();
 //        bundle.putInt("screenMode", 102);
 //        TbsVideo.openVideo(this,data.get(position).getUrl(),bundle);
         Intent intent = new Intent(mActivity, PlayMovieActivity.class);
-        intent.putExtra("url",data.get(position).getUrl());
+        intent.putExtra("position",position);
         intent.putExtra("color",nowColor);
-        intent.putExtra("name",targetMovie.getVodName()+":"+data.get(position).getText());
+        intent.putExtra("juji", (Serializable) data);
+        intent.putExtra("movie", targetMovie);
         startActivity(intent);
     }
 
