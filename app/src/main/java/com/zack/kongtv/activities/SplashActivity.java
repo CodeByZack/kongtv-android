@@ -9,14 +9,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zack.appupdate.AppUpdate;
+import com.zack.kongtv.App;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.AppConfig;
 import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.Utils.LogUtil;
+import com.zackdk.Utils.SPUtil;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -28,6 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private Disposable updateInfoDisposable;
     private AppUpdate appupdate;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,36 +44,30 @@ public class SplashActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<AppConfig>() {
                     @Override
-                    public void accept(AppConfig o) throws Exception {
-                        LogUtil.d2(o);
-                        if(o.getmAppCode() > PackageUtil.packageCode(SplashActivity.this)){
-                            showUpdateDilog(o);
-                        }else{
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
-                                    finish();
-                                }
-                            }, 3000);
+                    public void accept(AppConfig app) throws Exception {
+                        if (app.getmAppCode() > PackageUtil.packageCode(SplashActivity.this)) {
+                            showUpdateDilog(app);
+                        } else {
+                            enter();
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        LogUtil.e(throwable.getLocalizedMessage());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(SplashActivity.this,MainActivity.class));
-                                finish();
-                            }
-                        }, 3000);
+                        enter();
                     }
                 });
+    }
 
-
-
+    private void enter() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                finish();
+            }
+        }, 3000);
     }
 
     @Override
@@ -80,6 +80,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void showUpdateDilog(AppConfig updateInfo) {
+        SPUtil.save(this,Const.APP_CONFIG,updateInfo);
         String dirFilePath = "";
         if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
             //SD卡有用

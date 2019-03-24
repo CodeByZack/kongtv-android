@@ -29,4 +29,6 @@ public class Const {
 
     public static final String CHECK_UPDATE_URL = "https://apks-1252514056.cos.ap-chengdu.myqcloud.com/app_update.json";
 
+    public static final String APP_CONFIG = "APP_CONFIG";
+
 }

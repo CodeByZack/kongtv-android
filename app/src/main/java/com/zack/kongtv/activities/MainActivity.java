@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zack.appupdate.AppUpdate;
+import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
@@ -77,7 +78,7 @@ public class MainActivity extends AbsActivity {
             share_intent.setAction(Intent.ACTION_SEND);
             share_intent.setType("text/plain");
             //share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
-            share_intent.putExtra(Intent.EXTRA_TEXT, "https://apks-1252514056.cos.ap-chengdu.myqcloud.com/now.apk");
+            share_intent.putExtra(Intent.EXTRA_TEXT, App.getAppConfig().getAppUrl());
             share_intent = Intent.createChooser(share_intent, "风影院，像风一样自由！");
             startActivity(share_intent);
         }

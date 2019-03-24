@@ -3,7 +3,9 @@ package com.zack.kongtv.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AppConfig {
+import java.io.Serializable;
+
+public class AppConfig implements Serializable{
 
     @SerializedName("ad_player_img")
     private String mAdPlayerImg;

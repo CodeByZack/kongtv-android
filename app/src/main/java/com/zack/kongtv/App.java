@@ -3,17 +3,15 @@ package com.zack.kongtv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import com.zack.kongtv.Data.DataResp;
-import com.zackdk.NetWorkChange.NetStateChangeReceiver;
+import com.zack.kongtv.bean.AppConfig;
 import com.zackdk.Utils.LogUtil;
+import com.zackdk.Utils.SPUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,19 +20,27 @@ import java.util.List;
 public class App extends Application {
     private static Context context;
     private static List<Activity> activities = new LinkedList<>();
+    private static AppConfig appConfig = new AppConfig();
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
         initUM();
+        initAppConfig();
         QbSdk.initX5Environment(this,null);
-        NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
     }
 
+    private void initAppConfig() {
+        AppConfig app  = (AppConfig) SPUtil.get(this,Const.APP_CONFIG);
+        if(app!=null){
+            appConfig = app;
+        }
+    }
+
     private void initUM() {
-        UMConfigure.init(this, "5b460ddfa40fa35036000318", "default", UMConfigure.DEVICE_TYPE_PHONE, "");
+        UMConfigure.init(this, "5b460ddfa40fa35036000318", "NEW_UI", UMConfigure.DEVICE_TYPE_PHONE, "");
         if(BuildConfig.DEBUG){
             UMConfigure.setLogEnabled(true);
         }
@@ -46,7 +52,9 @@ public class App extends Application {
         return context;
     }
 
-
+    public static AppConfig getAppConfig() {
+        return appConfig;
+    }
     private ActivityLifecycleCallbacks life = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -87,13 +95,6 @@ public class App extends Application {
             activities.remove(activity);
         }
     };
-
-    @Override
-    public void onTerminate() {
-        NetStateChangeReceiver.unregisterReceiver(this);
-        super.onTerminate();
-
-    }
 
     public static void finshAllActivity(){
         for (Activity a:activities) {
