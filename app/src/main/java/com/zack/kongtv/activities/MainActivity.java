@@ -51,8 +51,6 @@ public class MainActivity extends AbsActivity {
     private List<String> titles = new LinkedList<>();
     private TextView nav_version,tv_xianlu;
     private long clickTime;
-    private Disposable updateInfoDisposable;
-    private AppUpdate appupdate;
     @Override
     public int setView() {
         return R.layout.activity_main;
@@ -121,16 +119,7 @@ public class MainActivity extends AbsActivity {
             }
         });
 
-        updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<UpdateInfo>() {
-                    @Override
-                    public void accept(UpdateInfo o) throws Exception {
-                        if (o.getApp_version() > PackageUtil.packageCode(MainActivity.this)) {
-                            showUpdateDilog(o);
-                        }
-                    }
-                });
+
 
 
     }
@@ -138,23 +127,6 @@ public class MainActivity extends AbsActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(updateInfoDisposable!=null &&!updateInfoDisposable.isDisposed())updateInfoDisposable.dispose();
-        if(appupdate!=null)appupdate.dismiss();
-    }
-
-    private void showUpdateDilog(UpdateInfo updateInfo) {
-        String dirFilePath = "";
-        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-            //SD卡有用
-            dirFilePath = getExternalFilesDir("apk/test.apk").getAbsolutePath();
-        }else{
-            //SD卡没有用
-            dirFilePath = getFilesDir()+ File.separator+"apk/test.apk";
-        }
-        appupdate = AppUpdate.init(this)
-                .setDownloadUrl(updateInfo.getDownload_url())
-                .setSavePath(dirFilePath);
-        appupdate.showUpdateDialog("检查到有更新！",updateInfo.getApp_updateInfo(),null);
     }
 
     private void initView() {

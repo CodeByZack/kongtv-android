@@ -9,6 +9,7 @@ import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
 import com.zack.kongtv.activities.MainActivity;
+import com.zack.kongtv.bean.AppConfig;
 import com.zack.kongtv.bean.CategoryDataBean;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
@@ -104,6 +105,13 @@ public class DataResp {
                 emitter.onComplete();
             }
         });
+        return observable;
+    }
+
+    public static Observable getAppConfig(){
+        HashMap<String,String> map = new HashMap<>();
+        map.put("router","app");
+        Observable<AppConfig> observable = NetTool.getInstance().getAppConfig(map);
         return observable;
     }
 
