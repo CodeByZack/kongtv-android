@@ -45,6 +45,7 @@ public class SplashActivity extends AppCompatActivity {
                 .subscribe(new Consumer<AppConfig>() {
                     @Override
                     public void accept(AppConfig app) throws Exception {
+                        App.setAppConfig(app);
                         if (app.getmAppCode() > PackageUtil.packageCode(SplashActivity.this)) {
                             showUpdateDilog(app);
                         } else {

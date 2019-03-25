@@ -55,6 +55,10 @@ public class App extends Application {
     public static AppConfig getAppConfig() {
         return appConfig;
     }
+
+    public static void setAppConfig(AppConfig app) {
+        appConfig = app;
+    }
     private ActivityLifecycleCallbacks life = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
