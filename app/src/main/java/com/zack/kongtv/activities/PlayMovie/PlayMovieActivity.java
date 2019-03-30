@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,19 +33,23 @@ import com.zackdk.base.BaseMvpActivity;
 import java.util.LinkedList;
 import java.util.List;
 
+import zmovie.com.dlan.DlanPresenter;
+
 
 public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
 
 	private Toolbar toolbar;
 	private String name,url;
 	private IjkVideoView ijkVideoView;
-	private int color;
 	private LinearLayout root;
 	private RecyclerView recyclerView;
+	private TextView toupin;
 	private Adapter adpter;
 	private List<JujiBean> data;
 	private Cms_movie movie;
 	private int positionNow;
+	private int color;
+	private DlanPresenter dlanPresenter;
 
 
 	@Override
@@ -97,6 +102,13 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			}
 		});
 		ijkVideoView = findViewById(R.id.player);
+		toupin = findViewById(R.id.toupin);
+		toupin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dlanPresenter.showDialogTip(PlayMovieActivity.this,"http://vwecam.tc.qq.com/1006_549a434f0a2b42f696e34ceb971fbecc.f20.mp4?ptype=http&vkey=78762F71394A16CE4514E978CC0E12D8BBDD88E294DF8044F58F02198DBEE9F9F4C417A5DD15FCC6B0754EA0F7DB4F92F370C50CD594673C",name);
+			}
+		});
 		root = findViewById(R.id.root);
 		recyclerView = findViewById(R.id.play_list2);
 		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
@@ -120,6 +132,9 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			}
 		});
 		recyclerView.setAdapter(adpter);
+
+		dlanPresenter = new DlanPresenter(this);
+		dlanPresenter.initService();
 	}
 
 

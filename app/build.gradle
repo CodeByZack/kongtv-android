@@ -70,11 +70,9 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-
     //room
-    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-
     //Retrofit
     implementation "com.squareup.okhttp3:okhttp:${ok_http_version}"
     implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
@@ -83,21 +81,17 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}"
     implementation "io.reactivex.rxjava2:rxandroid:${rx_android_version}"
     implementation "io.reactivex.rxjava2:rxjava:${rx_java_version}"
-
     //工程
     implementation project(':zacklib')
     implementation project(':appupdate')
-
     //友盟
     implementation 'com.umeng.sdk:common:latest.integration'
     implementation 'com.umeng.sdk:analytics:latest.integration'
-
     //dkplayer
     implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.5'
     implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.5'
     implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.5'
     implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.5'
-
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'
@@ -110,5 +104,5 @@ dependencies {
     implementation 'com.github.MZCretin:ExpandableTextView:v1.5.1'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.wang.avi:library:2.1.3'
-
+    implementation project(':dlanlib')
 }

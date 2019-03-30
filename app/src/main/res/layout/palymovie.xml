@@ -26,6 +26,38 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="测试投屏"
+        android:paddingLeft="@dimen/mini_margin"
+        android:paddingRight="@dimen/mini_margin"
+        android:textSize="14sp"
+        android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
+        android:textColor="@color/white"
+        android:alpha="0.7"
+        android:layout_below="@+id/play_list"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/little_margin"
+            android:paddingTop="@dimen/little_margin"
+            android:paddingLeft="@dimen/mini_margin"
+            android:paddingRight="@dimen/mini_margin"
+            android:background="@drawable/play_btn_shape"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:id="@+id/toupin"
+            android:text="投屏" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="剧集信息"
         android:paddingLeft="@dimen/mini_margin"
         android:paddingRight="@dimen/mini_margin"

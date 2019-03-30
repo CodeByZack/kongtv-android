@@ -16,6 +16,8 @@ import com.zackdk.Utils.SPUtil;
 import java.util.LinkedList;
 import java.util.List;
 
+import zmovie.com.dlan.DlanLib;
+
 
 public class App extends Application {
     private static Context context;
@@ -27,6 +29,7 @@ public class App extends Application {
         context = this;
         initUM();
         initAppConfig();
+        DlanLib.initDlan(this);
         QbSdk.initX5Environment(this,null);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
