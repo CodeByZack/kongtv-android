@@ -24,50 +24,88 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试投屏"
+        android:text=""
         android:paddingLeft="@dimen/mini_margin"
         android:paddingRight="@dimen/mini_margin"
         android:textSize="14sp"
+        android:alpha="0.7"
         android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
         android:textColor="@color/white"
-        android:alpha="0.7"
         android:layout_below="@+id/play_list"
         android:layout_marginTop="10dp"/>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:paddingBottom="@dimen/little_margin"
-            android:paddingTop="@dimen/little_margin"
-            android:paddingLeft="@dimen/mini_margin"
-            android:paddingRight="@dimen/mini_margin"
-            android:background="@drawable/play_btn_shape"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:id="@+id/toupin"
-            android:text="投屏" />
-
-    </LinearLayout>
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="剧集信息"
         android:paddingLeft="@dimen/mini_margin"
         android:paddingRight="@dimen/mini_margin"
-        android:textSize="14sp"
-        android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
-        android:textColor="@color/white"
-        android:id="@+id/m3u8_title"
         android:alpha="0.7"
-        android:layout_below="@+id/play_list"
-        android:layout_marginTop="10dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/little_margin"
+        android:layout_marginBottom="@dimen/little_margin">
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/copy"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/little_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/copy"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textSize="@dimen/tiny_text_size"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="复制链接"/>
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onclick"
+            android:id="@+id/toupin"
+            android:layout_marginRight="@dimen/little_margin"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/toupin"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textSize="@dimen/tiny_text_size"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="投屏"/>
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="onclick"
+            android:layout_marginRight="@dimen/little_margin"
+            android:id="@+id/outplay"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/outplay"/>
+            <TextView
+                android:paddingLeft="@dimen/mini_margin"
+                android:textSize="@dimen/tiny_text_size"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="三方播放"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

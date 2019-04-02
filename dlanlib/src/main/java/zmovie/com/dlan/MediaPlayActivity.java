@@ -475,7 +475,6 @@ public class MediaPlayActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onStop() {
-        stop();
         super.onStop();
         EventBus.getDefault().unregister(this);
     }

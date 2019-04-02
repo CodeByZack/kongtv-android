@@ -42,8 +42,9 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private String name,url;
 	private IjkVideoView ijkVideoView;
 	private LinearLayout root;
+	private TextView title;
 	private RecyclerView recyclerView;
-	private TextView toupin;
+	private View toupin,copy,outplay;
 	private Adapter adpter;
 	private List<JujiBean> data;
 	private Cms_movie movie;
@@ -93,6 +94,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	}
 	private void initView() {
 		toolbar = findViewById(R.id.toolbar);
+		title = findViewById(R.id.title);
 		setSupportActionBar(toolbar);
 		toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -103,12 +105,9 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		});
 		ijkVideoView = findViewById(R.id.player);
 		toupin = findViewById(R.id.toupin);
-		toupin.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dlanPresenter.showDialogTip(PlayMovieActivity.this,"http://vwecam.tc.qq.com/1006_549a434f0a2b42f696e34ceb971fbecc.f20.mp4?ptype=http&vkey=78762F71394A16CE4514E978CC0E12D8BBDD88E294DF8044F58F02198DBEE9F9F4C417A5DD15FCC6B0754EA0F7DB4F92F370C50CD594673C",name);
-			}
-		});
+		copy = findViewById(R.id.copy);
+		outplay = findViewById(R.id.outplay);
+
 		root = findViewById(R.id.root);
 		recyclerView = findViewById(R.id.play_list2);
 		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
@@ -135,6 +134,26 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 
 		dlanPresenter = new DlanPresenter(this);
 		dlanPresenter.initService();
+		toupin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dlanPresenter.showDialogTip(PlayMovieActivity.this,"http://vwecam.tc.qq.com/1006_549a434f0a2b42f696e34ceb971fbecc.f20.mp4?ptype=http&vkey=78762F71394A16CE4514E978CC0E12D8BBDD88E294DF8044F58F02198DBEE9F9F4C417A5DD15FCC6B0754EA0F7DB4F92F370C50CD594673C",name);
+			}
+		});
+		copy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				AndroidUtil.copy(PlayMovieActivity.this,url);
+			}
+		});
+		outplay.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
+				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
+				startActivity(mediaIntent);
+			}
+		});
 	}
 
 
@@ -142,6 +161,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 
 	private void play2(String url,String name) {
 		getSupportActionBar().setTitle(name);
+		title.setText(name);
 		if(ijkVideoView.isPlaying()){
 			ijkVideoView.release();
 		}

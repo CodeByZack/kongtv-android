@@ -9,7 +9,7 @@
        android:background="@drawable/dialog_shap_border"
        android:layout_gravity="top|center_horizontal"
        android:layout_marginTop="40dp"
-       android:layout_height="240dp">
+       android:layout_height="300dp">
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -56,12 +56,12 @@
        <Button
            android:layout_width="70dp"
            android:layout_height="62dp"
-            android:background="@drawable/ic_bofang"
+           android:layout_below="@+id/dlan_device_list"
+           android:background="@drawable/ic_bofang"
            android:id="@+id/confirm"
            android:textColor="#fff"
            android:textSize="14sp"
            android:layout_centerHorizontal="true"
-           android:layout_alignParentBottom="true"
            android:layout_marginBottom="10dp"
            />
 

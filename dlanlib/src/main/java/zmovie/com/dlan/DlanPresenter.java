@@ -96,7 +96,7 @@ public class DlanPresenter {
                 .contentView(R.layout.dlan_tip_layout)
                 .backgroundBlurPercent(0.15f)
                 .backgroundColorInt(Color.parseColor("#33ffffff"))
-                .gravity(Gravity.TOP)
+                .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
                ;
