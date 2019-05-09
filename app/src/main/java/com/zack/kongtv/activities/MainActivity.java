@@ -1,6 +1,7 @@
 package com.zack.kongtv.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -12,7 +13,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,7 @@ import com.zack.appupdate.AppUpdate;
 import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.Instance.HtmlResovle;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
@@ -52,6 +58,7 @@ public class MainActivity extends AbsActivity {
     private List<String> titles = new LinkedList<>();
     private TextView nav_version,tv_xianlu;
     private long clickTime;
+    private WebView webView;
     @Override
     public int setView() {
         return R.layout.activity_main;
@@ -63,6 +70,7 @@ public class MainActivity extends AbsActivity {
         initView();
         initLogic();
 
+//        setContentView(webView);
     }
     public void onclick(View v) {
         int id = v.getId();

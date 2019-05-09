@@ -6,6 +6,7 @@ import android.arch.persistence.room.Entity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Cms_movie implements Serializable{
@@ -150,6 +151,8 @@ public class Cms_movie implements Serializable{
     private String vodWriter;
     @SerializedName("vod_year")
     private String vodYear;
+
+    private List<JujiBean> jujiBeans;
 
     private String record;
 
@@ -721,4 +724,11 @@ public class Cms_movie implements Serializable{
         this.vodYear = vodYear;
     }
 
+    public List<JujiBean> getJujiBeans() {
+        return jujiBeans;
+    }
+
+    public void setJujiBeans(List<JujiBean> jujiBeans) {
+        this.jujiBeans = jujiBeans;
+    }
 }

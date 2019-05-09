@@ -1,6 +1,7 @@
 package com.zack.kongtv.fragments.Home;
 
 import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.DataCenter;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.Data.ErrConsumer;
 import com.zack.kongtv.bean.Cms_movie;
@@ -20,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
     public void requestData() {
         getView().showLoading();
-        Disposable d = DataResp.getHomeData()
+        Disposable d = DataCenter.getHomeData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Cms_movie>>() {
@@ -56,25 +57,50 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                         items.add(variety);
 
                         for (Cms_movie movie : cms_movies) {
-                            if (movie.getVodLevel() == Const.Film) {
+//                            if (movie.getVodLevel() == Const.Film) {
+//                                film.getMovieDetailBeans().add(movie);
+//                                if (film.getMovieDetailBeans().size() == 1) {
+//                                    banners.add(movie);
+//                                }
+//                            }
+//                            if (movie.getVodLevel() == Const.Episode) {
+//                                episode.getMovieDetailBeans().add(movie);
+//                                if (episode.getMovieDetailBeans().size() == 1) {
+//                                    banners.add(movie);
+//                                }
+//                            }
+//                            if (movie.getVodLevel() == Const.Variety) {
+//                                anime.getMovieDetailBeans().add(movie);
+//                                if (anime.getMovieDetailBeans().size() == 1) {
+//                                    banners.add(movie);
+//                                }
+//                            }
+//                            if (movie.getVodLevel() == Const.Anime) {
+//                                variety.getMovieDetailBeans().add(movie);
+//                                if (variety.getMovieDetailBeans().size() == 1) {
+//                                    banners.add(movie);
+//                                }
+//                            }
+
+                            if (film.getMovieDetailBeans().size()<6) {
                                 film.getMovieDetailBeans().add(movie);
                                 if (film.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Episode) {
+                            else if (episode.getMovieDetailBeans().size()<6) {
                                 episode.getMovieDetailBeans().add(movie);
                                 if (episode.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Variety) {
+                            else if (anime.getMovieDetailBeans().size()<6) {
                                 anime.getMovieDetailBeans().add(movie);
                                 if (anime.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Anime) {
+                            else if (variety.getMovieDetailBeans().size()<6) {
                                 variety.getMovieDetailBeans().add(movie);
                                 if (variety.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);

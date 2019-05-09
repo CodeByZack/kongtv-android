@@ -84,7 +84,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 
 		name = movie.getVodName() + ":" + data.get(positionNow).getText();
 		url = data.get(positionNow).getUrl();
-		CountEventHelper.countMovieWatch(this,url,name);
+//		CountEventHelper.countMovieWatch(this,url,name);
 	}
 	private void initView() {
 		toolbar = findViewById(R.id.toolbar);
@@ -103,7 +103,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	}
 	private void initLogic() {
 		setColor(color);
-		play2(url,name);
+//		play2(url,name);
 		adpter = new Adapter(R.layout.m3u8_item,data);
 		adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
 			@Override
@@ -116,10 +116,12 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 				name = name.substring(0,name.indexOf(":")+1);
 				name = name + data.get(position).getText();
 				positionNow = position;
-				play2(url,name);
+//				play2(url,name);
 			}
 		});
 		recyclerView.setAdapter(adpter);
+
+		presenter.getRealUrl(url);
 	}
 
 
@@ -149,8 +151,8 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 
 		ijkVideoView.start(); //开始播放，不调用则不自动播放
 
-		HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
-		md.insert(AndroidUtil.transferHistory(movie,data.get(positionNow).getText()));
+//		HistoryMovieDao md = DataBase.getInstance().historyMovieDao();
+//		md.insert(AndroidUtil.transferHistory(movie,data.get(positionNow).getText()));
 	}
 
 	public void onclick(View v) {
@@ -212,6 +214,11 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		if (!ijkVideoView.onBackPressed()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	public void onUrlFind(String url) {
+		play2(url,name);
 	}
 
 	private class Adapter extends BaseQuickAdapter<JujiBean,BaseViewHolder> {

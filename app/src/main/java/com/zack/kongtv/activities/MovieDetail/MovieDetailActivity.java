@@ -103,13 +103,13 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         initLogic();
         targetMovie = (Cms_movie) getIntent().getSerializableExtra("url");
         if (targetMovie != null){
-            updateView();
+            presenter.requestData(targetMovie);
         }else{
             showToast("没有获取到影片信息！");
             finish();
         }
 
-        presenter.checkCollect(targetMovie.getVodId());
+//        presenter.checkCollect(targetMovie.getVodId());
     }
 
     private void initLogic() {
@@ -181,7 +181,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mHead_desc.setText(desc.toString());
 
         mMv_title.setText(targetMovie.getVodName());
-        mLine_desc.setContent(targetMovie.getVodBlurb());
+//        mLine_desc.setContent(targetMovie.getVodBlurb());
         final String playUrl = targetMovie.getVodPlayUrl();
 
 
@@ -192,32 +192,24 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 setColor(resource);
             }
         });
-        String[] tmp;
-        if(playUrl.contains("$$$")){
-            tmp = playUrl.split("\\$\\$\\$");
-            if(tmp[0].contains("m3u8")){
-                tmp = tmp[0].split("#");
-            }else{
-                tmp = tmp[1].split("#");
-            }
-        }else{
-            tmp = playUrl.split("#");
-        }
-        List<JujiBean> jujiBeans = new LinkedList<>();
-        for (int i = 0; i < tmp.length ; i++) {
-            String t = tmp[i];
-            if(!t.contains("m3u8")){
-                continue;
-            }
-            JujiBean jujiBean = new JujiBean();
-            String[] tt = t.split("\\$");
-            jujiBean.setUrl(tt[1]);
-            jujiBean.setText(tt[0]);
-            jujiBeans.add(jujiBean);
-        }
-        Collections.reverse(jujiBeans);
-        updateJuji(jujiBeans);
+
         CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
+    }
+
+    @Override
+    public void updateView(Cms_movie data) {
+        mToolbarTitle.setText(data.getVodName());
+        mHead_desc.setText(data.getVodRemarks());
+        mLine_desc.setContent(data.getVodBlurb());
+        Glide.with(this).load(data.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                mLine_detail_poster.setImageBitmap(resource);
+                setColor(resource);
+            }
+        });
+
+        updateJuji(data.getJujiBeans());
     }
 
     @Override

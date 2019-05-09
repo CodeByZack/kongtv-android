@@ -3,10 +3,12 @@ package com.zack.kongtv.activities.MovieDetail;
 import android.arch.persistence.room.Database;
 
 import com.umeng.commonsdk.debug.D;
+import com.zack.kongtv.Data.DataCenter;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.Data.room.CollectMovie;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovie;
+import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.MovieDetailBean;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.mvp.p.BasePresenter;
@@ -19,17 +21,17 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class MovieDetailPresenter<V extends IMovieDetailView> extends BasePresenter<V> {
-    public void requestData(String url) {
-//        Disposable d = DataResp.getMovieDetail(url)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Consumer<MovieDetailBean>() {
-//                    @Override
-//                    public void accept(MovieDetailBean movieDetailBean) throws Exception {
-//                        //getView().updateView(movieDetailBean);
-//                    }
-//                });
-//        addDispoasble(d);
+    public void requestData(Cms_movie url) {
+        Disposable d = DataCenter.getRealMovieData(url)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Consumer<Cms_movie>() {
+                    @Override
+                    public void accept(Cms_movie movieDetailBean) throws Exception {
+                        getView().updateView(movieDetailBean);
+                    }
+                });
+        addDispoasble(d);
 //        CollectMovie data = DataBase.getInstance().collectMovieDao().findByTargetUrl(url);
 //        if(data!=null){
 //            getView().collect(true);

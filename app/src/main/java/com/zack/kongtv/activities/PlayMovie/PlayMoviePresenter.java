@@ -1,7 +1,15 @@
 package com.zack.kongtv.activities.PlayMovie;
 
 
+import android.os.Build;
+import android.util.Log;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.DataCenter;
 import com.zack.kongtv.Data.DataResp;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.mvp.p.BasePresenter;
@@ -17,6 +25,27 @@ import io.reactivex.schedulers.Schedulers;
 public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<V> {
 
     private String[] msgs = {"开发不易，不妨捐助一波...","多试试X5播放器...","在茫茫人海中，竟遇见了你。"};
+
+    public void getRealUrl(String url){
+        WebView webView = new WebView(App.getContext());
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                if(url.contains(".m3u8")){
+                    Log.d("Tag", "onLoadResource: "+url);
+                    getView().onUrlFind(url);
+                }
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        webView.loadUrl(url);
+    }
 
     private String getMsg(){
         int length = msgs.length;
