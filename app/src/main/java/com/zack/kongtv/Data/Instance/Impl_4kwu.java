@@ -185,18 +185,7 @@ public class Impl_4kwu implements GetDataInterface {
         }
     }
 
-    @Override
-    public String getRealPlayUrl(String url) {
-        Document document;
-        try {
-            document = Jsoup.connect(url).get();
-            String trueUrl = document.getElementsByTag("iframe").attr("src");
-            LogUtil.d("-------------------"+trueUrl);
-            return trueUrl;
-        } catch (IOException e1) {
-            return null;
-        }
-    }
+
 
     @Override
     public SearchResultBean search(String text, int page) {
@@ -265,17 +254,4 @@ public class Impl_4kwu implements GetDataInterface {
         return NAME;
     }
 
-    @Override
-    public String getInjectJS(String id) {
-        String INJECT_JS = "if(typeof(vid)!='undefined'){\n" +
-                "    window.local_obj.showSource(vid)\n" +
-                "}else{\n" +
-                "    $.post(\"url.php\", {\"id\": \""+id+"\",\"type\": \""+id+"\",\"siteuser\": '',\"md5\": sign($('#hdMd5').val()),\"hd\":\"\",\"lg\":\"\",\"iqiyicip\":iqiyicip},\n" +
-                "    function(data){\n" +
-                "		console.log('data:'+JSON.stringify(data));\n" +
-                "		window.local_obj.showSource(data.url)\n" +
-                "    },\"json\");\n" +
-                "}";
-        return INJECT_JS;
-    }
 }

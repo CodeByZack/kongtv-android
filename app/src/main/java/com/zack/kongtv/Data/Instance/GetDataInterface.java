@@ -9,7 +9,6 @@ public interface GetDataInterface {
     HomeDataBean getHomeData();
     CategoryDataBean getCategoryData(String url, int page);
     MovieDetailBean getRealMovieDetail(String url);
-    String getRealPlayUrl(String url);
     SearchResultBean search(String text, int page);
 
     String getBaseUrl();
@@ -20,5 +19,4 @@ public interface GetDataInterface {
     String getSearchUrl();
     String getName();
 
-    String getInjectJS(String id);
 }

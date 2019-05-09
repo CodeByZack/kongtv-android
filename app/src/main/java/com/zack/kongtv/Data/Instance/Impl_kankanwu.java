@@ -184,18 +184,7 @@ public class Impl_kankanwu implements GetDataInterface {
         }
     }
 
-    @Override
-    public String getRealPlayUrl(String url) {
-        Document document;
-        try {
-            document = Jsoup.connect(url).timeout(30000).validateTLSCertificates(false).get();
-            String trueUrl = document.getElementsByTag("iframe").attr("src");
-            LogUtil.d("-------------------"+trueUrl);
-            return trueUrl;
-        } catch (IOException e1) {
-            return null;
-        }
-    }
+
 
     @Override
     public SearchResultBean search(String text, int page) {
@@ -264,9 +253,5 @@ public class Impl_kankanwu implements GetDataInterface {
         return NAME;
     }
 
-    @Override
-    public String getInjectJS(String id) {
-        String INJECT_JS = "window.local_obj.showSource($('video').attr('src'))";
-        return INJECT_JS;
-    }
+
 }

@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.PlayMovie.FullScreenActivity"
+            android:name=".activities.PlayMovie.PlayMovieActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.MovieDetail.MovieDetailActivity"

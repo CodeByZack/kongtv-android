@@ -66,8 +66,7 @@ import java.util.Map;
 
 
 
-public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView,NetStateChangeObserver {
-    public static String TEST_URL = "http://disp.titan.mgtv.com/vod.do?fmt=4&pno=1051000&fid=CC3A3E5D49EE9B10DCCC3B3E48734547&file=/c1/2018/06/22_0/CC3A3E5D49EE9B10DCCC3B3E48734547_20180622_1_1_1254.mp4";
+public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
     public static final ServiceType AV_TRANSPORT_SERVICE = new UDAServiceType("AVTransport");
     private static final String DIDL_LITE_FOOTER = "</DIDL-Lite>";
     private static final String DIDL_LITE_HEADER = "<?xml version=\"1.0\"?>" +
@@ -124,9 +123,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
     //设备列表
     private List<Device> listDevice = new LinkedList<>();
 	private String video_url;
-	private int playerType = NiceVideoPlayer.TYPE_NATIVE;
 	private CustomPlayerControl controller;
-	private WebView webView;
 
 	@Override
 	public int setView() {
@@ -141,8 +138,6 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		CountEventHelper.countMovieWatch(this,url,name);
 		initView();
 		presenter.requestData(url);
-		OrientationEventListenerImpl ore = new OrientationEventListenerImpl(this);
-		ore.enable();
 		bindService(new Intent(this, AndroidUpnpServiceImpl.class), serviceConnection, Context.BIND_AUTO_CREATE);
 	}
 
@@ -181,66 +176,13 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 				break;
 		}
     }
-	@Override
-	protected void onResume() {
-		super.onResume();
-		NetStateChangeReceiver.registerObserver(this);
-	}
 
 	@Override
 	public void play(String url) {
-//		String id = "";
-//		id+=url.substring(url.indexOf("id=")+3);
-		final String Inject_Js = DataResp.INSTANCE.getInjectJS(url);
-		final String getContent = "window.local_obj.showSource($('html').html())";
-		webView = new WebView(this);
-		webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-		WebSettings webSettings = webView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		webView.setWebViewClient(new WebViewClient(){
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				view.loadUrl("javascript:"+Inject_Js);
-			}
-
-		});
-		Map extraHeaders = new HashMap();
-		extraHeaders.put("Referer", this.url);
-		webView.loadUrl(url, extraHeaders);
+		video_url = url;
+		play2(url,NiceVideoPlayer.TYPE_NATIVE);
 	}
 
-	@Override
-	public void onNetDisconnected() {
-		showToast("网络断开了！");
-	}
-
-	@Override
-	public void onNetConnected(NetworkType networkType) {
-		if(networkType == NetworkType.NETWORK_2G || networkType == NetworkType.NETWORK_4G || networkType == NetworkType.NETWORK_3G){
-			showToast("温馨提示，你正在使用流量观看视频!");
-		}
-	}
-
-	public final class InJavaScriptLocalObj {
-		@JavascriptInterface
-		public void showSource(final String videoUrl) {
-			if(TextUtils.equals(videoUrl,"undefined")){
-				showToast("哦，解析失败，试试X5播放器咯！");
-				hideLoading();
-				return;
-			}
-			video_url = videoUrl;
-			mActivity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					play2(videoUrl,NiceVideoPlayer.TYPE_IJK);
-					webView.destroy();
-				}
-			});
-
-		}
-	}
 
 	private void play2(String url,int playerType) {
 		hideLoading();
@@ -275,22 +217,6 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 		});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.playmovie_menu, menu);
-		return true;
-	}
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-//			case R.id.refresh:
-//				presenter.requestData(url);
-//				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	private void searchDLNA() {
 		loading = new MaterialDialog.Builder(this)
                 .title("查找设备中...")
@@ -311,9 +237,7 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 	@Override
 	protected void onStop() {
 		super.onStop();
-		// 在onStop时释放掉播放器
 		NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
-		NetStateChangeReceiver.unregisterObserver(this);
 	}
 	@Override
 	public void onBackPressed() {
@@ -461,25 +385,4 @@ public class FullScreenActivity extends BaseMvpActivity<PlayMoviePresenter> impl
 
     }
 
-	public class OrientationEventListenerImpl extends OrientationEventListener {
-		public OrientationEventListenerImpl(Context context) {
-			super(context);
-		}
-
-		@Override
-		public void onOrientationChanged(int rotation) {
-			// 设置为竖屏
-			// 设置为横屏
-			if(!mNiceVideoPlayer.isFullScreen()){
-				return;
-			}
-			if(((rotation >= 225) && (rotation <= 315))) {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			}
-			//设置为横屏（逆向）
-			if(((rotation >= 45) && (rotation <= 135))) {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-			}
-		}
-	}
 }

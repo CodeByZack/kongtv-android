@@ -8,9 +8,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +22,7 @@ import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovie;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
-import com.zack.kongtv.activities.PlayMovie.FullScreenActivity;
+import com.zack.kongtv.activities.PlayMovie.PlayMovieActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.PlayMovie.WebviewFullScreenActivity;
 import com.zack.kongtv.bean.JujiBean;
@@ -156,7 +154,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         if(DataResp.INSTANCE.getName() == Impl_4kwu.NAME || DataResp.INSTANCE.getName() == Impl_kankanwu.NAME){
             target = WebviewFullScreenActivity.class;
         }else{
-            target = FullScreenActivity.class;
+            target = PlayMovieActivity.class;
         }
         Intent intent = new Intent(mActivity, target);
         intent.putExtra("url",data.get(position).getUrl());

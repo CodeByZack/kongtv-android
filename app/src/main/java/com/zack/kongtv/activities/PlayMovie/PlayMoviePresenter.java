@@ -1,6 +1,14 @@
 package com.zack.kongtv.activities.PlayMovie;
 
 
+import android.os.Build;
+import android.util.Log;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.DataResp;
 import com.zackdk.Utils.LogUtil;
@@ -17,19 +25,34 @@ import io.reactivex.schedulers.Schedulers;
 public class PlayMoviePresenter<V extends IPlayMovieView> extends BasePresenter<V> {
 
     private String[] msgs = {"开发不易，不妨捐助一波...","多试试X5播放器...","在茫茫人海中，竟遇见了你。"};
+    private WebView webView;
 
     public void requestData(String url) {
         getView().showLoading(getMsg());
-        Disposable d = DataResp.getPlayUrl(url)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        getView().play(s);
-                    }
-                });
-        addDispoasble(d);
+
+        webView = new WebView(App.getContext());
+        webView = new WebView(App.getContext());
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                Log.d("Tag", "onLoadResource: " + url);
+                if (url.contains(".m3u8") || url.contains(".mp4")) {
+                    Log.d("Tag", "onLoadResource: " + url);
+                    Toast.makeText(App.getContext(), url, Toast.LENGTH_SHORT).show();
+                    getView().play(url);
+                    getView().hideLoading();
+                    webView.destroy();
+                }
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        webView.loadUrl(url);
+
     }
 
     private String getMsg(){
