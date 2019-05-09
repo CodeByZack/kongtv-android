@@ -156,21 +156,7 @@ public class DataResp {
         });
         return observable;
     }
-    public static Observable getPlayUrl(final String url){
-        Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                String data = INSTANCE.getRealPlayUrl(url);
-                if(data!=null){
-                    emitter.onNext(data);
-                    emitter.onComplete();
-                }else{
-                    //emitter.onError(new Throwable("解析出错!"));
-                }
-            }
-        });
-        return observable;
-    }
+
     public static Observable searchText(final  String text,final int page){
         Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
             @Override
