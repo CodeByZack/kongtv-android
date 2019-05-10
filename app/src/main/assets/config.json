@@ -1,0 +1,36 @@
+[
+  {
+    "name":"笨笨鸡",
+    "baseUrl":"http://m.benbenji.com",
+    "dyUrl":"/dy/index_1_______1.html",
+    "dsjUrl":"/dsj/index_1_______1.html",
+    "dmUrl":"/dm/index_1_______1.html",
+    "zyUrl":"/arts/index_1_______1.html",
+    "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
+    "homeCSSQuery":{
+      "banner": {
+        "bannerArraysSelector":".focus_banner_list .focus_banner_item",
+        "img":{ "selector":"img","attr":"src","useText":false },
+        "name":{ "selector":"em","attr":"","useText":true },
+        "link":{ "selector":"a","attr":"href","useText":false }
+      },
+      "items":{
+        "videoTypeArraysSelector":".all_tab>.list_tab_img",
+        "videoItemSelecot":"li",
+        "img":{ "selector":"img", "attr":"src" },
+        "desc":{ "selector":"label.title", "useText":true },
+        "name":{ "selector":"a", "attr":"title" },
+        "link":{"selector":"a","attr":"href"},
+        "score":{"selector":".score","useText":true},
+        "actors":{"selector":"p","useText":true}
+      }
+
+    },
+    "categoryCssQuery":{
+
+    },
+    "searchCssQuery":{
+
+    }
+  }
+]

@@ -37,7 +37,7 @@ public class Impl_benbenji implements GetDataInterface {
         List<HomeItemBean> homeItemBeans = new LinkedList<>();
         try {
             document = Jsoup.connect(baseUrlYIMIMAO).get();
-            Elements banners = document.getElementsByClass("focus_banner_list").get(0).getElementsByClass("focus_banner_item");
+            Elements banners = document.select(".focus_banner_list .focus_banner_item");
             for (Element e: banners) {
                 BannerItemBean itemBean = new BannerItemBean();
                 itemBean.setTargetUrl(baseUrlYIMIMAO+e.getElementsByTag("a").attr("href"));
@@ -80,6 +80,8 @@ public class Impl_benbenji implements GetDataInterface {
             return null;
         }
     }
+
+
 
     @Override
     public CategoryDataBean getCategoryData(String url, int page) {

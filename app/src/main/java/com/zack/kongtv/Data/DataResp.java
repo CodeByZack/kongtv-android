@@ -24,9 +24,12 @@ import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.bean.SearchResultBean;
 import com.zack.kongtv.bean.TagItemBean;
 import com.zack.kongtv.bean.UpdateInfo;
+import com.zack.kongtv.util.AndroidUtil;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.SPUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -88,6 +91,10 @@ public class DataResp {
         AnimeUrl = INSTANCE.getAnimeUrl();
         VarietyUrl = INSTANCE.getVarietyUrl();
         SearchUrl = INSTANCE.getSearchUrl();
+
+        String json = AndroidUtil.getJson("config.json");
+        AndroidUtil.parseJSON2Map(json);
+
     }
     public static void changeInstance(Context context,String mapkey) {
         //切换线路实例
