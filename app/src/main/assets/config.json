@@ -7,30 +7,55 @@
     "dmUrl":"/dm/index_1_______1.html",
     "zyUrl":"/arts/index_1_______1.html",
     "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
-    "homeCSSQuery":{
-      "banner": {
-        "bannerArraysSelector":".focus_banner_list .focus_banner_item",
-        "img":{ "selector":"img","attr":"src","useText":false },
-        "name":{ "selector":"em","attr":"","useText":true },
-        "link":{ "selector":"a","attr":"href","useText":false }
-      },
-      "items":{
-        "videoTypeArraysSelector":".all_tab>.list_tab_img",
-        "videoItemSelecot":"li",
-        "img":{ "selector":"img", "attr":"src" },
-        "desc":{ "selector":"label.title", "useText":true },
-        "name":{ "selector":"a", "attr":"title" },
-        "link":{"selector":"a","attr":"href"},
-        "score":{"selector":".score","useText":true},
-        "actors":{"selector":"p","useText":true}
-      }
+    "bannerSelector":".focus_banner_list .focus_banner_item",
+    "banner":[
+      { "selector":"img","attr":"src","useText":false },
+      { "selector":"em","attr":"","useText":true },
+      { "selector":"a","attr":"href","useText":false }
+    ],
+    "itemsSelector":".all_tab>.list_tab_img",
+    "items":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
+    "mcidSelector":"#mcid_list",
+    "secondSelector":"#second_list",
+    "yearSelector":"#year_list",
+    "category":{"selector":"a",   "attr":"href","nowClass":"cur"},
+    "listSelector":".list_tab_img li",
+    "list":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
 
-    },
-    "categoryCssQuery":{
+    "movieDetail":[
+      {"selector":".vod-n-l h1","useText":true},
+      {"selector":".vod-n-l p","useText":true},
+      {"selector":".vod-n-img img","attr":"data-original"},
+      {"selector":".plau-ul-list li a","attr":"href","useText":true},
+      {"selector":".vod_content","useText":true}
 
-    },
-    "searchCssQuery":{
 
-    }
+    ],
+
+    "resultSelector":".new_tab_img li",
+    "result":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ]
+
+
   }
 ]

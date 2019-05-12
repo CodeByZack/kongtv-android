@@ -12,6 +12,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.Instance.HtmlResolve;
 import com.zackdk.NetWorkChange.NetStateChangeReceiver;
 import com.zackdk.Utils.LogUtil;
 
@@ -29,6 +30,7 @@ public class App extends Application {
         initUM();
         QbSdk.initX5Environment(this,null);
         DataResp.initInstaceList();
+        HtmlResolve.initResolveConfig();
         NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);

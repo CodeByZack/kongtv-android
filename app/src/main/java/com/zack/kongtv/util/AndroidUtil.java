@@ -7,27 +7,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.Config;
 import com.zackdk.Utils.LogUtil;
-import com.zackdk.Utils.ToastUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class AndroidUtil {
     public static void copy(Context context,String copy){
@@ -73,30 +64,13 @@ public class AndroidUtil {
         return "";
     }
 
-    public static List<Map<String, Object>> parseJSON2Map(String json) {
+    public static List<Config> parseJSON2Map(String json) {
+
+        Gson gson = new Gson();
+        List<Config> configs = gson.fromJson(json, new TypeToken<List<Config>>() {
+        }.getType());
         Log.d("Tag", "parseJSON2Map: "+json);
-        List<Map<String,Object>> list = new LinkedList<>();
-        JSONArray jsonArray = null;
-        try {
-           jsonArray = new JSONArray(json);
-           Log.d("Tag", "parseJSON2Map: "+json);
-            for (int i = 0; i < jsonArray.length() ; i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Map<String,Object> map = new LinkedHashMap<>();
-                
 
-
-
-                map.put(jsonObject.getString("name"),jsonObject);
-            }
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return list;
+        return configs;
     }
 }

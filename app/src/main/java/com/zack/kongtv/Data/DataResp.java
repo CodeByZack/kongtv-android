@@ -9,6 +9,7 @@ import com.zack.kongtv.App;
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
+import com.zack.kongtv.Data.Instance.HtmlResolve;
 import com.zack.kongtv.Data.Instance.Impl_4kwu;
 import com.zack.kongtv.Data.Instance.Impl_benbenji;
 import com.zack.kongtv.Data.Instance.Impl_jukan;
@@ -92,8 +93,6 @@ public class DataResp {
         VarietyUrl = INSTANCE.getVarietyUrl();
         SearchUrl = INSTANCE.getSearchUrl();
 
-        String json = AndroidUtil.getJson("config.json");
-        AndroidUtil.parseJSON2Map(json);
 
     }
     public static void changeInstance(Context context,String mapkey) {
@@ -122,7 +121,8 @@ public class DataResp {
             @Override
             public void subscribe(ObservableEmitter<HomeDataBean> emitter) throws Exception {
                 HomeDataBean data = null;
-                data = INSTANCE.getHomeData();
+//                data = INSTANCE.getHomeData();
+                data = HtmlResolve.getHomeData();
                 if(data!=null){
                     emitter.onNext(data);
                     emitter.onComplete();
@@ -137,7 +137,9 @@ public class DataResp {
         Observable<CategoryDataBean> observable = Observable.create(new ObservableOnSubscribe<CategoryDataBean>() {
             @Override
             public void subscribe(ObservableEmitter<CategoryDataBean> emitter) throws Exception {
-                CategoryDataBean data = INSTANCE.getCategoryData(url,page);
+//                CategoryDataBean data = INSTANCE.getCategoryData(url,page);
+                CategoryDataBean data = HtmlResolve.getCategoryData(url,page);
+
                 if(data!=null){
                     emitter.onNext(data);
                     emitter.onComplete();
@@ -152,7 +154,8 @@ public class DataResp {
         Observable<MovieDetailBean> observable = Observable.create(new ObservableOnSubscribe<MovieDetailBean>() {
             @Override
             public void subscribe(ObservableEmitter<MovieDetailBean> emitter) throws Exception {
-                MovieDetailBean data = INSTANCE.getRealMovieDetail(url);
+//                MovieDetailBean data = INSTANCE.getRealMovieDetail(url);
+                MovieDetailBean data = HtmlResolve.getRealMovieDetail(url);
                 if(data!=null){
                     emitter.onNext(data);
                     emitter.onComplete();
@@ -168,7 +171,8 @@ public class DataResp {
         Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
             @Override
             public void subscribe(ObservableEmitter<SearchResultBean> emitter) throws Exception {
-                SearchResultBean data = INSTANCE.search(text,page);
+//                SearchResultBean data = INSTANCE.search(text,page);
+                SearchResultBean data = HtmlResolve.search(text,page);
                 if(data!=null){
                     emitter.onNext(data);
                     emitter.onComplete();
