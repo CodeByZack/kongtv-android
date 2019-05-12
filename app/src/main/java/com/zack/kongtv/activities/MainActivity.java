@@ -25,8 +25,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.zack.appupdate.AppUpdate;
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Const;
+import com.zack.kongtv.Data.Config;
 import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.Data.Instance.GetDataInterface;
+import com.zack.kongtv.Data.Instance.HtmlResolve;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
@@ -95,8 +97,8 @@ public class MainActivity extends AbsActivity {
             startActivity(share_intent);
         } else if(id == R.id.nav_change){
             List<String> list = new LinkedList<>();
-            for (Map.Entry<String, GetDataInterface> entry : DataResp.ALL_INSTANCE.entrySet()) {
-                list.add(entry.getKey());
+            for (Config config : HtmlResolve.configs) {
+                list.add(config.getName());
             }
 
             new MaterialDialog.Builder(this)
@@ -106,7 +108,7 @@ public class MainActivity extends AbsActivity {
                         @Override
                         public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                             Toast.makeText(mActivity, "切换到线路"+text, Toast.LENGTH_SHORT).show();
-                            DataResp.changeInstance(mActivity,text.toString());
+                            HtmlResolve.changeConfig(position);
                         }
                     })
                     .show();
@@ -122,10 +124,10 @@ public class MainActivity extends AbsActivity {
         titles.add("综艺");
 
         fragments.add(new HomeFragment());
-        fragments.add(CategoryFragment.instance(DataResp.MovieUrl));
-        fragments.add(CategoryFragment.instance(DataResp.EpisodeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.AnimeUrl));
-        fragments.add(CategoryFragment.instance(DataResp.VarietyUrl));
+        fragments.add(CategoryFragment.instance(HtmlResolve.dyUrl));
+        fragments.add(CategoryFragment.instance(HtmlResolve.dsjUrl));
+        fragments.add(CategoryFragment.instance(HtmlResolve.dmUrl));
+        fragments.add(CategoryFragment.instance(HtmlResolve.zyUrl));
     }
 
     private void initLogic() {
@@ -139,7 +141,7 @@ public class MainActivity extends AbsActivity {
         tabLayout.setupWithViewPager(viewPager);
         String name = PackageUtil.packageName(this);
         nav_version.setText("风影院 version"+name);
-        tv_xianlu.setText(DataResp.INSTANCE.getName());
+        tv_xianlu.setText(HtmlResolve.name);
 
         updateInfoDisposable = DataResp.getAppUpdateInfo().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

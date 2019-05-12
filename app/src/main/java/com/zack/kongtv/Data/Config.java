@@ -43,11 +43,13 @@ public class Config {
     private final java.util.List<Selctor> result;
     private final java.util.List<Selctor> movieDetail;
 
+    private final List<String> videoReg ;
+
     public Config(String name, String baseUrl, String dyUrl, String dsjUrl, String dmUrl,
                   String zyUrl, String searchUrl, String bannerSelector, List<Selctor> banner,
                   String itemsSelector, List<Selctor> items, String mcidSelector,
                   String secondSelector, String yearSelector, Selctor category, String listSelector,
-                  List<Selctor> list, String resultSelector, List<Selctor> result, List<Selctor> movieDetail) {
+                  List<Selctor> list, String resultSelector, List<Selctor> result, List<Selctor> movieDetail, List<String> videoReg) {
         this.name = name;
         this.baseUrl = baseUrl;
         this.dyUrl = dyUrl;
@@ -68,6 +70,7 @@ public class Config {
         this.resultSelector = resultSelector;
         this.result = result;
         this.movieDetail = movieDetail;
+        this.videoReg = videoReg;
     }
 
     public String getName() {
@@ -150,6 +153,10 @@ public class Config {
         return movieDetail;
     }
 
+    public List<String> getVideoReg() {
+        return videoReg;
+    }
+
     public static class Selctor {
         private final String selector;
 
@@ -175,6 +182,10 @@ public class Config {
 
         public String getNowClass() {
             return nowClass;
+        }
+
+        public boolean isUseText() {
+            return useText;
         }
     }
 

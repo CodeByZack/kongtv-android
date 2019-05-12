@@ -29,9 +29,7 @@ public class App extends Application {
         context = this;
         initUM();
         QbSdk.initX5Environment(this,null);
-        DataResp.initInstaceList();
         HtmlResolve.initResolveConfig();
-        NetStateChangeReceiver.registerReceiver(this);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
     }
@@ -90,13 +88,6 @@ public class App extends Application {
             activities.remove(activity);
         }
     };
-
-    @Override
-    public void onTerminate() {
-        NetStateChangeReceiver.unregisterReceiver(this);
-        super.onTerminate();
-
-    }
 
     public static void finshAllActivity(){
         for (Activity a:activities) {

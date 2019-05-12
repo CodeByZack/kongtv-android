@@ -188,7 +188,7 @@ public class Impl_pipigui implements GetDataInterface {
     @Override
     public SearchResultBean search(String text, int page) {
         //处理搜索网址
-        String search = DataResp.SearchUrl.replace("TEMP",text);
+        String search = HtmlResolve.searchUrl.replace("TEMP",text);
         search = search.replace("PAGE",String.valueOf(page));
         SearchResultBean movieDetailBeans = new SearchResultBean();
         movieDetailBeans.setList(new LinkedList<MovieDetailBean>());

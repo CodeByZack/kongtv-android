@@ -2,10 +2,10 @@
   {
     "name":"笨笨鸡",
     "baseUrl":"http://m.benbenji.com",
-    "dyUrl":"/dy/index_1_______1.html",
-    "dsjUrl":"/dsj/index_1_______1.html",
-    "dmUrl":"/dm/index_1_______1.html",
-    "zyUrl":"/arts/index_1_______1.html",
+    "dyUrl":"/dy/index_PAGE_______1.html",
+    "dsjUrl":"/dsj/index_PAGE_______1.html",
+    "dmUrl":"/dm/index_PAGE_______1.html",
+    "zyUrl":"/arts/index_PAGE_______1.html",
     "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
     "bannerSelector":".focus_banner_list .focus_banner_item",
     "banner":[
@@ -40,7 +40,7 @@
       {"selector":".vod-n-l h1","useText":true},
       {"selector":".vod-n-l p","useText":true},
       {"selector":".vod-n-img img","attr":"data-original"},
-      {"selector":".plau-ul-list li a","attr":"href","useText":true},
+      {"selector":".play-box .plau-ul-list li a","attr":"href","useText":true},
       {"selector":".vod_content","useText":true}
 
 
@@ -57,5 +57,184 @@
     ]
 
 
+  },
+  {
+  "name":"看看屋",
+  "baseUrl":"https://m.kankanwu.com",
+  "dyUrl":"/dy/index_PAGE_______1.html",
+  "dsjUrl":"/dsj/index_PAGE_______1.html",
+  "dmUrl":"/Animation/index_PAGE_______1.html",
+  "zyUrl":"/Arts/index_PAGE_______1.html",
+  "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
+  "bannerSelector":".focusBanner .focusList li",
+  "banner":[
+    { "selector":"img","attr":"src","useText":false },
+    { "selector":"em","attr":"","useText":true },
+    { "selector":"a","attr":"href","useText":false }
+  ],
+  "itemsSelector":".all_tab>.list_tab_img",
+  "items":[
+    {"selector":"img", "attr":"src" },
+    {"selector":"label.title", "useText":true },
+    {"selector":"a",   "attr":"title" },
+    {"selector":"a",   "attr":"href"},
+    {"selector":".score",    "useText":true},
+    {"selector":"p",     "useText":true}
+  ],
+  "mcidSelector":"#mcid_list",
+  "secondSelector":"#second_list",
+  "yearSelector":"#year_list",
+  "category":{"selector":"a",   "attr":"href","nowClass":"cur"},
+  "listSelector":".list_tab_img li",
+  "list":[
+    {"selector":"img", "attr":"src" },
+    {"selector":"label.title", "useText":true },
+    {"selector":"a",   "attr":"title" },
+    {"selector":"a",   "attr":"href"},
+    {"selector":".score",    "useText":true},
+    {"selector":"p",     "useText":true}
+  ],
+
+  "movieDetail":[
+    {"selector":".vod-n-l h1","useText":true},
+    {"selector":".vod-n-l p","useText":true},
+    {"selector":".vod-n-img img","attr":"data-original"},
+    {"selector":".play-box .plau-ul-list li a","attr":"href","useText":true},
+    {"selector":".vod_content","useText":true}
+
+
+  ],
+
+  "resultSelector":".new_tab_img li",
+  "result":[
+    {"selector":"img", "attr":"src" },
+    {"selector":"label.title", "useText":true },
+    {"selector":"a",   "attr":"title" },
+    {"selector":"a",   "attr":"href"},
+    {"selector":".score",    "useText":true},
+    {"selector":"p",     "useText":true}
+  ]
+  },
+  {
+    "name":"4k屋",
+    "baseUrl":"http://m.kkkkmao.com",
+    "dyUrl":"/movie/index_PAGE_______1.html",
+    "dsjUrl":"/tv/index_PAGE_______1.html",
+    "dmUrl":"/Animation/index_PAGE_______1.html",
+    "zyUrl":"/Arts/index_PAGE_______1.html",
+    "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
+    "bannerSelector":".focusBanner .focusList li",
+    "banner":[
+      { "selector":"img","attr":"data-src","useText":false },
+      { "selector":"em","attr":"","useText":true },
+      { "selector":"a","attr":"href","useText":false }
+    ],
+    "itemsSelector":".all_tab>.list_tab_img",
+    "items":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
+    "mcidSelector":"#mcid_list",
+    "secondSelector":"#second_list",
+    "yearSelector":"#year_list",
+    "category":{"selector":"a",   "attr":"href","nowClass":"cur"},
+    "listSelector":".list_tab_img li",
+    "list":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
+
+    "movieDetail":[
+      {"selector":".vod-n-l h1","useText":true},
+      {"selector":".vod-n-l p","useText":true},
+      {"selector":".vod-n-img img","attr":"src"},
+      {"selector":".play-box .plau-ul-list li a","attr":"href","useText":true},
+      {"selector":".vod_content","useText":true}
+
+
+    ],
+
+    "resultSelector":".new_tab_img li",
+    "result":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
+
+    "videoReg":[
+      "quan.qq.com/video/",
+      "data.vod.itc.cn/",
+      "play.g3proxy.lecloud.com"]
+  },
+  {
+    "name":"720影视大全",
+    "baseUrl":"http://www.hb720.cc",
+    "dyUrl":"/whole/1_______0_addtime_PAGE.html",
+    "dsjUrl":"/whole/3_______0_addtime_PAGE.html",
+    "dmUrl":"/whole/2_______0_addtime_PAGE.html",
+    "zyUrl":"/whole/18_______0_addtime_PAGE.html.html",
+    "searchUrl":"/vod-search-wd-TEMP-p-PAGE.html",
+    "bannerSelector":".main_image li",
+    "banner":[
+      { "selector":"img","attr":"src","useText":false },
+      { "selector":"em","attr":"","useText":true },
+      { "selector":"span","attr":"onclick","useText":false }
+    ],
+    "itemsSelector":".video-list ul",
+    "items":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"b", "useText":true },
+      {"selector":"span", "useText":true },
+      {"selector":"a","attr":"href"},
+      {"selector":""},
+      {"selector":""}
+    ],
+    "mcidSelector":".header-tag ul",
+    "secondSelector":"",
+    "yearSelector":"",
+    "category":{"selector":"a","attr":"href","nowClass":"on"},
+    "listSelector":".video-list li",
+    "list":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"b", "useText":true },
+      {"selector":"span", "useText":true },
+      {"selector":"a","attr":"href"},
+      {"selector":""},
+      {"selector":""}
+    ],
+
+    "movieDetail":[
+      {"selector":".video-text h2","useText":true},
+      {"selector":".video-text p","useText":true},
+      {"selector":".view-play img","attr":"src"},
+      {"selector":".video-list #B ul a","attr":"href","useText":true},
+      {"selector":".video-list #A","useText":true}
+
+
+    ],
+
+    "resultSelector":".new_tab_img li",
+    "result":[
+      {"selector":"img", "attr":"src" },
+      {"selector":"label.title", "useText":true },
+      {"selector":"a",   "attr":"title" },
+      {"selector":"a",   "attr":"href"},
+      {"selector":".score",    "useText":true},
+      {"selector":"p",     "useText":true}
+    ],
+
+    "videoReg":[
+      "yongjiu"]
   }
 ]

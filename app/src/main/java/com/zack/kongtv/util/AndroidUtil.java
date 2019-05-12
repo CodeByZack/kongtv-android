@@ -19,6 +19,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AndroidUtil {
     public static void copy(Context context,String copy){
@@ -73,4 +75,15 @@ public class AndroidUtil {
 
         return configs;
     }
+    public static int count2(String srcStr, String findStr) {
+        int count = 0;
+        Pattern pattern = Pattern.compile(findStr);// 通过静态方法compile(String regex)方法来创建,将给定的正则表达式编译并赋予给Pattern类
+        Matcher matcher = pattern.matcher(srcStr);//
+        while (matcher.find()) {// boolean find() 对字符串进行匹配,匹配到的字符串可以在任何位置
+            count++;
+        }
+        return count;
+    }
+
+
 }

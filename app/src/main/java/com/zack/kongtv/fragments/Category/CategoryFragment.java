@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.umeng.analytics.MobclickAgent;
 import com.zack.kongtv.AppConfig;
 import com.zack.kongtv.Data.DataResp;
+import com.zack.kongtv.Data.Instance.HtmlResolve;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.R;
 import com.zack.kongtv.bean.CategoryDataBean;
@@ -75,7 +76,7 @@ public class CategoryFragment extends BaseMvpFragment<CategoryPresenter> impleme
         if(bundle!=null){
             targetUrl = bundle.getString("url");
         }else {
-            targetUrl = DataResp.MovieUrl;
+            targetUrl = HtmlResolve.dyUrl;
         }
         presenter.setTargetUrl(targetUrl);
         initView();

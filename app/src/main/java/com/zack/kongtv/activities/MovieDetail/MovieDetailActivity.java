@@ -150,13 +150,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         historyMovie.setMovieType(movieDetailBean.getMovieType());
         historyMovie.setMovieRecord(data.get(position).getText());
         md.insert(historyMovie);
-        Class target ;
-        if(DataResp.INSTANCE.getName() == Impl_4kwu.NAME || DataResp.INSTANCE.getName() == Impl_kankanwu.NAME){
-            target = WebviewFullScreenActivity.class;
-        }else{
-            target = PlayMovieActivity.class;
-        }
-        Intent intent = new Intent(mActivity, target);
+        Intent intent = new Intent(mActivity, PlayMovieActivity.class);
         intent.putExtra("url",data.get(position).getUrl());
         intent.putExtra("name",getSupportActionBar().getTitle());
         startActivity(intent);

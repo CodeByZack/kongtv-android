@@ -51,77 +51,11 @@ import io.reactivex.ObservableOnSubscribe;
 
 public class DataResp {
 
-    public static Map<String,GetDataInterface> ALL_INSTANCE = new HashMap<>();
-    public static GetDataInterface INSTANCE;
-    public static final String XIANLU = "XIANLU_NAME";
-    //统一提供URL
-    public static  String baseUrl = "";
-    public static  String MovieUrl = "";
-    public static  String EpisodeUrl = "";
-    public static  String AnimeUrl = "";
-    public static  String VarietyUrl = "";
-    public static  String SearchUrl = "";
-
-    public static void initInstaceList(){
-        //创建不同线路实例
-        GetDataInterface Impl4kwu = new Impl_4kwu();
-        GetDataInterface Implkankanwu = new Impl_kankanwu();
-        GetDataInterface Implpipigui = new Impl_pipigui();
-        GetDataInterface Implbenbenji = new Impl_benbenji();
-//        GetDataInterface Impljukan = new Impl_jukan();
-
-        //存入map;其实可以按需创建实列；
-        ALL_INSTANCE.put(Impl4kwu.getName(),Impl4kwu);
-        ALL_INSTANCE.put(Implkankanwu.getName(),Implkankanwu);
-        ALL_INSTANCE.put(Implpipigui.getName(),Implpipigui);
-        ALL_INSTANCE.put(Implbenbenji.getName(),Implbenbenji);
-//        ALL_INSTANCE.put(Impljukan.getName(),Impljukan);
-
-        //获取之前储存线路，指定当前实例
-        String mapkay = (String) SPUtil.getData(App.getContext(),XIANLU,Implpipigui.getName());
-        if(ALL_INSTANCE.containsKey(mapkay)){
-            INSTANCE = ALL_INSTANCE.get(mapkay);
-        }else{
-            SPUtil.saveDate(App.getContext(),XIANLU,Implpipigui.getName());
-            INSTANCE = ALL_INSTANCE.get(Implpipigui.getName());
-        }
-        //初始化url
-        baseUrl = INSTANCE.getBaseUrl();
-        MovieUrl = INSTANCE.getMovieUrl();
-        EpisodeUrl = INSTANCE.getEpisodeUrl();
-        AnimeUrl = INSTANCE.getAnimeUrl();
-        VarietyUrl = INSTANCE.getVarietyUrl();
-        SearchUrl = INSTANCE.getSearchUrl();
-
-
-    }
-    public static void changeInstance(Context context,String mapkey) {
-        //切换线路实例
-        INSTANCE = ALL_INSTANCE.get(mapkey);
-
-        //储存线路名字
-        SPUtil.saveDate(context,XIANLU,mapkey);
-
-        //切换网址
-        baseUrl = INSTANCE.getBaseUrl();
-        MovieUrl = INSTANCE.getMovieUrl();
-        EpisodeUrl = INSTANCE.getEpisodeUrl();
-        AnimeUrl = INSTANCE.getAnimeUrl();
-        VarietyUrl = INSTANCE.getVarietyUrl();
-        SearchUrl = INSTANCE.getSearchUrl();
-
-        //重启应用
-        App.finshAllActivity();
-        final Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-    }
-
     public static Observable getHomeData(){
         Observable<HomeDataBean> observable = Observable.create(new ObservableOnSubscribe<HomeDataBean>() {
             @Override
             public void subscribe(ObservableEmitter<HomeDataBean> emitter) throws Exception {
                 HomeDataBean data = null;
-//                data = INSTANCE.getHomeData();
                 data = HtmlResolve.getHomeData();
                 if(data!=null){
                     emitter.onNext(data);
@@ -137,7 +71,6 @@ public class DataResp {
         Observable<CategoryDataBean> observable = Observable.create(new ObservableOnSubscribe<CategoryDataBean>() {
             @Override
             public void subscribe(ObservableEmitter<CategoryDataBean> emitter) throws Exception {
-//                CategoryDataBean data = INSTANCE.getCategoryData(url,page);
                 CategoryDataBean data = HtmlResolve.getCategoryData(url,page);
 
                 if(data!=null){
@@ -154,7 +87,6 @@ public class DataResp {
         Observable<MovieDetailBean> observable = Observable.create(new ObservableOnSubscribe<MovieDetailBean>() {
             @Override
             public void subscribe(ObservableEmitter<MovieDetailBean> emitter) throws Exception {
-//                MovieDetailBean data = INSTANCE.getRealMovieDetail(url);
                 MovieDetailBean data = HtmlResolve.getRealMovieDetail(url);
                 if(data!=null){
                     emitter.onNext(data);
@@ -171,7 +103,6 @@ public class DataResp {
         Observable<SearchResultBean> observable = Observable.create(new ObservableOnSubscribe<SearchResultBean>() {
             @Override
             public void subscribe(ObservableEmitter<SearchResultBean> emitter) throws Exception {
-//                SearchResultBean data = INSTANCE.search(text,page);
                 SearchResultBean data = HtmlResolve.search(text,page);
                 if(data!=null){
                     emitter.onNext(data);
