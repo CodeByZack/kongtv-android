@@ -9,17 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.dueeeke.videoplayer.player.PlayerConfig;
+import com.zack.kongtv.App;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
+import com.zack.kongtv.bean.AppConfig;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
@@ -45,6 +49,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private List<JujiBean> data;
 	private Cms_movie movie;
 	private int positionNow;
+	private ImageView adImage;
 
 
 	@Override
@@ -97,6 +102,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			}
 		});
 		ijkVideoView = findViewById(R.id.player);
+		adImage = findViewById(R.id.ad_image);
 		root = findViewById(R.id.root);
 		recyclerView = findViewById(R.id.play_list2);
 		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
@@ -120,6 +126,15 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 			}
 		});
 		recyclerView.setAdapter(adpter);
+		final AppConfig config = App.getAppConfig();
+		Glide.with(this).load(config.getAdPlayerImg()).into(adImage);
+		adImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse(config.getAdPlayerUrl());
+				startActivity(new Intent(Intent.ACTION_VIEW,uri));
+			}
+		});
 	}
 
 

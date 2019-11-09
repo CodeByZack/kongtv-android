@@ -66,8 +66,8 @@
             android:layout_below="@+id/poster_border"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
+            android:id="@+id/temp"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -106,9 +106,6 @@
                     app:ep_need_expand="true"
                     android:id="@+id/line_desc" />
             </LinearLayout>
-
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,7 +118,6 @@
                 android:layout_below="@+id/play_list"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="26dp" />
-
             <android.support.v7.widget.RecyclerView
                 android:layout_marginLeft="@dimen/mini_margin"
                 android:layout_marginRight="@dimen/mini_margin"
@@ -131,28 +127,17 @@
                 android:id="@+id/play_list2"
                 android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"/>
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="猜你喜欢"-->
-                <!--android:textSize="14sp"-->
-                <!--android:drawableLeft="@drawable/ic_slideshow_black_24dp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:alpha="0.7"-->
-                <!--android:id="@+id/rec_title"-->
-                <!--android:layout_marginLeft="26dp" />-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:id="@+id/rec_list"-->
-                <!--android:layout_marginTop="6dp"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:paddingLeft="20dp"-->
-                <!--android:layout_height="200dp" />-->
-
         </LinearLayout>
+        <!--<ImageView-->
+            <!--android:layout_below="@+id/temp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="5dp"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:id="@+id/ad_image"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="60dp" />-->
+
     </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,11 +31,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ctetin.expandabletextviewlibrary.ExpandableTextView;
 import com.tencent.smtt.sdk.TbsVideo;
+import com.zack.kongtv.App;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.PlayMovie.PlayMovieActivity;
+import com.zack.kongtv.bean.AppConfig;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
@@ -65,6 +68,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private List<JujiBean> data = new LinkedList<>();
     private Adapter adapter;
     private ImageView tvCollect;
+    private ImageView adImage;
 
     private void updateJuji(List<JujiBean> obj) {
         this.data.clear();
@@ -85,6 +89,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mLine_desc =  findViewById(R.id.line_desc);
         mPlay_list2 =  findViewById(R.id.play_list2);
         tvCollect = findViewById(R.id.collect);
+        adImage = findViewById(R.id.ad_image);
+
         mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
 //        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }
@@ -133,6 +139,15 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        final AppConfig config = App.getAppConfig();
+        Glide.with(this).load(config.getAdPlayerImg()).into(adImage);
+        adImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(config.getAdPlayerUrl());
+                startActivity(new Intent(Intent.ACTION_VIEW,uri));
             }
         });
     }

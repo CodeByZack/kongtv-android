@@ -70,5 +70,11 @@
 
     <include layout="@layout/content_online_detail_page" />
 
-
+    <ImageView
+        android:id="@+id/ad_image"
+    android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        app:layout_anchorGravity="bottom"/>
 </android.support.design.widget.CoordinatorLayout>

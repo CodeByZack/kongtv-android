@@ -23,6 +23,15 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+
+    <ImageView
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/ad_image"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,5 +53,4 @@
         android:id="@+id/play_list2"
         android:nestedScrollingEnabled="false"
         android:layout_height="wrap_content"/>
-
 </LinearLayout>
