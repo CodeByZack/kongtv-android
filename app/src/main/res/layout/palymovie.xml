@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/root"
     android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         app:theme="@style/toolbar"
         app:titleTextColor="@color/colorIcon"
@@ -17,7 +17,7 @@
         android:background="?attr/colorAccent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <com.dueeeke.videoplayer.player.IjkVideoView
         android:id="@+id/player"
@@ -37,7 +37,7 @@
         android:layout_below="@+id/play_list"
         android:layout_marginTop="10dp"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/mini_margin"
         android:paddingRight="@dimen/mini_margin"

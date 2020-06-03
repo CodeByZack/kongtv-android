@@ -1,11 +1,12 @@
 
 package com.zack.kongtv.bean;
 
-import android.arch.persistence.room.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+
+import androidx.room.Entity;
 
 @Entity
 public class Cms_movie implements Serializable{

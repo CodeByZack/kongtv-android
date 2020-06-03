@@ -7,11 +7,10 @@ package com.zackdk.base;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.zackdk.Utils.LogUtil;
-import com.zackdk.customview.R;
+
+import androidx.annotation.Nullable;
 
 public abstract class AbsActivity extends BaseActivity {
 

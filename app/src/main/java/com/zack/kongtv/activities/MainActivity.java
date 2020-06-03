@@ -2,43 +2,35 @@ package com.zack.kongtv.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zack.appupdate.AppUpdate;
 import com.zack.kongtv.App;
 import com.zack.kongtv.Const;
-import com.zack.kongtv.Data.DataResp;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.About.AboutActivity;
 import com.zack.kongtv.activities.MovieList.MovieListActivity;
 import com.zack.kongtv.activities.SearchResult.SearchActivity;
-import com.zack.kongtv.bean.UpdateInfo;
 import com.zack.kongtv.fragments.Category.CategoryFragmentNew;
 import com.zack.kongtv.fragments.Home.HomeFragmentNew;
 import com.zack.kongtv.util.PackageUtil;
 import com.zackdk.base.AbsActivity;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AbsActivity {
     private ViewPager viewPager;
@@ -141,11 +133,11 @@ public class MainActivity extends AbsActivity {
 
     @Override
     protected void initImmersionBar() {
-        immersionBar.statusBarDarkFont(true);
+//        immersionBar.statusBarDarkFont(true);
 
-        immersionBar.statusBarColor(R.color.white);
+//        immersionBar.statusBarColor(R.color.white);
 
-        immersionBar.init();
+//        immersionBar.init();
     }
 
     public void showPage(int type){

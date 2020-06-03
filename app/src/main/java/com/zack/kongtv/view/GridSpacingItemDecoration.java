@@ -1,10 +1,7 @@
 package com.zack.kongtv.view;
-
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.zackdk.Utils.LogUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Zackv on 2018/4/10.

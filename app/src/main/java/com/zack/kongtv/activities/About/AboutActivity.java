@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +17,8 @@ import com.zackdk.Utils.ToastUtil;
 import com.zackdk.base.AbsActivity;
 
 import java.net.URISyntaxException;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class AboutActivity extends AbsActivity implements View.OnClickListener {
     private Toolbar toolbar;
@@ -48,7 +49,8 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
 
     @Override
     protected void initImmersionBar() {
-        immersionBar.titleBar(toolbar).init();
+//        immersionBar.titleBar(toolbar).init();
+
     }
 
     @Override
@@ -65,7 +67,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
                 break;
             case R.id.qq:
                 if(!joinQQGroup("8vr6aLfMnwc4bW-am71lFfqhb7PkTkZl")){
-                    ToastUtil.showToast("未安装手Q或安装的版本不支持");
+                    Toast.makeText(this,"未安装手Q或安装的版本不支持",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

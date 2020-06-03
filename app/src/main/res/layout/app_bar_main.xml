@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zack.kongtv.activities.MainActivity">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         app:titleTextColor="@color/colorIcon"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         <include
             android:id="@+id/search_bar"
             layout="@layout/searchbar"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,11 +42,11 @@
             app:indicatorMarginEnd="20dp"
             app:indicatorMarginBottom="3dp">
         </com.antiless.support.widget.TabLayout>
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
 
 </LinearLayout>

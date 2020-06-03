@@ -2,16 +2,18 @@ package com.zack.kongtv.fragments.Category;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
@@ -26,6 +28,11 @@ import com.zackdk.base.BaseMvpFragment;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 /**
  * Created by zack on 2018/5/31.
  */
@@ -36,6 +43,7 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
     private AVLoadingIndicatorView loadingView;
     private CategoryAdapter adapter;
     private List<Cms_movie> data = new LinkedList<>();
+    private AdLoader adLoader;
 
     @Override
     public int setView() {
@@ -60,8 +68,31 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
         }
         initView();
         initLogic();
+        initAd();
         presenter.setTargetType(type);
         presenter.requestData();
+    }
+
+    private void initAd() {
+        adLoader = new AdLoader.Builder(getContext(), "ca-app-pub-3940256099942544/2247696110")
+                .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
+                        // Show the ad.
+                        Log.d("TAG", "onUnifiedNativeAdLoaded: ");
+                    }
+                })
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        // Handle the failure by logging, altering the UI, and so on.
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build();
     }
 
 

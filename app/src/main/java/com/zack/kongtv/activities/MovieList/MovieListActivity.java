@@ -2,12 +2,6 @@ package com.zack.kongtv.activities.MovieList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +18,10 @@ import com.zackdk.base.BaseMvpActivity;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> implements IMovieListView{
     private TextView title;
@@ -74,7 +72,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
 
     @Override
     protected void initImmersionBar() {
-        immersionBar.statusBarColor(R.color.colorAccent).init();
+//        immersionBar.statusBarColor(R.color.colorAccent).init();
     }
 
     @Override

@@ -1,12 +1,8 @@
 package com.zack.kongtv.activities.PlayMovie;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -32,6 +28,11 @@ import com.zackdk.base.BaseMvpActivity;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
 
@@ -56,9 +57,9 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	protected void initImmersionBar() {
 		super.initImmersionBar();
 		if(color!=0){
-			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
+//			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
 		}else{
-			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
+//			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
 		}
 	}
 

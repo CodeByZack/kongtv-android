@@ -1,13 +1,14 @@
 package com.zackdk.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.zackdk.customview.R;
 import com.zackdk.mvp.p.BasePresenter;
 import com.zackdk.mvp.v.IView;
+
+import androidx.annotation.Nullable;
 
 public abstract class BaseMvpActivity<T extends BasePresenter> extends AbsActivity implements IView {
     protected T presenter;

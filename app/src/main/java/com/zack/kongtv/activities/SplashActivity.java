@@ -3,9 +3,6 @@ package com.zack.kongtv.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.zack.appupdate.AppUpdate;
@@ -23,6 +20,7 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;

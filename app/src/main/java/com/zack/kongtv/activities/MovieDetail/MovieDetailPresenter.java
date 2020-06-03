@@ -1,6 +1,5 @@
 package com.zack.kongtv.activities.MovieDetail;
 
-import android.arch.persistence.room.Database;
 
 import com.umeng.commonsdk.debug.D;
 import com.zack.kongtv.Data.DataResp;

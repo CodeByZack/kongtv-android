@@ -2,8 +2,9 @@ package com.zackdk.NetWorkChange;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
+
+import androidx.annotation.RequiresPermission;
 
 /**
  * 网络状态相关工具类

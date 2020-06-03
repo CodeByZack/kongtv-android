@@ -1,7 +1,6 @@
 package com.zack.kongtv.Adapter;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +13,8 @@ import com.zack.kongtv.bean.MovieDetailBean;
 import com.zack.kongtv.util.MyImageLoader;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class MovieListAdapter extends BaseQuickAdapter<Cms_movie,BaseViewHolder> {
     private Context mActivity;

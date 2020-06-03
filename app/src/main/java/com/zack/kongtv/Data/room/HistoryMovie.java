@@ -1,11 +1,12 @@
 package com.zack.kongtv.Data.room;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+
 
 import com.zack.kongtv.bean.MovieItem;
+
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 @Entity(indices = {@Index(value = {"movieId"},unique = true)})
 public class HistoryMovie{

@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
+import android.util.Log;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -15,6 +18,8 @@ import com.zackdk.Utils.SPUtil;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.multidex.MultiDex;
 
 
 public class App extends Application {
@@ -30,6 +35,12 @@ public class App extends Application {
         QbSdk.initX5Environment(this,null);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                Log.d("TAG", "onInitializationComplete: ");
+            }
+        });
     }
 
     private void initAppConfig() {

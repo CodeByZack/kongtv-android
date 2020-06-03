@@ -1,14 +1,16 @@
 package com.zackdk.customview;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * Created by Chu on 2017/8/22.
  */
 
-public class ShapeTextView extends android.support.v7.widget.AppCompatTextView {
+public class ShapeTextView extends AppCompatTextView {
 
     public ShapeTextView(Context context) {
         super(context);
