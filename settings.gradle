@@ -1,1 +1,1 @@
-include ':app', ':zacklib', ':appupdate', ':nicevideoplayer'
+include ':app', ':zacklib', ':appupdate', ':nicevideoplayer', ':nativetemplates'

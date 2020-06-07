@@ -121,7 +121,25 @@
                 android:layout_below="@+id/play_list"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="26dp" />
+            <com.antiless.support.widget.TabLayout
+                android:id="@+id/source_tab"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:alpha="0.7"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/mini_margin"
+                android:layout_marginRight="@dimen/mini_margin"
+                android:layout_marginBottom="10dp"
+                app:tabMode="scrollable"
+                app:tabTextColor="@color/white"
+                app:tabIndicatorHeight="3dp"
+                app:indicatorStartColor="@color/white"
+                app:indicatorEndColor="@color/white"
+                app:indicatorMarginStart="20dp"
+                app:indicatorMarginEnd="20dp"
 
+                app:indicatorMarginBottom="3dp">
+            </com.antiless.support.widget.TabLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginLeft="@dimen/mini_margin"
                 android:layout_marginRight="@dimen/mini_margin"

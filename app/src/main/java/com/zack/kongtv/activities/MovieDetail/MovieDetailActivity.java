@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.antiless.support.widget.TabLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -37,6 +38,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -56,11 +58,12 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     private TextView mHead_desc;
     private ExpandableTextView mLine_desc;
     private RecyclerView mPlay_list2;
-
+    private TabLayout sourceTab;
 
     private int nowColor;
     private Cms_movie targetMovie;
     private List<JujiBean> data = new LinkedList<>();
+    List<List<JujiBean>> allSource = new LinkedList<>();
     private Adapter adapter;
     private ImageView tvCollect;
 
@@ -84,6 +87,9 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mPlay_list2 =  findViewById(R.id.play_list2);
         tvCollect = findViewById(R.id.collect);
         mPlay_list2.setLayoutManager(new GridLayoutManager(this,4));
+
+        sourceTab = findViewById(R.id.source_tab);
+
 //        mPlay_list2.addItemDecoration(new GridSpacingItemDecoration(4,30,true));
     }
 
@@ -131,6 +137,24 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        sourceTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+//                tab.getPosition()
+                if(allSource.size()==0){return;}
+                updateJuji(allSource.get((Integer) tab.getPosition()));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
@@ -191,17 +215,22 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             }
         });
         String[] tmp;
-        if(playUrl.contains("$$$")){
-            tmp = playUrl.split("\\$\\$\\$");
-            if(tmp[0].contains("m3u8")){
-                tmp = tmp[0].split("#");
-            }else{
-                tmp = tmp[1].split("#");
+        tmp = playUrl.split("\\$\\$\\$");
+        for (int i = 0; i < tmp.length; i++) {
+            String now = tmp[i];
+            if(now.contains("m3u8")){
+                sourceTab.addTab(sourceTab.newTab().setText("源"+i));
+                allSource.add(handleJuji(now));
+
             }
-        }else{
-            tmp = playUrl.split("#");
         }
-        List<JujiBean> jujiBeans = new LinkedList<>();
+        updateJuji(allSource.get(0));
+        CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
+    }
+
+    private List<JujiBean> handleJuji(String now) {
+        String[] tmp = now.split("#");
+        List<JujiBean> nowJuji = new LinkedList<>();
         for (int i = 0; i < tmp.length ; i++) {
             String t = tmp[i];
             if(!t.contains("m3u8")){
@@ -211,11 +240,9 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
             String[] tt = t.split("\\$");
             jujiBean.setUrl(tt[1]);
             jujiBean.setText(tt[0]);
-            jujiBeans.add(jujiBean);
+            nowJuji.add(jujiBean);
         }
-        Collections.reverse(jujiBeans);
-        updateJuji(jujiBeans);
-        CountEventHelper.countMovieDetail(this,targetMovie.getVodName());
+        return nowJuji;
     }
 
     @Override

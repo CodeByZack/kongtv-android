@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -12,6 +14,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.dueeeke.videocontroller.StandardVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.dueeeke.videoplayer.player.PlayerConfig;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
@@ -46,7 +51,8 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private List<JujiBean> data;
 	private Cms_movie movie;
 	private int positionNow;
-
+	private AdView mAdView;
+	private LinearLayout adContainerView;
 
 	@Override
 	public int setView() {
@@ -101,6 +107,14 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		root = findViewById(R.id.root);
 		recyclerView = findViewById(R.id.play_list2);
 		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+
+		//广告相关
+		adContainerView = findViewById(R.id.ad_container);
+		// Step 1 - Create an AdView and set the ad unit ID on it.
+		mAdView = new AdView(this);
+		mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+		adContainerView.addView(mAdView);
+		loadBanner();
 	}
 	private void initLogic() {
 		setColor(color);
@@ -123,7 +137,30 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		recyclerView.setAdapter(adpter);
 	}
 
+	private void loadBanner() {
+		// Create an ad request. Check your logcat output for the hashed device ID
+		// to get test ads on a physical device, e.g.,
+		// "Use AdRequest.Builder.addTestDevice("ABCDE0123") to get test ads on this
+		// device."
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) .build();
+		AdSize adSize = getAdSize();
+		// Step 4 - Set the adaptive ad size on the ad view.
+		mAdView.setAdSize(adSize);
+		// Step 5 - Start loading the ad in the background.
+		mAdView.loadAd(adRequest);
+	}
 
+	private AdSize getAdSize() {
+		// Step 2 - Determine the screen width (less decorations) to use for the ad width.
+		Display display = getWindowManager().getDefaultDisplay();
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		display.getMetrics(outMetrics);
+		float widthPixels = outMetrics.widthPixels;
+		float density = outMetrics.density;
+		int adWidth = (int) (widthPixels / density);
+		// Step 3 - Get adaptive ad size and return for setting on the ad view.
+		return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
+	}
 
 
 	private void play2(String url,String name) {

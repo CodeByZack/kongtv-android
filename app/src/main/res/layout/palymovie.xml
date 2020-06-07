@@ -23,6 +23,7 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +44,16 @@
         android:paddingRight="@dimen/mini_margin"
         android:id="@+id/play_list2"
         android:nestedScrollingEnabled="false"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <LinearLayout
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ad_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:alpha="0.7"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
+    </LinearLayout>
 </LinearLayout>
