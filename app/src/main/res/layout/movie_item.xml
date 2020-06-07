@@ -3,7 +3,6 @@
     android:layout_width="120dp"
     app:cardElevation="3dp"
     app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="140dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

@@ -57,9 +57,9 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	protected void initImmersionBar() {
 		super.initImmersionBar();
 		if(color!=0){
-//			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
+			immersionBar.titleBar(toolbar).statusBarColorInt(color).init();
 		}else{
-//			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
+			immersionBar.titleBar(toolbar).statusBarColor(R.color.colorAccent).init();
 		}
 	}
 

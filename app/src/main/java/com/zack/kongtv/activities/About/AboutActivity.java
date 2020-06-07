@@ -49,8 +49,7 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
 
     @Override
     protected void initImmersionBar() {
-//        immersionBar.titleBar(toolbar).init();
-
+        immersionBar.titleBar(toolbar).init();
     }
 
     @Override

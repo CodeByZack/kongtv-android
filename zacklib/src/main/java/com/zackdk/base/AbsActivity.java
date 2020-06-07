@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 public abstract class AbsActivity extends BaseActivity {
 
     protected Activity mActivity;
-    protected ImmersionBar immersionBar;
+    public ImmersionBar immersionBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         mActivity = this;

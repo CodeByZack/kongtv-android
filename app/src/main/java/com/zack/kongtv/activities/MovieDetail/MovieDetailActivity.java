@@ -152,7 +152,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
-//        immersionBar.titleBar(mToolbar).init();
+        immersionBar.titleBar(mToolbar).init();
     }
 
     @Override

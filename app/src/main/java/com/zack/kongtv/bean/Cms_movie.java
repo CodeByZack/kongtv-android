@@ -2,15 +2,37 @@
 package com.zack.kongtv.bean;
 
 
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 import androidx.room.Entity;
 
+
 @Entity
 public class Cms_movie implements Serializable{
 
+    public static final int AD = 5678;
+    public static final int MOVIE = 5679;
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public UnifiedNativeAd getAd() {
+        return ad;
+    }
+
+    public void setAd(UnifiedNativeAd ad) {
+        this.ad = ad;
+    }
+
+    private UnifiedNativeAd ad;
+    private int type = MOVIE;
     @SerializedName("group_id")
     private Long groupId;
     @SerializedName("type_id")

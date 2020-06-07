@@ -1,7 +1,7 @@
 package com.zack.kongtv;
 
 public class Const {
-    public static final int Film = 1;
+    public static final int Film =1;
     public static final int Episode = 2;
     public static final int Anime = 3;
     public static final int Variety = 4;

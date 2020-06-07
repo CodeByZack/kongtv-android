@@ -72,7 +72,7 @@ public class MovieListActivity extends BaseMvpActivity<MovieListPresenter> imple
 
     @Override
     protected void initImmersionBar() {
-//        immersionBar.statusBarColor(R.color.colorAccent).init();
+        immersionBar.statusBarColor(R.color.colorAccent).init();
     }
 
     @Override

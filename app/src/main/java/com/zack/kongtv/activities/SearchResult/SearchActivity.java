@@ -190,7 +190,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
 
     @Override
     protected void initImmersionBar() {
-//        immersionBar.titleBar(findViewById(R.id.toolbar)).statusBarColor(R.color.colorPrimary).init();
+        immersionBar.titleBar(findViewById(R.id.toolbar)).statusBarColor(R.color.colorPrimary).init();
     }
 
     @Override

@@ -56,25 +56,25 @@ public class HomePresenter<T extends IHomeView> extends BasePresenter<T> {
                         items.add(variety);
 
                         for (Cms_movie movie : cms_movies) {
-                            if (movie.getVodLevel() == Const.Film) {
+                            if (movie.getTypeId1() == Const.Film) {
                                 film.getMovieDetailBeans().add(movie);
                                 if (film.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Episode) {
+                            if (movie.getTypeId1() == Const.Episode) {
                                 episode.getMovieDetailBeans().add(movie);
                                 if (episode.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Variety) {
+                            if (movie.getTypeId() == Const.Variety) {
                                 anime.getMovieDetailBeans().add(movie);
                                 if (anime.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);
                                 }
                             }
-                            if (movie.getVodLevel() == Const.Anime) {
+                            if (movie.getTypeId() == Const.Anime) {
                                 variety.getMovieDetailBeans().add(movie);
                                 if (variety.getMovieDetailBeans().size() == 1) {
                                     banners.add(movie);

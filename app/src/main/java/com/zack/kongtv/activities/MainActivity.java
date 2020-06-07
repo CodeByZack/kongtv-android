@@ -133,11 +133,11 @@ public class MainActivity extends AbsActivity {
 
     @Override
     protected void initImmersionBar() {
-//        immersionBar.statusBarDarkFont(true);
+        immersionBar.statusBarDarkFont(true);
 
-//        immersionBar.statusBarColor(R.color.white);
+        immersionBar.statusBarColor(R.color.white);
 
-//        immersionBar.init();
+        immersionBar.init();
     }
 
     public void showPage(int type){
