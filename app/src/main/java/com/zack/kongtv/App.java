@@ -12,6 +12,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+import com.yanbo.lib_screen.VApplication;
 import com.zack.kongtv.bean.AppConfig;
 import com.zackdk.Utils.LogUtil;
 import com.zackdk.Utils.SPUtil;
@@ -41,6 +42,8 @@ public class App extends Application {
                 Log.d("TAG", "onInitializationComplete: ");
             }
         });
+
+        VApplication.init(this);
     }
 
     private void initAppConfig() {

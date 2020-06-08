@@ -21,7 +21,6 @@
     </LinearLayout>
     <Button
         android:textColor="@color/black"
-        android:onClick="onlick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试按钮"/>

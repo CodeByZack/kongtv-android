@@ -5,10 +5,13 @@ import android.os.Bundle;
 
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.dueeeke.videocontroller.StandardVideoController;
@@ -17,19 +20,24 @@ import com.dueeeke.videoplayer.player.PlayerConfig;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.yanbo.lib_screen.callback.ControlCallback;
+import com.yanbo.lib_screen.entity.ClingDevice;
+import com.yanbo.lib_screen.entity.RemoteItem;
+import com.yanbo.lib_screen.event.DeviceEvent;
+import com.yanbo.lib_screen.manager.ClingManager;
+import com.yanbo.lib_screen.manager.ControlManager;
+import com.yanbo.lib_screen.manager.DeviceManager;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
-import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.bean.Cms_movie;
 import com.zack.kongtv.bean.JujiBean;
 import com.zack.kongtv.util.AndroidUtil;
 import com.zack.kongtv.util.CountEventHelper;
-import com.zackdk.NetWorkChange.NetStateChangeObserver;
-import com.zackdk.NetWorkChange.NetStateChangeReceiver;
-import com.zackdk.NetWorkChange.NetworkType;
 import com.zackdk.base.BaseMvpActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,8 +46,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView {
+
+public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> implements IPlayMovieView, View.OnClickListener {
 
 	private Toolbar toolbar;
 	private String name,url;
@@ -53,6 +64,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private int positionNow;
 	private AdView mAdView;
 	private LinearLayout adContainerView;
+	private List<ClingDevice> clingDevices = new LinkedList<>();
 
 	@Override
 	public int setView() {
@@ -80,6 +92,15 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		initData(intent);
 		initView();
 		initLogic();
+		initDlna();
+	}
+
+	private void initDlna() {
+		ClingManager.getInstance().startClingService();
+		RemoteItem itemurl = new RemoteItem(name, null, movie.getVodDirector(),
+				0, null, null, url);
+		ClingManager.getInstance().setRemoteItem(itemurl);
+		clingDevices = DeviceManager.getInstance().getClingDeviceList();
 	}
 
 	private void initData(Intent intent){
@@ -107,6 +128,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		root = findViewById(R.id.root);
 		recyclerView = findViewById(R.id.play_list2);
 		recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+		findViewById(R.id.touping).setOnClickListener(this);
 
 		//广告相关
 		adContainerView = findViewById(R.id.ad_container);
@@ -191,32 +213,50 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		md.insert(AndroidUtil.transferHistory(movie,data.get(positionNow).getText()));
 	}
 
-	public void onclick(View v) {
+	private void showDeviceList() {
+		List<String> arr =new LinkedList<>();
+		for (int i = 0; i < clingDevices.size(); i++) {
+			ClingDevice now = clingDevices.get(i);
+			arr.add(now.getDevice().getDetails().getFriendlyName());
+		}
+		new MaterialDialog.Builder(this)
+				.title("投屏").items(arr).itemsCallback(new MaterialDialog.ListCallback() {
+			@Override
+			public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+				Log.d("TAG", "onSelection: "+text);
+				DeviceManager.getInstance().setCurrClingDevice(clingDevices.get(position));
+				startTouping();
+			}
+		}).show();
+	}
 
-//		switch (v.getId()){
-//			case R.id.openAlipay:
-//
-//				break;
-//			case R.id.copy:
-//				AndroidUtil.copy(this,url);
-//				showToast(url);
-//				break;
-//			case R.id.change:
-//
-//				break;
-//			case R.id.touping:
-//				//searchDLNA();
-//				break;
-//			case R.id.third:
-//				if(TextUtils.isEmpty(url)){
-//					showToast("解析失败咯，不能调用第三方哦！");
-//					return;
-//				}
-//				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
-//				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
-//				startActivity(mediaIntent);
-//				break;
-//		}
+	private void startTouping() {
+		if (ControlManager.getInstance().getState() == ControlManager.CastState.STOPED) {
+			RemoteItem item = ClingManager.getInstance().getRemoteItem();
+			ControlManager.getInstance().setState(ControlManager.CastState.TRANSITIONING);
+			ControlManager.getInstance().newPlayCast(item, new ControlCallback() {
+				@Override
+				public void onSuccess() {
+					ControlManager.getInstance().setState(ControlManager.CastState.PLAYING);
+					ControlManager.getInstance().initScreenCastCallback();
+					Log.d("TAG", "onSuccess: 投屏");
+				}
+
+				@Override
+				public void onError(int code, String msg) {
+					ControlManager.getInstance().setState(ControlManager.CastState.STOPED);
+					showToast(String.format("New play cast remote content failed %s", msg));
+				}
+			});
+		} else {
+			Toast.makeText(getBaseContext(), "正在连接设备，稍后操作", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onEventBus(DeviceEvent event) {
+		clingDevices = DeviceManager.getInstance().getClingDeviceList();
+		showDeviceList();
 	}
 
 	public void setColor(int color){
@@ -249,6 +289,34 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	public void onBackPressed() {
 		if (!ijkVideoView.onBackPressed()) {
 			super.onBackPressed();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+//			case R.id.openAlipay:
+//
+//				break;
+//			case R.id.copy:
+//				AndroidUtil.copy(this,url);
+//				showToast(url);
+//				break;
+//			case R.id.change:
+//
+//				break;
+			case R.id.touping:
+				showDeviceList();
+				break;
+//			case R.id.third:
+//				if(TextUtils.isEmpty(url)){
+//					showToast("解析失败咯，不能调用第三方哦！");
+//					return;
+//				}
+//				Intent mediaIntent = new Intent(Intent.ACTION_VIEW);
+//				mediaIntent.setDataAndType(Uri.parse(url), "video/mp4");
+//				startActivity(mediaIntent);
+//				break;
 		}
 	}
 
