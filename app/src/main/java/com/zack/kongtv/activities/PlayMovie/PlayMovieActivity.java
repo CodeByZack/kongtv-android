@@ -27,6 +27,7 @@ import com.yanbo.lib_screen.event.DeviceEvent;
 import com.yanbo.lib_screen.manager.ClingManager;
 import com.yanbo.lib_screen.manager.ControlManager;
 import com.yanbo.lib_screen.manager.DeviceManager;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.room.DataBase;
 import com.zack.kongtv.Data.room.HistoryMovieDao;
 import com.zack.kongtv.R;
@@ -134,7 +135,8 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		adContainerView = findViewById(R.id.ad_container);
 		// Step 1 - Create an AdView and set the ad unit ID on it.
 		mAdView = new AdView(this);
-		mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+		mAdView.setAdUnitId(Const.BANNER_AD);
+//		mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 		adContainerView.addView(mAdView);
 		loadBanner();
 	}
@@ -164,7 +166,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		// to get test ads on a physical device, e.g.,
 		// "Use AdRequest.Builder.addTestDevice("ABCDE0123") to get test ads on this
 		// device."
-		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) .build();
+		AdRequest adRequest = new AdRequest.Builder().build();
 		AdSize adSize = getAdSize();
 		// Step 4 - Set the adaptive ad size on the ad view.
 		mAdView.setAdSize(adSize);
@@ -214,6 +216,12 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	}
 
 	private void showDeviceList() {
+
+		if(clingDevices.size() == 0){
+			showToast("未找到可投屏设备，请确认连接至同一wifi！");
+			return;
+		}
+
 		List<String> arr =new LinkedList<>();
 		for (int i = 0; i < clingDevices.size(); i++) {
 			ClingDevice now = clingDevices.get(i);
@@ -240,12 +248,24 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 					ControlManager.getInstance().setState(ControlManager.CastState.PLAYING);
 					ControlManager.getInstance().initScreenCastCallback();
 					Log.d("TAG", "onSuccess: 投屏");
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							showToast("投屏成功！");
+						}
+					});
+
 				}
 
 				@Override
-				public void onError(int code, String msg) {
+				public void onError(int code, final String msg) {
 					ControlManager.getInstance().setState(ControlManager.CastState.STOPED);
-					showToast(String.format("New play cast remote content failed %s", msg));
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							showToast(String.format("投屏失败 %s", msg));
+						}
+					});
 				}
 			});
 		} else {

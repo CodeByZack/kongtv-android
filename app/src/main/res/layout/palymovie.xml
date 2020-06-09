@@ -24,27 +24,34 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="剧集信息"
-        android:paddingLeft="@dimen/mini_margin"
-        android:paddingRight="@dimen/mini_margin"
-        android:textSize="14sp"
-        android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
-        android:textColor="@color/white"
-        android:id="@+id/m3u8_title"
-        android:alpha="0.7"
-        android:layout_below="@+id/play_list"
-        android:layout_marginTop="10dp"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_below="@+id/play_list"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="投屏"
+            android:text="剧集信息"
+            android:textSize="14sp"
+            android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
+            android:textColor="@color/white"
+            android:id="@+id/m3u8_title"
+            android:alpha="0.7"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/touping"
             android:id="@+id/touping"
             />
     </LinearLayout>

@@ -34,7 +34,8 @@ public class RetrofitFactory {
         };
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://fengxiaoci.cn/")
+                .baseUrl("http://47.94.254.236:55/")
+//                .baseUrl("https://fengxiaoci.cn/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(initClient())

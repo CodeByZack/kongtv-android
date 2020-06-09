@@ -1,6 +1,7 @@
 package com.zack.kongtv.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -65,7 +66,9 @@ public class MainActivity extends AbsActivity {
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.Collect));
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(this, MovieListActivity.class).putExtra("mode",Const.History));
-        } else if(id == R.id.nav_share || id == R.id.iv_share){
+        } else if (id == R.id.nav_fxc) {
+            openUrl("https://fengxiaoci.cn/");
+        } else if(id == R.id.iv_share){
             Intent share_intent = new Intent();
             share_intent.setAction(Intent.ACTION_SEND);
             share_intent.setType("text/plain");
@@ -156,6 +159,15 @@ public class MainActivity extends AbsActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    public void openUrl(String url){
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private class PagerAdapter extends FragmentPagerAdapter {

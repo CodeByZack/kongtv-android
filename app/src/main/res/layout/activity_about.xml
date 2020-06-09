@@ -74,6 +74,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444444"
+                    android:text="在线站点："
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingLeft="@dimen/normal_margin"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="风小词(fengxiaoci.cn)"
+                    android:textColor="@color/blue"
+                    android:id="@+id/fxc"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -93,6 +112,7 @@
                     android:text="本软件提供的视频资源均系实时爬取自各第三方聚合网站，本软件仅作为一个解析工具，各第三方聚合网站返回的内容与本软件无关，本软件对其概不负责，亦不承担任何法律责任。本软件不提供片源资源存储，也不参与录制、上传。"/>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#444444"
-                    android:text="问题反馈或建议,好用就打赏支持一下："
+                    android:text="问题反馈或建议,欢迎联系："
                     android:paddingTop="@dimen/normal_margin"
                     android:paddingLeft="@dimen/normal_margin"/>
                 <LinearLayout
@@ -147,25 +167,6 @@
                             android:textSize="@dimen/tiny_text_size"
                             android:layout_height="wrap_content"
                             android:text="点击发送邮件"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/pay"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:src="@drawable/pay"/>
-                        <TextView
-                            android:layout_marginTop="@dimen/mini_margin"
-                            android:textColor="#333"
-                            android:layout_width="wrap_content"
-                            android:textSize="@dimen/tiny_text_size"
-                            android:layout_height="wrap_content"
-                            android:text="支付宝打赏"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

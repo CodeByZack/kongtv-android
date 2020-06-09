@@ -29,6 +29,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:onClick="onclick"
+        android:gravity="center_vertical"
+        android:text="在线网站"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_user_center_lixian_space"
+        android:background="@drawable/item_pressed"
+        android:textColor="#313131"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:drawablePadding="10dp"
+        android:id="@+id/nav_fxc"
+        />
+    <TextView
         android:onClick="onclick"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -60,22 +76,7 @@
         android:drawablePadding="10dp"
         android:id="@+id/nav_collect"
         />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:onClick="onclick"
-        android:gravity="center_vertical"
-        android:text="分享"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_user_center_lixian_space"
-        android:background="@drawable/item_pressed"
-        android:textColor="#313131"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingLeft="30dp"
-        android:drawablePadding="10dp"
-        android:id="@+id/nav_share"
-        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"

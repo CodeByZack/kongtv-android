@@ -33,7 +33,7 @@ public class App extends Application {
         context = this;
         initUM();
         initAppConfig();
-        QbSdk.initX5Environment(this,null);
+//        QbSdk.initX5Environment(this,null);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -41,6 +41,8 @@ public class App extends Application {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
                 Log.d("TAG", "onInitializationComplete: ");
             }
+
+
         });
 
         VApplication.init(this);

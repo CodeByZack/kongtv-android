@@ -22,8 +22,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class AboutActivity extends AbsActivity implements View.OnClickListener {
     private Toolbar toolbar;
-    private LinearLayout pay,email,qq;
-    private TextView titleVersion;
+    private LinearLayout email,qq;
+    private TextView titleVersion,fxc;
     @Override
     public int setView() {
         return R.layout.activity_about;
@@ -35,8 +35,8 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(this);
 
-        pay = findViewById(R.id.pay);
-        pay.setOnClickListener(this);
+        fxc = findViewById(R.id.fxc);
+        fxc.setOnClickListener(this);
         email =  findViewById(R.id.email);
         email.setOnClickListener(this);
         qq = findViewById(R.id.qq);
@@ -58,8 +58,8 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
             case -1:
                 finish();
                 break;
-            case R.id.pay:
-                openALiPay();
+            case R.id.fxc:
+                openUrl("https://fengxiaoci.cn/");
                 break;
             case R.id.email:
                 email();
@@ -139,5 +139,13 @@ public class AboutActivity extends AbsActivity implements View.OnClickListener {
         intent.putExtra(Intent.EXTRA_SUBJECT, "空影院软件的意见反馈"); // 主题
         intent.putExtra(Intent.EXTRA_TEXT, ""); // 正文
         startActivity(Intent.createChooser(intent, "请选择邮件类应用"));
+    }
+
+    public void openUrl(String url){
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        intent.setData(uri);
+        startActivity(intent);
     }
 }

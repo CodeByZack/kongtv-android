@@ -82,7 +82,10 @@ public class CategoryFragmentNew extends BaseMvpFragment<CategoryPresenter> impl
     }
 
     private void initAd() {
-        adLoader = new AdLoader.Builder(getContext(), "ca-app-pub-3940256099942544/2247696110")
+
+
+//        adLoader = new AdLoader.Builder(getContext(), "ca-app-pub-3940256099942544/2247696110")
+        adLoader = new AdLoader.Builder(getContext(), Const.NATIVE_AD)
                 .forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
                     @Override
                     public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
