@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            app:title="@string/app_name"
+            app:title="@string/my_name"
             app:collapsedTitleTextAppearance="@style/white"
             android:id="@+id/collapse"
             app:expandedTitleTextAppearance="@style/transparent"
