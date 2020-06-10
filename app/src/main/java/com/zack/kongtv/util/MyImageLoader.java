@@ -5,10 +5,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MyImageLoader {
     public static void showImage(Context context,String url, ImageView imageView){
@@ -18,9 +16,5 @@ public class MyImageLoader {
                 .placeholder(R.drawable.placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
-    }
-
-    public static void showFlurImg(Context context,String url,ImageView imageView){
-        Glide.with(context).load(url).placeholder(R.drawable.placeholder).bitmapTransform(new BlurTransformation(context, 20)).into(imageView);
     }
 }

@@ -7,6 +7,7 @@
     android:id="@+id/scroll_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:fitsSystemWindows="true"
+    android:background="@android:color/transparent"
     tools:showIn="@layout/activity_movie_detail">
 
     <RelativeLayout

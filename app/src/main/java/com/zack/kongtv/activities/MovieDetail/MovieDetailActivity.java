@@ -15,8 +15,12 @@ import android.widget.TextView;
 
 import com.antiless.support.widget.TabLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.disklrucache.DiskLruCache;
+import com.bumptech.glide.load.Key;
+import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.signature.EmptySignature;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.ctetin.expandabletextviewlibrary.ExpandableTextView;
@@ -34,6 +38,8 @@ import com.zack.kongtv.util.CountEventHelper;
 import com.zack.kongtv.util.MyImageLoader;
 import com.zackdk.base.BaseMvpActivity;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -206,14 +212,20 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         mLine_desc.setContent(targetMovie.getVodBlurb());
         final String playUrl = targetMovie.getVodPlayUrl();
 
+        File file = getCacheFile(targetMovie.getVodPic());
+        if(file == null){
+            setAllColor(nowColor);
+        }else{
+            Glide.with(this).load(file).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    mLine_detail_poster.setImageBitmap(resource);
+                    setColor(resource);
+                }
+            });
+        }
 
-        Glide.with(this).load(targetMovie.getVodPic()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mLine_detail_poster.setImageBitmap(resource);
-                setColor(resource);
-            }
-        });
+
         String[] tmp;
         tmp = playUrl.split("\\$\\$\\$");
         for (int i = 0; i < tmp.length; i++) {
@@ -244,6 +256,23 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
         }
         return nowJuji;
     }
+
+    public File getCacheFile(String id) {
+        OriginalKey originalKey = new OriginalKey(id, EmptySignature.obtain());
+        SafeKeyGenerator safeKeyGenerator = new SafeKeyGenerator();
+        String safeKey = safeKeyGenerator.getSafeKey(originalKey);
+        try {
+            DiskLruCache diskLruCache = DiskLruCache.open(new File(getCacheDir(), DiskCache.Factory.DEFAULT_DISK_CACHE_DIR), 1, 1, DiskCache.Factory.DEFAULT_DISK_CACHE_SIZE);
+            DiskLruCache.Value value = diskLruCache.get(safeKey);
+            if (value != null) {
+                return value.getFile(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public void collect(boolean c) {
@@ -282,32 +311,35 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 //获取到充满活力的这种色调
                 Palette.Swatch vibrant = palette.getMutedSwatch();
                 //根据调色板Palette获取到图片中的颜色设置到toolbar和tab中背景，标题等，使整个UI界面颜色统一
-                if (mRoot != null) {
-                    if (vibrant != null) {
-                        nowColor = colorBurn(vibrant.getRgb());
-                        ValueAnimator colorAnim2 = ValueAnimator.ofArgb(Color.rgb(110, 110, 100), nowColor);
-                        colorAnim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                mRoot.setBackgroundColor((Integer) animation.getAnimatedValue());
-                                // toolbar.setBackgroundColor((Integer) animation.getAnimatedValue());
-                                mApp_bar.setBackgroundColor((Integer) animation.getAnimatedValue());
-                            }
-                        });
-                        colorAnim2.setDuration(300);
-                        colorAnim2.setRepeatMode(ValueAnimator.RESTART);
-                        colorAnim2.start();
-
-                        if (Build.VERSION.SDK_INT >= 21) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                            window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                        }
-                    }
+                nowColor = colorBurn(vibrant.getRgb());
+                if(vibrant!=null){
+                    setAllColor(nowColor);
                 }
-
             }
         });
+    }
+
+    private void setAllColor(int nowColor) {
+        if (mRoot != null) {
+//            ValueAnimator colorAnim2 = ValueAnimator.ofArgb(Color.rgb(110, 110, 100), nowColor);
+//            colorAnim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator animation) {
+//                    mRoot.setBackgroundColor((Integer) animation.getAnimatedValue());
+//                    mApp_bar.setBackgroundColor((Integer) animation.getAnimatedValue());
+//                }
+//            });
+//            colorAnim2.setDuration(300);
+//            colorAnim2.setRepeatMode(ValueAnimator.RESTART);
+//            colorAnim2.start();
+            mRoot.setBackgroundColor(nowColor);
+            mApp_bar.setBackgroundColor(nowColor);
+            if (Build.VERSION.SDK_INT >= 21) {
+                Window window = getWindow();
+                window.setStatusBarColor(nowColor);
+                window.setNavigationBarColor(nowColor);
+            }
+        }
     }
 
     public static int colorBurn(int RGBValues) {
