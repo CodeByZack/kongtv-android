@@ -214,7 +214,7 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
 
         File file = getCacheFile(targetMovie.getVodPic());
         if(file == null){
-            setAllColor(nowColor);
+//            setAllColor(nowColor);
         }else{
             Glide.with(this).load(file).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
