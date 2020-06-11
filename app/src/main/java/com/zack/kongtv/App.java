@@ -36,7 +36,6 @@ public class App extends Application {
         context = this;
         initUM();
         initAppConfig();
-//        QbSdk.initX5Environment(this,null);
         registerActivityLifecycleCallbacks(life);
         MultiDex.install(this);
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -44,11 +43,8 @@ public class App extends Application {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
                 Log.d("TAG", "onInitializationComplete: ");
             }
-
-
         });
         VideoViewManager.setConfig(VideoViewConfig.newBuilder()
-                //使用使用IjkPlayer解码
                 .setPlayerFactory(IjkPlayerFactory.create())
                 .build());
         VApplication.init(this);

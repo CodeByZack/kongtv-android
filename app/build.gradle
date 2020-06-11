@@ -9,15 +9,10 @@ android {
         versionCode 12
         versionName "2.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        ndk {
-//            abiFilters "armeabi-v7a","arm64-v8a"
-//        }
         ndk {
+//            abiFilters "armeabi-v7a","arm64-v8a"
             abiFilters "armeabi-v7a","arm64-v8a", "x86","x86_64"
         }
-//        ndk {
-//            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-//        }
         multiDexEnabled true
     }
 
@@ -99,14 +94,6 @@ dependencies {
     implementation 'com.umeng.sdk:analytics:latest.integration'
 
     //dkplayer
-//    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.5'
-//    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.5'
-//    implementation 'com.github.dueeeke.dkplayer:dkplayer-armv64:2.5.5'
-////    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.5'
-////    implementation 'com.github.dueeeke.dkplayer:dkplayer-x86-64:2.5.5'
-//    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:2.5.5'
-
-
     implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
     implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6'
     implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
