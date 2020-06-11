@@ -30,5 +30,6 @@ public class Const {
 
     public static final String NATIVE_AD = "ca-app-pub-7430198791917858/2257773425";
     public static final String BANNER_AD = "ca-app-pub-7430198791917858/4962391020";
+    public static final String BANNER_MOVIE_DETAIL = "ca-app-pub-7430198791917858/3921955299";
     public static final String ADMOB_ID = "ca-app-pub-7430198791917858~8901636038";
 }
