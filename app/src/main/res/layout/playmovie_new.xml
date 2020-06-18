@@ -83,44 +83,90 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/play_list"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/mini_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/mini_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/palyer_container">
 
-        <TextView
-            android:id="@+id/m3u8_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.7"
-            android:drawableLeft="@drawable/ic_playlist_play_black_24dp"
-            android:text="剧集信息"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+        <LinearLayout
+            android:paddingBottom="@dimen/mini_margin"
+            android:paddingTop="@dimen/mini_margin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/m3u8_title"
+                android:gravity="center_vertical"
+                android:alpha="0.7"
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="@dimen/mini_margin"
+                    android:src="@drawable/ic_playlist_play_black_24dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="剧集信息"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:id="@+id/switch_palyer"
+                android:orientation="horizontal"
+                android:alpha="0.7"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="@dimen/mini_margin"
+                    android:src="@drawable/switchplayer"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="切换播放器"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <LinearLayout
+                android:id="@+id/touping"
+                android:gravity="center_vertical"
+                android:alpha="0.7"
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/mini_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/touping"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投屏"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/switch_palyer"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/mini_margin"
-            android:alpha="0.7"
-            android:text="切换播放器"
-            android:textColor="@color/white" />
-
-        <ImageView
-            android:id="@+id/touping"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:alpha="0.7"
-            android:src="@drawable/touping" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

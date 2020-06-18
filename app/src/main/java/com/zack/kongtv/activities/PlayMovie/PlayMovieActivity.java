@@ -73,7 +73,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	private LinearLayout adContainerView;
 	private List<ClingDevice> clingDevices = new LinkedList<>();
 	private ViewGroup webViewContainer;
-	private AgentWeb.PreAgentWeb mAgentWeb;
+	private AgentWeb mAgentWeb;
 	private boolean USE_WEB_PLAYER = false;
 	private TextView mToolbarTitle;
 	private ImageView palyShare;
@@ -146,11 +146,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 		findViewById(R.id.touping).setOnClickListener(this);
 		findViewById(R.id.switch_palyer).setOnClickListener(this);
 		webViewContainer = findViewById(R.id.webview);
-		mAgentWeb = AgentWeb.with(this)
-				.setAgentWebParent(webViewContainer, new LinearLayout.LayoutParams(-1, -1))
-				.useDefaultIndicator()
-				.createAgentWeb()
-				.ready();
+
 		//广告相关
 		adContainerView = findViewById(R.id.ad_container);
 		// Step 1 - Create an AdView and set the ad unit ID on it.
@@ -159,6 +155,18 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 //		mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 		adContainerView.addView(mAdView);
 		loadBanner();
+	}
+	private void initAgentWeb(String url){
+		if(mAgentWeb!=null){
+			mAgentWeb.destroy();
+			webViewContainer.removeAllViews();
+		}
+		mAgentWeb = AgentWeb.with(this)
+				.setAgentWebParent(webViewContainer, new LinearLayout.LayoutParams(-1, -1))
+				.useDefaultIndicator()
+				.createAgentWeb()
+				.ready()
+				.go(url);
 	}
 	private void initLogic() {
 		setColor(color);
@@ -209,14 +217,15 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 
 
 	private void play2(String url,String name) {
-		getSupportActionBar().setTitle(name);
+		mToolbarTitle.setText(name);
 		if(ijkVideoView.isPlaying()){
 			ijkVideoView.release();
 		}
 		if(USE_WEB_PLAYER){
 			ijkVideoView.setVisibility(View.GONE);
+			ijkVideoView.release();
 			webViewContainer.setVisibility(View.VISIBLE);
-			mAgentWeb.go(WEB_PLAYER+url);
+			initAgentWeb(WEB_PLAYER+url);
 		}else{
 			ijkVideoView.setVisibility(View.VISIBLE);
 			webViewContainer.setVisibility(View.GONE);
@@ -321,10 +330,14 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 	protected void onDestroy() {
 		super.onDestroy();
 		ijkVideoView.release();
+		if(mAgentWeb!=null){
+			mAgentWeb.destroy();
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
+
 		if (!ijkVideoView.onBackPressed()) {
 			super.onBackPressed();
 		}
