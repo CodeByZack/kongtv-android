@@ -115,4 +115,5 @@ dependencies {
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
     compileOnly 'javax.enterprise:cdi-api:2.0'
     implementation 'com.github.yanbo469:VideoDlnaScreen:v1.0'
+    implementation 'com.just.agentweb:agentweb:4.1.3'
 }

@@ -36,6 +36,7 @@
         </activity>
         <activity
             android:name=".activities.PlayMovie.PlayMovieActivity"
+            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.MovieDetail.MovieDetailActivity"
