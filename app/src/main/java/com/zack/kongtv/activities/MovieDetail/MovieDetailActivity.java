@@ -30,7 +30,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.AppBarLayout;
-import com.tencent.smtt.sdk.TbsVideo;
 import com.zack.kongtv.Const;
 import com.zack.kongtv.Data.room.CollectMovieDao;
 import com.zack.kongtv.Data.room.DataBase;

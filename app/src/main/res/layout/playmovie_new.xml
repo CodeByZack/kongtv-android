@@ -81,7 +81,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/play_list"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingLeft="@dimen/mini_margin"

@@ -351,7 +351,7 @@ public class PlayMovieActivity extends BaseMvpActivity<PlayMoviePresenter> imple
 				share_intent.setAction(Intent.ACTION_SEND);
 				share_intent.setType("text/plain");
 				//share_intent.putExtra(Intent.EXTRA_SUBJECT, "f分享");
-				share_intent.putExtra(Intent.EXTRA_TEXT, WEB_PLAYER+url);
+				share_intent.putExtra(Intent.EXTRA_TEXT, WEB_PLAYER+url+"&share=1");
 				share_intent = Intent.createChooser(share_intent, name+" from 风影院!");
 				startActivity(share_intent);
 				break;

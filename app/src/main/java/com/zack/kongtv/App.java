@@ -12,7 +12,6 @@ import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.cconfig.UMRemoteConfig;
 import com.umeng.commonsdk.UMConfigure;
