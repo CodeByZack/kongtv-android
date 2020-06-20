@@ -14,7 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.zack.kongtv.Adapter.MovieListAdapter;
+import com.zack.kongtv.Const;
 import com.zack.kongtv.R;
 import com.zack.kongtv.activities.MovieDetail.MovieDetailActivity;
 import com.zack.kongtv.bean.Cms_movie;
@@ -47,6 +50,7 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
     private List<Cms_movie> data = new LinkedList<>();
     private String searchtext;
     private List<String> searchHistoryList = new LinkedList<>();
+    private AdView mAdView;
 
     @Override
     public int setView() {
@@ -186,6 +190,10 @@ public class SearchActivity extends BaseMvpActivity<SearchPresenter> implements 
 
         flowLayout = findViewById(R.id.id_flowlayout);
         recentSearchList = findViewById(R.id.ll_recnet_search);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
