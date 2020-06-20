@@ -14,6 +14,7 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.cconfig.UMRemoteConfig;
 import com.umeng.commonsdk.UMConfigure;
 import com.yanbo.lib_screen.VApplication;
 import com.zack.kongtv.bean.AppConfig;
@@ -62,7 +63,8 @@ public class App extends Application {
         if(BuildConfig.DEBUG){
             UMConfigure.setLogEnabled(true);
         }
-        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_DUM_NORMAL);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
         //MobclickAgent.openActivityDurationTrack(false);
     }
 
