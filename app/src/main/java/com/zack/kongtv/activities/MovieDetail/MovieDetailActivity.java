@@ -352,8 +352,8 @@ public class MovieDetailActivity extends BaseMvpActivity<MovieDetailPresenter> i
                 //获取到充满活力的这种色调
                 Palette.Swatch vibrant = palette.getMutedSwatch();
                 //根据调色板Palette获取到图片中的颜色设置到toolbar和tab中背景，标题等，使整个UI界面颜色统一
-                nowColor = colorBurn(vibrant.getRgb());
                 if(vibrant!=null){
+                    nowColor = colorBurn(vibrant.getRgb());
                     setAllColor(nowColor);
                 }
             }
